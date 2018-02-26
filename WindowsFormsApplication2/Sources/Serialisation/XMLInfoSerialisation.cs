@@ -35,6 +35,11 @@ namespace WindowsFormsApplication2.Sources.Serialisation
             _fileName = fineName;
 
             Console.WriteLine("[XMLInfoSerialisation] Deserialise : " + _fileName);
+            if (!File.Exists(_fileName))
+            {
+                Console.WriteLine("[XMLInfoSerialisation] Deserialise : File note found " + _fileName);
+                return false;
+            }
             _xmlInfo.Load(_fileName);
             
             _fileValue.Add(EInfo.FRANPETTEVERSION, _xmlInfo.DocumentElement.SelectSingleNode("/root/franpette/version").InnerText);
@@ -45,6 +50,7 @@ namespace WindowsFormsApplication2.Sources.Serialisation
             _fileValue.Add(EInfo.MINECRAFTDATE, _xmlInfo.DocumentElement.SelectSingleNode("/root/minecraft/date").InnerText);
             _fileValue.Add(EInfo.MINECRAFTSTATE, _xmlInfo.DocumentElement.SelectSingleNode("/root/minecraft/state").InnerText);
 
+            Console.WriteLine("[XMLInfoSerialisation] Deserialise : " + _fileName + " ... complet !");
             return true;
         }
 

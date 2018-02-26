@@ -93,6 +93,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sources\Franpette\FranpetteCore.cs" />
+    <Compile Include="Sources\Franpette\FranpetteUtils.cs" />
     <Compile Include="Sources\Network\IFranpetteNetwork.cs" />
     <Compile Include="Sources\Network\NetworkFTP.cs" />
     <Compile Include="Sources\Serialisation\XMLInfoSerialisation.cs" />
@@ -109,6 +110,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="Properties\DataSources\WindowsFormsApplication2.Sources.Franpette.FranpetteCore.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -118,8 +120,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Resources\ScripFTP\FranpetteStatus_Upload_FTP.bat" />
-    <None Include="Resources\ScripFTP\Minecraft_Upload_FTP.bat" />
     <None Include="WindowsFormsApplication2_CléTemporaire.pfx" />
   </ItemGroup>
   <ItemGroup>

@@ -23,11 +23,22 @@ namespace WindowsFormsApplication2.Sources.Franpette
 
         private Boolean _isMinecraftUpToDate = false;
 
-        public FranpetteCore(ProgressBar progressBar)
+        public FranpetteCore(ProgressBar progressBar, String login, String password, String address)
         {
             _data = new Dictionary<EInfo, String>();
             _serialisation = new XMLInfoSerialisation();
             _network = new NetworkFTP(progressBar);
+        }
+
+        public void connect(String address, String login, String password)
+        {
+            _network.connect(address);
+            _network.login(login, password);
+        }
+
+        public void disconnect()
+        {
+            _network.disconnect();
         }
 
         internal  Dictionary<EInfo, String> getInfoValue()
@@ -66,7 +77,7 @@ namespace WindowsFormsApplication2.Sources.Franpette
         {
             // New Minecraft status values
             _data[EInfo.MINECRAFTDATE] = DateTime.Now.ToString();
-            _data[EInfo.MINECRAFTIP] = getInternetIp();
+            _data[EInfo.MINECRAFTIP] = FranpetteUtils.getInternetIp();
             _data[EInfo.MINECRAFTUSER] = Environment.UserName;
             _data[EInfo.MINECRAFTSTATE] = "Start";
             _data[EInfo.FRANPETTEVERSION] = (Convert.ToInt32(_data[EInfo.FRANPETTEVERSION]) + 1).ToString();
@@ -123,14 +134,6 @@ namespace WindowsFormsApplication2.Sources.Franpette
             _serialisation.Deserialise("FranpetteStatus.xml");
             _data = _serialisation.getInfoValue();
         }
-
-        public static string getInternetIp()
-        {
-            System.Net.WebClient wc = new System.Net.WebClient();
-            string strIP = wc.DownloadString("http://checkip.dyndns.org");
-            strIP = (new System.Text.RegularExpressions.Regex(@"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b")).Match(strIP).Value;
-            wc.Dispose();
-            return strIP;
-        }
+        
     }
 }

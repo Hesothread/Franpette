@@ -43,6 +43,10 @@
             this.version_label = new System.Windows.Forms.Label();
             this.version_value = new System.Windows.Forms.Label();
             this.ftp_progressBar = new System.Windows.Forms.ProgressBar();
+            this.login_textBox = new System.Windows.Forms.TextBox();
+            this.password_textBox = new System.Windows.Forms.TextBox();
+            this.address_textBox = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.apps_groupbox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,7 +72,7 @@
             this.apps_groupbox.Controls.Add(this.state_label);
             this.apps_groupbox.Controls.Add(this.startButton);
             this.apps_groupbox.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.apps_groupbox.Location = new System.Drawing.Point(12, 151);
+            this.apps_groupbox.Location = new System.Drawing.Point(12, 203);
             this.apps_groupbox.Name = "apps_groupbox";
             this.apps_groupbox.Size = new System.Drawing.Size(678, 125);
             this.apps_groupbox.TabIndex = 3;
@@ -149,7 +153,7 @@
             // 
             // refreshButton
             // 
-            this.refreshButton.Location = new System.Drawing.Point(18, 122);
+            this.refreshButton.Location = new System.Drawing.Point(12, 173);
             this.refreshButton.Name = "refreshButton";
             this.refreshButton.Size = new System.Drawing.Size(75, 23);
             this.refreshButton.TabIndex = 4;
@@ -162,13 +166,13 @@
             this.MOTD_textBox.Location = new System.Drawing.Point(12, 12);
             this.MOTD_textBox.Multiline = true;
             this.MOTD_textBox.Name = "MOTD_textBox";
-            this.MOTD_textBox.Size = new System.Drawing.Size(678, 85);
+            this.MOTD_textBox.Size = new System.Drawing.Size(678, 126);
             this.MOTD_textBox.TabIndex = 6;
             // 
             // version_label
             // 
             this.version_label.AutoSize = true;
-            this.version_label.Location = new System.Drawing.Point(617, 127);
+            this.version_label.Location = new System.Drawing.Point(305, 149);
             this.version_label.Name = "version_label";
             this.version_label.Size = new System.Drawing.Size(47, 13);
             this.version_label.TabIndex = 7;
@@ -177,7 +181,7 @@
             // version_value
             // 
             this.version_value.AutoSize = true;
-            this.version_value.Location = new System.Drawing.Point(665, 127);
+            this.version_value.Location = new System.Drawing.Point(669, 156);
             this.version_value.Name = "version_value";
             this.version_value.Size = new System.Drawing.Size(0, 13);
             this.version_value.TabIndex = 8;
@@ -185,17 +189,61 @@
             // ftp_progressBar
             // 
             this.ftp_progressBar.AccessibleName = "";
-            this.ftp_progressBar.Location = new System.Drawing.Point(99, 122);
+            this.ftp_progressBar.Location = new System.Drawing.Point(305, 173);
             this.ftp_progressBar.Name = "ftp_progressBar";
-            this.ftp_progressBar.Size = new System.Drawing.Size(510, 23);
+            this.ftp_progressBar.Size = new System.Drawing.Size(385, 23);
             this.ftp_progressBar.TabIndex = 9;
             this.ftp_progressBar.Tag = "";
+            // 
+            // login_textBox
+            // 
+            this.login_textBox.AccessibleDescription = "pk";
+            this.login_textBox.AccessibleName = "ooo";
+            this.login_textBox.Location = new System.Drawing.Point(93, 146);
+            this.login_textBox.Name = "login_textBox";
+            this.login_textBox.Size = new System.Drawing.Size(100, 20);
+            this.login_textBox.TabIndex = 10;
+            this.login_textBox.Tag = "azeaze";
+            // 
+            // password_textBox
+            // 
+            this.password_textBox.Location = new System.Drawing.Point(199, 146);
+            this.password_textBox.Name = "password_textBox";
+            this.password_textBox.PasswordChar = '*';
+            this.password_textBox.Size = new System.Drawing.Size(100, 20);
+            this.password_textBox.TabIndex = 11;
+            this.password_textBox.Tag = "";
+            this.password_textBox.UseSystemPasswordChar = true;
+            // 
+            // address_textBox
+            // 
+            this.address_textBox.AccessibleDescription = "pk";
+            this.address_textBox.AccessibleName = "ooo";
+            this.address_textBox.Location = new System.Drawing.Point(93, 175);
+            this.address_textBox.Name = "address_textBox";
+            this.address_textBox.Size = new System.Drawing.Size(206, 20);
+            this.address_textBox.TabIndex = 12;
+            this.address_textBox.Tag = "azeaze";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(12, 144);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 13;
+            this.button1.Text = "Connect";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(702, 288);
+            this.ClientSize = new System.Drawing.Size(702, 340);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.address_textBox);
+            this.Controls.Add(this.password_textBox);
+            this.Controls.Add(this.login_textBox);
             this.Controls.Add(this.ftp_progressBar);
             this.Controls.Add(this.version_value);
             this.Controls.Add(this.version_label);
@@ -228,6 +276,10 @@
         private System.Windows.Forms.Label version_label;
         private System.Windows.Forms.Label version_value;
         private System.Windows.Forms.ProgressBar ftp_progressBar;
+        private System.Windows.Forms.TextBox login_textBox;
+        private System.Windows.Forms.TextBox password_textBox;
+        private System.Windows.Forms.TextBox address_textBox;
+        private System.Windows.Forms.Button button1;
     }
 }
 

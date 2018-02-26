@@ -14,12 +14,13 @@ namespace WindowsFormsApplication2.Sources
 {
     class NetworkFTP : IFranpetteNetwork
     {
-        const string FTP_SERVER_HOST = "ftp://xxx.xxx.xxx.xxx/";
-
         private Stopwatch   _sw;
         private ProgressBar _progress;
         private Font        _font;
         private PointF      _textPos;
+        private String      _password;
+        private String      _login;
+        private String      _address;
 
         public NetworkFTP(ProgressBar progress)
         {
@@ -27,6 +28,29 @@ namespace WindowsFormsApplication2.Sources
             _progress = progress;
             _font = new Font("Monospaced", 8, FontStyle.Regular);
             _textPos = new PointF(10, _progress.Height / 2 - 7);
+        }
+
+        public Boolean connect(String address)
+        {
+            _address = address;
+            return true;
+        }
+
+        public Boolean disconnect()
+        {
+            return true;
+        }
+
+        public Boolean login(String login, String password)
+        {
+            _login = login;
+            _password = password;
+            return true;
+        }
+
+        public Boolean logout()
+        {
+            return true;
         }
 
         // Actions depuis le serveur
@@ -71,11 +95,17 @@ namespace WindowsFormsApplication2.Sources
             return true;
         }
 
+
+        public Boolean isConnected()
+        {
+            return true;
+        }
+
         // Connexion à un Path sur le server FTP avec les identifiants
         private FtpWebRequest requestMethod(string path, string method)
         {
-            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(FTP_SERVER_HOST + path);
-            request.Credentials = new NetworkCredential("xxx", "ddddd");
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://" + _address + "/" + path);
+            request.Credentials = new NetworkCredential(_login, _password);
             request.Method = method;
             return request;
         }
@@ -83,7 +113,7 @@ namespace WindowsFormsApplication2.Sources
         // Récupération de la taille du fichier téléchargé pour la progressBar
         private int requestSize(string path, FtpWebRequest request)
         {
-            WebRequest sizeRequest = WebRequest.Create(FTP_SERVER_HOST + path);
+            WebRequest sizeRequest = WebRequest.Create("ftp://" + _address + "/" + path);
             sizeRequest.Credentials = request.Credentials;
             sizeRequest.Method = WebRequestMethods.Ftp.GetFileSize;
             return (int)sizeRequest.GetResponse().ContentLength;
@@ -94,24 +124,31 @@ namespace WindowsFormsApplication2.Sources
         {
             FtpWebRequest request = requestMethod(dest, WebRequestMethods.Ftp.UploadFile);
 
-            using (Stream fileStream = File.OpenRead(src))
-            using (Stream ftpStream = request.GetRequestStream())
+            try
             {
-                _progress.Maximum = (int)fileStream.Length;
-
-                byte[] buffer = new byte[102400];
-                int read;
-                _sw.Start();
-                Console.WriteLine("[NetworkFTP] ftpUpload : ...uploading " + src);
-                while ((read = fileStream.Read(buffer, 0, buffer.Length)) > 0)
+                using (Stream fileStream = File.OpenRead(src))
+                using (Stream ftpStream = request.GetRequestStream())
                 {
-                    ftpStream.Write(buffer, 0, read);
-                    _progress.Value = (int)fileStream.Position;
-                    printProgressInfo(src);
+                    _progress.Maximum = (int)fileStream.Length;
+
+                    byte[] buffer = new byte[102400];
+                    int read;
+                    _sw.Start();
+                    Console.WriteLine("[NetworkFTP] ftpUpload : ...uploading " + src);
+                    while ((read = fileStream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        ftpStream.Write(buffer, 0, read);
+                        _progress.Value = (int)fileStream.Position;
+                        printProgressInfo(src);
+                    }
+                    _sw.Stop();
+                    Console.WriteLine("[NetworkFTP] ftpUpload : " + src + " uploaded !");
+                    _progress.Value = 0;
                 }
-                _sw.Stop();
-                Console.WriteLine("[NetworkFTP] ftpUpload : " + src + " uploaded !");
-                _progress.Value = 0;
+            }
+            catch (WebException e)
+            {
+                Console.WriteLine("[NetworkFTP] ftpDownload : no response -> " + e.Message);
             }
         }
 
@@ -119,25 +156,32 @@ namespace WindowsFormsApplication2.Sources
         private void ftpDownload(string src, string dest)
         {
             FtpWebRequest request = requestMethod(src, WebRequestMethods.Ftp.DownloadFile);
-            
-            using (Stream ftpStream = request.GetResponse().GetResponseStream())
-            using (Stream fileStream = File.Create(dest))
-            {
-                _progress.Maximum = requestSize(src, request);
 
-                byte[] buffer = new byte[102400];
-                int read;
-                _sw.Start();
-                Console.WriteLine("[NetworkFTP] ftpDownload : ...downloading " + dest);
-                while ((read = ftpStream.Read(buffer, 0, buffer.Length)) > 0)
+            try
+            {
+                using (Stream ftpStream = request.GetResponse().GetResponseStream())
+                using (Stream fileStream = File.Create(dest))
                 {
-                    fileStream.Write(buffer, 0, read);
-                    _progress.Value = (int)fileStream.Position;
-                    printProgressInfo(src);
+                    _progress.Maximum = requestSize(src, request);
+
+                    byte[] buffer = new byte[102400];
+                    int read;
+                    _sw.Start();
+                    Console.WriteLine("[NetworkFTP] ftpDownload : ...downloading " + dest);
+                    while ((read = ftpStream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        fileStream.Write(buffer, 0, read);
+                        _progress.Value = (int)fileStream.Position;
+                        printProgressInfo(src);
+                    }
+                    _sw.Stop();
+                    Console.WriteLine("[NetworkFTP] ftpDownload : " + dest + " downloaded !");
+                    _progress.Value = 0;
                 }
-                _sw.Stop();
-                Console.WriteLine("[NetworkFTP] ftpDownload : " + dest + " downloaded !");
-                _progress.Value = 0;
+            }
+            catch (WebException e)
+            {
+                Console.WriteLine("[NetworkFTP] ftpDownload : no response -> " + e.Message);
             }
         }
 

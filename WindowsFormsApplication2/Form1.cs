@@ -19,21 +19,20 @@ namespace WindowsFormsApplication2
     public partial class Window : Form
     {
         public FranpetteCore _franpette;
-        private Dictionary<EInfo, String> _newStatus;
-
+        private Dictionary<EInfo, String> _actuelSatus;
+        
         public Window()
         {
             InitializeComponent();
-
-            _franpette = new FranpetteCore(ftp_progressBar); // ftp_progressBar used by NetworkFTP
-            _newStatus = new Dictionary<EInfo, string>();
-
-            updateInfo();
+            _franpette = new FranpetteCore(ftp_progressBar, login_textBox.Text, password_textBox.Text, address_textBox.Text); // ftp_progressBar used by NetworkFTP
+            _actuelSatus = new Dictionary<EInfo, string>();
         }
 
         private void refreshButtonClick(object sender, EventArgs e)
         {
-            if (MOTD_textBox.Text != _newStatus[EInfo.FRANPETTEMESSAGEOFTHEDAY])
+            if (_actuelSatus.Count == 0)
+                return;
+            if (MOTD_textBox.Text != _actuelSatus[EInfo.FRANPETTEMESSAGEOFTHEDAY])
                 _franpette.editMOTD(MOTD_textBox.Text);
             updateInfo();
         }
@@ -60,17 +59,18 @@ namespace WindowsFormsApplication2
         private void updateInfo()
         {
             _franpette.infoUpdate();
-            _newStatus = _franpette.getInfoValue();
+            _actuelSatus = _franpette.getInfoValue();
 
             // update Franpette infos
-            MOTD_textBox.Text = _newStatus[EInfo.FRANPETTEMESSAGEOFTHEDAY];
-            version_value.Text = _newStatus[EInfo.FRANPETTEVERSION];
+            MOTD_textBox.Text = _actuelSatus[EInfo.FRANPETTEMESSAGEOFTHEDAY];
+            version_value.Text = _actuelSatus[EInfo.FRANPETTEVERSION];
 
             // update Minecraft infos
-            state_value.Text = _newStatus[EInfo.MINECRAFTSTATE];
-            date_value.Text = _newStatus[EInfo.MINECRAFTDATE];
-            user_value.Text = _newStatus[EInfo.MINECRAFTUSER];
-            host_value.Text = _newStatus[EInfo.MINECRAFTIP];
+            state_value.Text = _actuelSatus[EInfo.MINECRAFTSTATE];
+            date_value.Text = _actuelSatus[EInfo.MINECRAFTDATE];
+            user_value.Text = _actuelSatus[EInfo.MINECRAFTUSER];
+            host_value.Text = _actuelSatus[EInfo.MINECRAFTIP];
+
 
             if (state_value.Text == "Start")
             {
@@ -81,6 +81,21 @@ namespace WindowsFormsApplication2
             {
                 state_value.ForeColor = Color.Red;
                 date_label.Text = "stoped at :";
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (button1.Text == "Connected")
+            {
+                button1.Text = "Disconnected";
+                _franpette.disconnect();
+            }
+            else
+            {
+                button1.Text = "Connected";
+                _franpette.connect(address_textBox.Text, login_textBox.Text, password_textBox.Text);
+                updateInfo();
             }
         }
     }
