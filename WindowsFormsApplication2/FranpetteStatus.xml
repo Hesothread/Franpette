@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding="UTF-8" ?>
+<xml>
+	<franpette>
+		<version>1</version>
+		<wordoftheday>afneuh</wordoftheday>
+	</franpette>
+	<minecraft>
+		<version>1</version>
+		<user></user>
+		<ip>127.0.0.1</ip>
+		<date>23/02/2018</date>
+		<state>off</state>
+	</minecraft>
+</xml>
