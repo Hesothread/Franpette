@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Diagnostics;
 using System.Drawing;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsFormsApplication2.Sources.Network;
+using WindowsFormsApplication2.Sources.Franpette;
 
 namespace WindowsFormsApplication2.Sources
 {
@@ -62,10 +60,10 @@ namespace WindowsFormsApplication2.Sources
                     ftpDownload("Franpette/FranpetteStatus.xml", "FranpetteStatus.xml");
                     break;
                 case ETarget.MINECRAFT:
-                    checkFilesToCsv("Minecraft");
+                    FranpetteUtils.checkFilesToCsv("Minecraft");
                     ftpDownload("Franpette/Minecraft.csv", "server.csv");
-                    List<string> list = listOfFiles("server.csv", "Minecraft.csv");
-                    list.ForEach(path => ftpDownload("Franpette/" + path, path));
+                    filesToDownload("server.csv", "Minecraft.csv");
+                    if (!File.Exists("servMinecraft.bat")) ftpDownload("Franpette/servMinecraft.bat", "servMinecraft.bat");
                     break;
                 default:
                     Console.Write("[NETWORK FTP] downloadFile : Target is missing.");
@@ -83,9 +81,9 @@ namespace WindowsFormsApplication2.Sources
                     ftpUpload("FranpetteStatus.xml", "Franpette/FranpetteStatus.xml");
                     break;
                 case ETarget.MINECRAFT:
-                    checkFilesToCsv("Minecraft");
+                    FranpetteUtils.checkFilesToCsv("Minecraft");
                     ftpDownload("Franpette/Minecraft.csv", "server.csv");
-                    listOfFiles("Minecraft.csv", "server.csv").ForEach(path => ftpUpload(path, "Franpette/" + path));
+                    filesToUpload("Minecraft.csv", "server.csv");
                     ftpUpload("Minecraft.csv", "Franpette/Minecraft.csv");
                     break;
                 default:
@@ -190,68 +188,93 @@ namespace WindowsFormsApplication2.Sources
         {
             float speed = _progress.Value / (float)_sw.Elapsed.TotalSeconds;
             float percent = ((float)_progress.Value / _progress.Maximum) * 100f;
-            float timeLeft = (_progress.Maximum - _progress.Value) / speed;
 
             string perSeconds = (int)(speed / 1000) + " Kio/s";
-            string percentage = "(" + ((int)percent).ToString() + ")% completed";
+            string percentage = ((int)percent).ToString() + "% completed";
 
-            /*string remainTime = "";
-            timeLeft++;
-            if (timeLeft <= 60)
-                remainTime = "Remaining time: " + (int)timeLeft + " seconds";
-            else if (timeLeft <= 3600)
-                remainTime = "Remaining time: " + (int)(timeLeft) / 60 + " m " + (int)(timeLeft) % 60 + " s";
-            else
-                remainTime = "Remaining time: " + (int)(timeLeft) / 3600 + " h " + ((int)(timeLeft) % 3600) / 60 + " m " + ((int)(timeLeft) % 3600) % 60 + " s";*/
-
-            _progress.CreateGraphics().DrawString(filename + " : " + perSeconds + " - " + percentage, _font, Brushes.Black, _textPos);
+            _progress.CreateGraphics().DrawString(filename + " - " + perSeconds + " - " + percentage, _font, Brushes.Black, _textPos);
         }
 
-        // Create Minecraft.csv with all files info
-        public void checkFilesToCsv(string folder)
+        // Téléchargement des fichiers
+        public void filesToDownload(string server, string local)
         {
-            string[] lines = new string[Directory.GetFiles(folder, "*", SearchOption.AllDirectories).Length + 1];
+            string[] localFiles = File.ReadAllLines(local);
+            string[] serverFiles = File.ReadAllLines(server);
+
+            Boolean found;
             int i = 0;
-            lines[i] = "path;length;lastWriteTime";
-            foreach (string file in Directory.GetFiles(folder, "*", SearchOption.AllDirectories))
+            int start = 0;
+
+            foreach (string serv in serverFiles)
             {
-                FileInfo fi = new FileInfo(file);
-                lines[++i] = file + ";" + fi.Length.ToString() + ";" + fi.LastWriteTime.ToString();
-            }
-            File.WriteAllLines(folder + ".csv", lines);
-            Console.WriteLine(folder + ".csv created successfuly !");
-        }
+                string file = serv.Split(';')[0].Replace('\\', '/');
 
-        // Liste les fichiers differents
-        public List<string> listOfFiles(string biggerCsv, string smallerCsv)
-        {
-            List<string> list = new List<string>();
-
-            string[] Files1 = File.ReadAllLines(smallerCsv);
-            string[] Files2 = File.ReadAllLines(biggerCsv);
-
-            int i = 0;
-            int decal = 0;
-            while (i < Files1.Length)
-            {
-                if (Files1[i] != Files2[i + decal])
+                found = false;
+                i = start;
+                while (i < localFiles.Length)
                 {
-                    if (Files1[i].Split(';')[0] == Files2[i + decal].Split(';')[0])
+                    if (serv == localFiles[i])
                     {
-                        list.Add(Files2[i + decal].Split(';')[0].Replace('\\', '/'));
+                        start++;
+                        found = true;
+                        break;
                     }
-                    else
+                    else if (serv.Split(';')[0] == localFiles[i].Split(';')[0])
                     {
-                        if (Files1.Length < Files2.Length)
-                        {
-                            list.Add(Files2[i + decal].Split(';')[0].Replace('\\', '/'));
-                            decal++;
-                        }
+                        start++;
+                        found = true;
+                        Directory.CreateDirectory(file.Substring(0, file.LastIndexOf('/')));
+                        ftpDownload("Franpette/" + file, file);
+                        break;
                     }
+                    i++;
                 }
-                i++;
+                if (!found)
+                {
+                    Directory.CreateDirectory(file.Substring(0, file.LastIndexOf('/')));
+                    ftpDownload("Franpette/" + file, file);
+                }
             }
-            return list;
+        }
+
+        // Upload des fichiers
+        public void filesToUpload(string local, string server)
+        {
+            string[] localFiles = File.ReadAllLines(server);
+            string[] serverFiles = File.ReadAllLines(local);
+
+            Boolean found;
+            int i = 0;
+            int start = 0;
+
+            foreach (string serv in serverFiles)
+            {
+                string file = serv.Split(';')[0].Replace('\\', '/');
+
+                found = false;
+                i = start;
+                while (i < localFiles.Length)
+                {
+                    if (serv == localFiles[i])
+                    {
+                        start++;
+                        found = true;
+                        break;
+                    }
+                    else if (serv.Split(';')[0] == localFiles[i].Split(';')[0])
+                    {
+                        start++;
+                        found = true;
+                        ftpUpload(file, "Franpette/" + file);
+                        break;
+                    }
+                    i++;
+                }
+                if (!found)
+                {
+                    ftpUpload(file, "Franpette/" + file);
+                }
+            }
         }
     }
 }
