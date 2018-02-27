@@ -51,7 +51,7 @@ namespace WindowsFormsApplication2.Sources.Franpette
             return _isMinecraftUpToDate;
         }
 
-        public void minecraftUpdate()
+        public Boolean minecraftUpdate()
         {
             if (_data[EInfo.MINECRAFTSTATE] != "Start")
             {
@@ -59,18 +59,18 @@ namespace WindowsFormsApplication2.Sources.Franpette
                 {
                     Console.WriteLine("[FRANPETTE] Minecraft Update : can't download files");
                     _isMinecraftUpToDate = false;
-                    return;
+                    return false;
                 }
             }
             else
             {
                 Console.WriteLine("[FRANPETTE] Minecraft Update : Minecraft state is already Start");
                 _isMinecraftUpToDate = false;
-                return;
+                return false;
             }
-            _isMinecraftUpToDate = true;
-
             Console.WriteLine("[FRANPETTE] Minecraft Update : update finished.");
+            _isMinecraftUpToDate = true;
+            return true;
         }
 
         public void minecraftStart()

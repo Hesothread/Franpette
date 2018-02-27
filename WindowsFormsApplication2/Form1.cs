@@ -26,6 +26,14 @@ namespace WindowsFormsApplication2
             InitializeComponent();
             _franpette = new FranpetteCore(ftp_progressBar, total_progressBar, login_textBox.Text, password_textBox.Text, address_textBox.Text);
             _actuelSatus = new Dictionary<EInfo, string>();
+
+            if (File.Exists(FranpetteUtils.getAppdata() + "/.franpette/franpette.credentials"))
+            {
+                string[] credsLines = File.ReadAllLines(FranpetteUtils.getAppdata() + "/.franpette/franpette.credentials");
+                address_textBox.Text = credsLines[0];
+                login_textBox.Text = credsLines[1];
+                password_textBox.Text = credsLines[2];
+            }
         }
 
         private void refreshButtonClick(object sender, EventArgs e)
@@ -43,12 +51,9 @@ namespace WindowsFormsApplication2
 
             if (state_value.Text != "Start")
             {
-                _franpette.minecraftUpdate();
-
-                if (_franpette.getIsMinecraftUpToDate())
-                    _franpette.minecraftStart();
+                if (_franpette.minecraftUpdate()) _franpette.minecraftStart();
             }
-            else
+            else if (host_value.Text == FranpetteUtils.getInternetIp())
             {
                 _franpette.minecraftStop();
             }
@@ -84,7 +89,7 @@ namespace WindowsFormsApplication2
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void connect_buttonClick(object sender, EventArgs e)
         {
             if (connect_button.Text == "Connected")
             {
@@ -94,6 +99,10 @@ namespace WindowsFormsApplication2
             else
             {
                 connect_button.Text = "Connected";
+                if (remember_checkBox.Checked && address_textBox.Text != null && login_textBox.Text != null && password_textBox.Text != null)
+                {
+                    FranpetteUtils.saveCredentials(address_textBox.Text, login_textBox.Text, password_textBox.Text);
+                }
                 _franpette.connect(address_textBox.Text, login_textBox.Text, password_textBox.Text);
                 updateInfo();
             }

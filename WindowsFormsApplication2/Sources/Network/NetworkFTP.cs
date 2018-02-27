@@ -150,7 +150,7 @@ namespace WindowsFormsApplication2.Sources
             }
             catch (WebException e)
             {
-                Console.WriteLine("[NetworkFTP] ftpDownload : no response -> " + e.Message);
+                Console.WriteLine("[NetworkFTP] ftpDownload : " + e.Message);
             }
         }
 
@@ -183,7 +183,7 @@ namespace WindowsFormsApplication2.Sources
             }
             catch (WebException e)
             {
-                Console.WriteLine("[NetworkFTP] ftpDownload : no response -> " + e.Message);
+                Console.WriteLine("[NetworkFTP] ftpDownload : " + e.Message);
             }
         }
 
@@ -240,7 +240,7 @@ namespace WindowsFormsApplication2.Sources
                     Directory.CreateDirectory(file.Substring(0, file.LastIndexOf('/')));
                     ftpDownload("Franpette/" + file, file);
                 }
-                _total.Value++;
+                if (_total.Value + 1 <= _total.Maximum) _total.Value++;
             }
             _total.Value = 0;
         }
@@ -280,11 +280,8 @@ namespace WindowsFormsApplication2.Sources
                     }
                     i++;
                 }
-                if (!found)
-                {
-                    ftpUpload(file, "Franpette/" + file);
-                }
-                _total.Value++;
+                if (!found) ftpUpload(file, "Franpette/" + file);
+                if (_total.Value + 1 <= _total.Maximum) _total.Value++;
             }
             _total.Value = 0;
         }

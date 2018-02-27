@@ -252,7 +252,7 @@
             this.connect_button.TabIndex = 13;
             this.connect_button.Text = "Connect to the server";
             this.connect_button.UseVisualStyleBackColor = true;
-            this.connect_button.Click += new System.EventHandler(this.button1_Click);
+            this.connect_button.Click += new System.EventHandler(this.connect_buttonClick);
             // 
             // login_label
             // 

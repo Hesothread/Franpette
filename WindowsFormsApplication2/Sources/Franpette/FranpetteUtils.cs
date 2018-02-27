@@ -6,6 +6,25 @@ namespace WindowsFormsApplication2.Sources.Franpette
 {
     static class FranpetteUtils
     {
+        static string _appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+        public static string getAppdata()
+        {
+            return _appdata;
+        }
+
+        // Sauvegarder les credentials dans Appdata
+        public static void saveCredentials(string address, string login, string password)
+        {
+            string[] credentials = new string[3];
+
+            credentials[0] = address;
+            credentials[1] = login;
+            credentials[2] = password;
+            Directory.CreateDirectory(_appdata + "/.franpette");
+            File.WriteAllLines(_appdata + "/.franpette/franpette.credentials", credentials);
+        }
+
         // Crée un fichier.csv d'informations des fichiers d'un dossier
         public static void checkFilesToCsv(string folder)
         {
