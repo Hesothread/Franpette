@@ -86,14 +86,14 @@ namespace WindowsFormsApplication2
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (button1.Text == "Connected")
+            if (connect_button.Text == "Connected")
             {
-                button1.Text = "Disconnected";
+                connect_button.Text = "Disconnected";
                 _franpette.disconnect();
             }
             else
             {
-                button1.Text = "Connected";
+                connect_button.Text = "Connected";
                 _franpette.connect(address_textBox.Text, login_textBox.Text, password_textBox.Text);
                 updateInfo();
             }
