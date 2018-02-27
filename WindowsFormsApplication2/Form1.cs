@@ -24,7 +24,7 @@ namespace WindowsFormsApplication2
         public Window()
         {
             InitializeComponent();
-            _franpette = new FranpetteCore(ftp_progressBar, login_textBox.Text, password_textBox.Text, address_textBox.Text); // ftp_progressBar used by NetworkFTP
+            _franpette = new FranpetteCore(ftp_progressBar, total_progressBar, login_textBox.Text, password_textBox.Text, address_textBox.Text);
             _actuelSatus = new Dictionary<EInfo, string>();
         }
 

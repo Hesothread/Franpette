@@ -23,11 +23,11 @@ namespace WindowsFormsApplication2.Sources.Franpette
 
         private Boolean _isMinecraftUpToDate = false;
 
-        public FranpetteCore(ProgressBar progressBar, String login, String password, String address)
+        public FranpetteCore(ProgressBar progressBar, ProgressBar totalBar, String login, String password, String address)
         {
             _data = new Dictionary<EInfo, String>();
             _serialisation = new XMLInfoSerialisation();
-            _network = new NetworkFTP(progressBar);
+            _network = new NetworkFTP(progressBar, totalBar);
         }
 
         public void connect(String address, String login, String password)

@@ -13,17 +13,18 @@ namespace WindowsFormsApplication2.Sources
     class NetworkFTP : IFranpetteNetwork
     {
         private Stopwatch   _sw;
-        private ProgressBar _progress;
+        private ProgressBar _progress, _total;
         private Font        _font;
         private PointF      _textPos;
         private String      _password;
         private String      _login;
         private String      _address;
 
-        public NetworkFTP(ProgressBar progress)
+        public NetworkFTP(ProgressBar progress, ProgressBar total)
         {
             _sw = new Stopwatch();
             _progress = progress;
+            _total = total;
             _font = new Font("Monospaced", 8, FontStyle.Regular);
             _textPos = new PointF(10, _progress.Height / 2 - 7);
         }
@@ -64,6 +65,9 @@ namespace WindowsFormsApplication2.Sources
                     ftpDownload("Franpette/Minecraft.csv", "server.csv");
                     filesToDownload("server.csv", "Minecraft.csv");
                     if (!File.Exists("servMinecraft.bat")) ftpDownload("Franpette/servMinecraft.bat", "servMinecraft.bat");
+                    // Eviter de tout réuploader après un download complet !
+                    FranpetteUtils.checkFilesToCsv("Minecraft");
+                    ftpUpload("Minecraft.csv", "Franpette/Minecraft.csv");
                     break;
                 default:
                     Console.Write("[NETWORK FTP] downloadFile : Target is missing.");
@@ -201,6 +205,8 @@ namespace WindowsFormsApplication2.Sources
             string[] localFiles = File.ReadAllLines(local);
             string[] serverFiles = File.ReadAllLines(server);
 
+            _total.Maximum = serverFiles.Length;
+            _total.Value = 0;
             Boolean found;
             int i = 0;
             int start = 0;
@@ -234,7 +240,9 @@ namespace WindowsFormsApplication2.Sources
                     Directory.CreateDirectory(file.Substring(0, file.LastIndexOf('/')));
                     ftpDownload("Franpette/" + file, file);
                 }
+                _total.Value++;
             }
+            _total.Value = 0;
         }
 
         // Upload des fichiers
@@ -243,6 +251,8 @@ namespace WindowsFormsApplication2.Sources
             string[] localFiles = File.ReadAllLines(server);
             string[] serverFiles = File.ReadAllLines(local);
 
+            _total.Maximum = localFiles.Length;
+            _total.Value = 0;
             Boolean found;
             int i = 0;
             int start = 0;
@@ -274,7 +284,9 @@ namespace WindowsFormsApplication2.Sources
                 {
                     ftpUpload(file, "Franpette/" + file);
                 }
+                _total.Value++;
             }
+            _total.Value = 0;
         }
     }
 }
