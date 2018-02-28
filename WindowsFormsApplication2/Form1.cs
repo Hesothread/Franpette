@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -29,6 +30,7 @@ namespace WindowsFormsApplication2
 
             if (File.Exists(FranpetteUtils.getAppdata() + "/.franpette/franpette.credentials"))
             {
+                remember_checkBox.Hide();
                 string[] credsLines = File.ReadAllLines(FranpetteUtils.getAppdata() + "/.franpette/franpette.credentials");
                 address_textBox.Text = credsLines[0];
                 login_textBox.Text = credsLines[1];
@@ -47,18 +49,23 @@ namespace WindowsFormsApplication2
 
         private void startButtonClick(object sender, EventArgs e)
         {
-            updateInfo();
-
-            if (state_value.Text != "Start")
+            if (_franpette.isConnected())
             {
-                if (_franpette.minecraftUpdate()) _franpette.minecraftStart();
-            }
-            else if (host_value.Text == FranpetteUtils.getInternetIp())
-            {
-                _franpette.minecraftStop();
-            }
+                updateInfo();
 
-            updateInfo();
+                if (state_value.Text != "Start")
+                {
+                    if (_franpette.minecraftUpdate()) _franpette.minecraftStart();
+                }
+                else if (host_value.Text == FranpetteUtils.getInternetIp())
+                {
+                    _franpette.minecraftStop();
+                }
+
+                updateInfo();
+            }
+            else
+                Console.WriteLine("[Form1] startButtonClick : not connected !");
         }
 
         private void updateInfo()
@@ -76,6 +83,10 @@ namespace WindowsFormsApplication2
             user_value.Text = _actuelSatus[EInfo.MINECRAFTUSER];
             host_value.Text = _actuelSatus[EInfo.MINECRAFTIP];
 
+            if (FranpetteUtils.isPortOpen(host_value.Text, 25565, new TimeSpan(0, 0, 0, 3, 0)))
+                host_value.ForeColor = Color.Green;
+            else
+                host_value.ForeColor = Color.Red;
 
             if (state_value.Text == "Start")
             {
@@ -100,12 +111,16 @@ namespace WindowsFormsApplication2
             {
                 connect_button.Text = "Connected";
                 if (remember_checkBox.Checked && address_textBox.Text != null && login_textBox.Text != null && password_textBox.Text != null)
-                {
                     FranpetteUtils.saveCredentials(address_textBox.Text, login_textBox.Text, password_textBox.Text);
-                }
                 _franpette.connect(address_textBox.Text, login_textBox.Text, password_textBox.Text);
                 updateInfo();
             }
+        }
+
+        private void host_valueClick(object sender, EventArgs e)
+        {
+            if (host_value.Text != null && host_value.Text != "NaN")
+                Clipboard.SetText(host_value.Text);
         }
     }
 }

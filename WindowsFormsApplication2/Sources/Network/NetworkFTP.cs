@@ -16,6 +16,7 @@ namespace WindowsFormsApplication2.Sources
         private ProgressBar _progress, _total;
         private Font        _font;
         private PointF      _textPos;
+
         private String      _password;
         private String      _login;
         private String      _address;
@@ -100,7 +101,10 @@ namespace WindowsFormsApplication2.Sources
 
         public Boolean isConnected()
         {
-            return true;
+            if (_address != null && _login == null && _password != null)
+                return true;
+            else
+                return false;
         }
 
         // Connexion à un Path sur le server FTP avec les identifiants
@@ -174,7 +178,7 @@ namespace WindowsFormsApplication2.Sources
                     {
                         fileStream.Write(buffer, 0, read);
                         _progress.Value = (int)fileStream.Position;
-                        printProgressInfo(src);
+                        printProgressInfo(dest);
                     }
                     _sw.Stop();
                     Console.WriteLine("[NetworkFTP] ftpDownload : " + dest + " downloaded !");
@@ -194,7 +198,7 @@ namespace WindowsFormsApplication2.Sources
             float percent = ((float)_progress.Value / _progress.Maximum) * 100f;
 
             string perSeconds = (int)(speed / 1000) + " Kio/s";
-            string percentage = ((int)percent).ToString() + "% completed";
+            string percentage = ((int)percent).ToString() + "%";
 
             _progress.CreateGraphics().DrawString(filename + " - " + perSeconds + " - " + percentage, _font, Brushes.Black, _textPos);
         }

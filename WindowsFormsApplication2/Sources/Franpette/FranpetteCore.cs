@@ -15,7 +15,6 @@ namespace WindowsFormsApplication2.Sources.Franpette
 {
     public class FranpetteCore
     {
-        //private List<IApplication>  _application;
         private ISerialisation      _serialisation;
         private IFranpetteNetwork   _network;
 
@@ -39,6 +38,11 @@ namespace WindowsFormsApplication2.Sources.Franpette
         public void disconnect()
         {
             _network.disconnect();
+        }
+
+        public Boolean isConnected()
+        {
+            return _network.isConnected();
         }
 
         internal  Dictionary<EInfo, String> getInfoValue()

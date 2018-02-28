@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Sockets;
 
 namespace WindowsFormsApplication2.Sources.Franpette
 {
@@ -37,6 +38,27 @@ namespace WindowsFormsApplication2.Sources.Franpette
             }
             File.WriteAllLines(folder + ".csv", files.ToArray());
             Console.WriteLine("[NetworkFTP] checkFilesToCsv : " + folder + ".csv created successfuly !");
+        }
+
+        // Vérifie si le port est ouvert
+        public static Boolean isPortOpen(string host, int port, TimeSpan timeout)
+        {
+            try
+            {
+                using (var client = new TcpClient())
+                {
+                    var result = client.BeginConnect(host, port, null, null);
+                    var success = result.AsyncWaitHandle.WaitOne(timeout);
+                    if (!success) return false;
+                    client.EndConnect(result);
+                }
+
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
         }
 
         // Récupère l'IP internet

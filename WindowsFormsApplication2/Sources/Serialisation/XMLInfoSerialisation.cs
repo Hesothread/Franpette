@@ -31,13 +31,11 @@ namespace WindowsFormsApplication2.Sources.Serialisation
         public Boolean Deserialise(String fineName)
         {
             _fileValue = new Dictionary<EInfo, string>();
-
             _fileName = fineName;
 
-            Console.WriteLine("[XMLInfoSerialisation] Deserialise : " + _fileName);
             if (!File.Exists(_fileName))
             {
-                Console.WriteLine("[XMLInfoSerialisation] Deserialise : File note found " + _fileName);
+                Console.WriteLine("[XMLInfoSerialisation] Deserialise : " + _fileName + " was not found");
                 return false;
             }
             _xmlInfo.Load(_fileName);
@@ -50,7 +48,7 @@ namespace WindowsFormsApplication2.Sources.Serialisation
             _fileValue.Add(EInfo.MINECRAFTDATE, _xmlInfo.DocumentElement.SelectSingleNode("/root/minecraft/date").InnerText);
             _fileValue.Add(EInfo.MINECRAFTSTATE, _xmlInfo.DocumentElement.SelectSingleNode("/root/minecraft/state").InnerText);
 
-            Console.WriteLine("[XMLInfoSerialisation] Deserialise : " + _fileName + " ... complet !");
+            Console.WriteLine("[XMLInfoSerialisation] Deserialise : " + _fileName + " ...Done");
             return true;
         }
 

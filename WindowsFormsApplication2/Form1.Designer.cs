@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Window));
             this.start_button = new System.Windows.Forms.Button();
             this.apps_groupbox = new System.Windows.Forms.GroupBox();
-            this.host_value = new System.Windows.Forms.Label();
             this.host_label = new System.Windows.Forms.Label();
             this.user_value = new System.Windows.Forms.Label();
             this.user_label = new System.Windows.Forms.Label();
@@ -54,6 +53,7 @@
             this.remember_checkBox = new System.Windows.Forms.CheckBox();
             this.total_progressBar = new System.Windows.Forms.ProgressBar();
             this.MOTD_label = new System.Windows.Forms.Label();
+            this.host_value = new System.Windows.Forms.Button();
             this.apps_groupbox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,15 +87,6 @@
             this.apps_groupbox.TabIndex = 3;
             this.apps_groupbox.TabStop = false;
             this.apps_groupbox.Text = "Applications";
-            // 
-            // host_value
-            // 
-            this.host_value.AutoSize = true;
-            this.host_value.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.host_value.Location = new System.Drawing.Point(577, 24);
-            this.host_value.Name = "host_value";
-            this.host_value.Size = new System.Drawing.Size(0, 13);
-            this.host_value.TabIndex = 10;
             // 
             // host_label
             // 
@@ -286,7 +277,7 @@
             this.remember_checkBox.AutoSize = true;
             this.remember_checkBox.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.remember_checkBox.FlatAppearance.BorderSize = 0;
-            this.remember_checkBox.Location = new System.Drawing.Point(15, 95);
+            this.remember_checkBox.Location = new System.Drawing.Point(26, 95);
             this.remember_checkBox.Name = "remember_checkBox";
             this.remember_checkBox.Size = new System.Drawing.Size(15, 14);
             this.remember_checkBox.TabIndex = 17;
@@ -310,6 +301,18 @@
             this.MOTD_label.Size = new System.Drawing.Size(86, 12);
             this.MOTD_label.TabIndex = 19;
             this.MOTD_label.Text = "Message of the day";
+            // 
+            // host_value
+            // 
+            this.host_value.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(99)))), ((int)(((byte)(130)))));
+            this.host_value.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.host_value.Location = new System.Drawing.Point(575, 19);
+            this.host_value.Name = "host_value";
+            this.host_value.Size = new System.Drawing.Size(94, 23);
+            this.host_value.TabIndex = 10;
+            this.host_value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.host_value.UseVisualStyleBackColor = false;
+            this.host_value.Click += new System.EventHandler(this.host_valueClick);
             // 
             // Window
             // 
@@ -357,7 +360,6 @@
         private System.Windows.Forms.Label state_value;
         private System.Windows.Forms.Label user_value;
         private System.Windows.Forms.Label user_label;
-        private System.Windows.Forms.Label host_value;
         private System.Windows.Forms.Label host_label;
         private System.Windows.Forms.TextBox MOTD_textBox;
         private System.Windows.Forms.Label version_label;
@@ -373,6 +375,7 @@
         private System.Windows.Forms.CheckBox remember_checkBox;
         private System.Windows.Forms.ProgressBar total_progressBar;
         private System.Windows.Forms.Label MOTD_label;
+        private System.Windows.Forms.Button host_value;
     }
 }
 
