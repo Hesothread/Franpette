@@ -49,7 +49,7 @@ namespace WindowsFormsApplication2
 
         private void startButtonClick(object sender, EventArgs e)
         {
-            if (_franpette.isConnected())
+            if (connect_button.Text == "Connected")
             {
                 updateInfo();
 
@@ -64,8 +64,6 @@ namespace WindowsFormsApplication2
 
                 updateInfo();
             }
-            else
-                Console.WriteLine("[Form1] startButtonClick : not connected !");
         }
 
         private void updateInfo()
@@ -88,16 +86,8 @@ namespace WindowsFormsApplication2
             else
                 host_value.ForeColor = Color.Red;
 
-            if (state_value.Text == "Start")
-            {
-                state_value.ForeColor = Color.Green;
-                date_label.Text = "started at :";
-            }
-            else
-            {
-                state_value.ForeColor = Color.Red;
-                date_label.Text = "stoped at :";
-            }
+            if (state_value.Text == "Start") state_value.ForeColor = Color.Green;
+            else state_value.ForeColor = Color.Red;
         }
 
         private void connect_buttonClick(object sender, EventArgs e)
@@ -109,10 +99,11 @@ namespace WindowsFormsApplication2
             }
             else
             {
-                connect_button.Text = "Connected";
                 if (remember_checkBox.Checked && address_textBox.Text != null && login_textBox.Text != null && password_textBox.Text != null)
                     FranpetteUtils.saveCredentials(address_textBox.Text, login_textBox.Text, password_textBox.Text);
                 _franpette.connect(address_textBox.Text, login_textBox.Text, password_textBox.Text);
+                if (!_franpette.isConnected()) return;
+                connect_button.Text = "Connected";
                 updateInfo();
             }
         }

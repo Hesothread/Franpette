@@ -101,10 +101,30 @@ namespace WindowsFormsApplication2.Sources
 
         public Boolean isConnected()
         {
-            if (_address != null && _login == null && _password != null)
-                return true;
-            else
+            try
+            {
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://" + _address + "/");
+                request.Credentials = new NetworkCredential(_login, _password);
+                request.Method = WebRequestMethods.Ftp.PrintWorkingDirectory;
+                FtpWebResponse uploadResponse = (FtpWebResponse)request.GetResponse();
+                uploadResponse.Close();
+            }
+            catch (WebException ex)
+            {
+                FtpWebResponse response = (FtpWebResponse)ex.Response;
+                switch (response.StatusCode)
+                {
+                    case FtpStatusCode.NotLoggedIn:
+                        Console.WriteLine("You entered invalid username/password. Try again.");
+                        break;
+
+                    default:
+                        Console.WriteLine("The server is inaccessible or taking too long to respond.");
+                        break;
+                }
                 return false;
+            }
+            return true;
         }
 
         // Connexion à un Path sur le server FTP avec les identifiants
