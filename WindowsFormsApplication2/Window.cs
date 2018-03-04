@@ -22,7 +22,16 @@ namespace WindowsFormsApplication2
             refreshInfo();
         }
 
-        private void startButtonClick(object sender, EventArgs e)
+        private void refresh_Click(object sender, EventArgs e)
+        {
+            if (_actuelSatus.Count == 0)
+                return;
+            if (MOTD_textBox.Text != _actuelSatus[EInfo.FRANPETTEMESSAGEOFTHEDAY])
+                _franpette.editMOTD(MOTD_textBox.Text);
+            refreshInfo();
+        }
+
+        private void minecraft_button_Click(object sender, EventArgs e)
         {
             refreshInfo();
 
@@ -30,7 +39,7 @@ namespace WindowsFormsApplication2
             {
                 if (_franpette.minecraftUpdate()) _franpette.minecraftStart();
             }
-            else if (host_value.Text == FranpetteUtils.getInternetIp())
+            else if (host_button.Text == FranpetteUtils.getInternetIp())
             {
                 _franpette.minecraftStop();
             }
@@ -51,30 +60,21 @@ namespace WindowsFormsApplication2
             state_value.Text = _actuelSatus[EInfo.MINECRAFTSTATE];
             date_value.Text = _actuelSatus[EInfo.MINECRAFTDATE];
             user_value.Text = _actuelSatus[EInfo.MINECRAFTUSER];
-            host_value.Text = _actuelSatus[EInfo.MINECRAFTIP];
+            host_button.Text = _actuelSatus[EInfo.MINECRAFTIP];
 
-            if (FranpetteUtils.isPortOpen(host_value.Text, 25565, new TimeSpan(0, 0, 0, 3, 0)))
-                host_value.ForeColor = Color.Green;
+            if (FranpetteUtils.isPortOpen(host_button.Text, 25565, new TimeSpan(0, 0, 0, 3, 0)))
+                host_button.ForeColor = Color.Green;
             else
-                host_value.ForeColor = Color.Red;
+                host_button.ForeColor = Color.Red;
 
             if (state_value.Text == "Start") state_value.ForeColor = Color.Green;
             else state_value.ForeColor = Color.Red;
         }
 
-        private void host_valueClick(object sender, EventArgs e)
+        private void host_button_Click(object sender, EventArgs e)
         {
-            if (host_value.Text != null && host_value.Text != "NaN")
-                Clipboard.SetText(host_value.Text);
-        }
-
-        private void refresh_pictureBox_Click(object sender, EventArgs e)
-        {
-            if (_actuelSatus.Count == 0)
-                return;
-            if (MOTD_textBox.Text != _actuelSatus[EInfo.FRANPETTEMESSAGEOFTHEDAY])
-                _franpette.editMOTD(MOTD_textBox.Text);
-            refreshInfo();
+            if (host_button.Text != null && host_button.Text != "NaN")
+                Clipboard.SetText(host_button.Text);
         }
     }
 }

@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Window));
-            this.start_button = new System.Windows.Forms.Button();
+            this.minecraft_button = new System.Windows.Forms.Button();
             this.apps_groupbox = new System.Windows.Forms.GroupBox();
-            this.host_value = new System.Windows.Forms.Button();
+            this.host_button = new System.Windows.Forms.Button();
             this.host_label = new System.Windows.Forms.Label();
             this.user_value = new System.Windows.Forms.Label();
             this.user_label = new System.Windows.Forms.Label();
@@ -45,26 +45,26 @@
             this.ftp_progressBar = new System.Windows.Forms.ProgressBar();
             this.total_progressBar = new System.Windows.Forms.ProgressBar();
             this.MOTD_label = new System.Windows.Forms.Label();
-            this.refresh_pictureBox = new System.Windows.Forms.PictureBox();
+            this.refresh = new System.Windows.Forms.PictureBox();
             this.apps_groupbox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.refresh_pictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.refresh)).BeginInit();
             this.SuspendLayout();
             // 
-            // start_button
+            // minecraft_button
             // 
-            this.start_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.start_button.ForeColor = System.Drawing.Color.White;
-            this.start_button.Location = new System.Drawing.Point(6, 19);
-            this.start_button.Name = "start_button";
-            this.start_button.Size = new System.Drawing.Size(123, 23);
-            this.start_button.TabIndex = 0;
-            this.start_button.Text = "Minecraft";
-            this.start_button.UseVisualStyleBackColor = true;
-            this.start_button.Click += new System.EventHandler(this.startButtonClick);
+            this.minecraft_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.minecraft_button.ForeColor = System.Drawing.Color.White;
+            this.minecraft_button.Location = new System.Drawing.Point(6, 19);
+            this.minecraft_button.Name = "minecraft_button";
+            this.minecraft_button.Size = new System.Drawing.Size(123, 23);
+            this.minecraft_button.TabIndex = 0;
+            this.minecraft_button.Text = "Minecraft";
+            this.minecraft_button.UseVisualStyleBackColor = true;
+            this.minecraft_button.Click += new System.EventHandler(this.minecraft_button_Click);
             // 
             // apps_groupbox
             // 
-            this.apps_groupbox.Controls.Add(this.host_value);
+            this.apps_groupbox.Controls.Add(this.host_button);
             this.apps_groupbox.Controls.Add(this.host_label);
             this.apps_groupbox.Controls.Add(this.user_value);
             this.apps_groupbox.Controls.Add(this.user_label);
@@ -72,7 +72,7 @@
             this.apps_groupbox.Controls.Add(this.date_label);
             this.apps_groupbox.Controls.Add(this.state_value);
             this.apps_groupbox.Controls.Add(this.state_label);
-            this.apps_groupbox.Controls.Add(this.start_button);
+            this.apps_groupbox.Controls.Add(this.minecraft_button);
             this.apps_groupbox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.apps_groupbox.Font = new System.Drawing.Font("Minecraftia", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.apps_groupbox.ForeColor = System.Drawing.Color.White;
@@ -83,17 +83,17 @@
             this.apps_groupbox.TabStop = false;
             this.apps_groupbox.Text = "Applications";
             // 
-            // host_value
+            // host_button
             // 
-            this.host_value.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(99)))), ((int)(((byte)(130)))));
-            this.host_value.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.host_value.Location = new System.Drawing.Point(584, 19);
-            this.host_value.Name = "host_value";
-            this.host_value.Size = new System.Drawing.Size(94, 23);
-            this.host_value.TabIndex = 10;
-            this.host_value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.host_value.UseVisualStyleBackColor = false;
-            this.host_value.Click += new System.EventHandler(this.host_valueClick);
+            this.host_button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(99)))), ((int)(((byte)(130)))));
+            this.host_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.host_button.Location = new System.Drawing.Point(584, 19);
+            this.host_button.Name = "host_button";
+            this.host_button.Size = new System.Drawing.Size(94, 23);
+            this.host_button.TabIndex = 10;
+            this.host_button.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.host_button.UseVisualStyleBackColor = false;
+            this.host_button.Click += new System.EventHandler(this.host_button_Click);
             // 
             // host_label
             // 
@@ -231,18 +231,18 @@
             this.MOTD_label.TabIndex = 19;
             this.MOTD_label.Text = "message of the day";
             // 
-            // refresh_pictureBox
+            // refresh
             // 
-            this.refresh_pictureBox.Cursor = System.Windows.Forms.Cursors.Default;
-            this.refresh_pictureBox.Image = ((System.Drawing.Image)(resources.GetObject("refresh_pictureBox.Image")));
-            this.refresh_pictureBox.Location = new System.Drawing.Point(681, 8);
-            this.refresh_pictureBox.Margin = new System.Windows.Forms.Padding(0);
-            this.refresh_pictureBox.Name = "refresh_pictureBox";
-            this.refresh_pictureBox.Padding = new System.Windows.Forms.Padding(3);
-            this.refresh_pictureBox.Size = new System.Drawing.Size(22, 22);
-            this.refresh_pictureBox.TabIndex = 20;
-            this.refresh_pictureBox.TabStop = false;
-            this.refresh_pictureBox.Click += new System.EventHandler(this.refresh_pictureBox_Click);
+            this.refresh.Cursor = System.Windows.Forms.Cursors.Default;
+            this.refresh.Image = ((System.Drawing.Image)(resources.GetObject("refresh.Image")));
+            this.refresh.Location = new System.Drawing.Point(681, 8);
+            this.refresh.Margin = new System.Windows.Forms.Padding(0);
+            this.refresh.Name = "refresh";
+            this.refresh.Padding = new System.Windows.Forms.Padding(3);
+            this.refresh.Size = new System.Drawing.Size(22, 22);
+            this.refresh.TabIndex = 20;
+            this.refresh.TabStop = false;
+            this.refresh.Click += new System.EventHandler(this.refresh_Click);
             // 
             // Window
             // 
@@ -250,7 +250,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(100)))), ((int)(((byte)(130)))));
             this.ClientSize = new System.Drawing.Size(712, 402);
-            this.Controls.Add(this.refresh_pictureBox);
+            this.Controls.Add(this.refresh);
             this.Controls.Add(this.MOTD_label);
             this.Controls.Add(this.total_progressBar);
             this.Controls.Add(this.ftp_progressBar);
@@ -267,7 +267,7 @@
             this.Text = "Franpette";
             this.apps_groupbox.ResumeLayout(false);
             this.apps_groupbox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.refresh_pictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.refresh)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -275,7 +275,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button start_button;
+        private System.Windows.Forms.Button minecraft_button;
         private System.Windows.Forms.GroupBox apps_groupbox;
         private System.Windows.Forms.Label state_label;
         private System.Windows.Forms.Label date_value;
@@ -290,8 +290,8 @@
         private System.Windows.Forms.ProgressBar ftp_progressBar;
         private System.Windows.Forms.ProgressBar total_progressBar;
         private System.Windows.Forms.Label MOTD_label;
-        private System.Windows.Forms.Button host_value;
-        private System.Windows.Forms.PictureBox refresh_pictureBox;
+        private System.Windows.Forms.Button host_button;
+        private System.Windows.Forms.PictureBox refresh;
     }
 }
 

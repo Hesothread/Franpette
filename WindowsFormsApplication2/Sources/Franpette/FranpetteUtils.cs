@@ -49,8 +49,10 @@ namespace WindowsFormsApplication2.Sources.Franpette
         }
 
         // Vérifie si les identifiants sont corrects
-        public static Boolean isValidConnection(string address, string login, string password)
+        public static int isValidConnection(string address, string login, string password)
         {
+            int result = 0;
+
             try
             {
                 FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://" + address + "/");
@@ -62,19 +64,13 @@ namespace WindowsFormsApplication2.Sources.Franpette
             catch (WebException ex)
             {
                 FtpWebResponse response = (FtpWebResponse)ex.Response;
-                switch (response.StatusCode)
-                {
-                    case FtpStatusCode.NotLoggedIn:
-                        Console.WriteLine("You entered invalid username/password. Try again.");
-                        break;
 
-                    default:
-                        Console.WriteLine("The server is inaccessible or taking too long to respond.");
-                        break;
-                }
-                return false;
+                if (response.StatusCode == FtpStatusCode.NotLoggedIn)
+                    result = 1;
+                else
+                    result = 2;
             }
-            return true;
+            return result;
         }
 
         // Vérifie si le port est ouvert
