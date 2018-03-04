@@ -51,7 +51,8 @@ namespace WindowsFormsApplication2.Sources.Franpette
         // Vérifie si les identifiants sont corrects
         public static int isValidConnection(string address, string login, string password)
         {
-            int result = 0;
+            if (address == "" || login == "" || password == "")
+                return 3;
 
             try
             {
@@ -66,11 +67,11 @@ namespace WindowsFormsApplication2.Sources.Franpette
                 FtpWebResponse response = (FtpWebResponse)ex.Response;
 
                 if (response.StatusCode == FtpStatusCode.NotLoggedIn)
-                    result = 1;
+                    return 1;
                 else
-                    result = 2;
+                    return 2;
             }
-            return result;
+            return 0;
         }
 
         // Vérifie si le port est ouvert

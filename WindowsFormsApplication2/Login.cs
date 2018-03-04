@@ -18,8 +18,11 @@ namespace WindowsFormsApplication2
             if ((_credentials = FranpetteUtils.getCredentials()) != null)
             {
                 remember_checkBox.Hide();
+                address_placeholder.Hide();
                 address_textBox.Text = _credentials[0];
+                username_placeholder.Hide();
                 username_textBox.Text = _credentials[1];
+                password_placeholder.Hide();
                 password_textBox.Text = _credentials[2];
             }
         }
@@ -63,8 +66,14 @@ namespace WindowsFormsApplication2
                     case 1:
                         error.Text = "Invalid username/password";
                         break;
-                    default:
+                    case 2:
                         error.Text = "The server is inaccessible";
+                        break;
+                    case 3:
+                        error.Text = "One of the fields is not filled";
+                        break;
+                    default:
+                        error.Text = "Error during the connection";
                         break;
                 }
                 error.Show();
@@ -80,10 +89,89 @@ namespace WindowsFormsApplication2
         {
             Graphics g = e.Graphics;
             Pen p = new Pen(Color.White, 1);
-            g.DrawLine(p, 70, 150, 270, 150);
-            g.DrawLine(p, 70, 200, 270, 200);
-            g.DrawLine(p, 70, 250, 270, 250);
+            int x2 = ClientRectangle.Width - 65;
+            g.DrawLine(p, 97, 150, x2, 150);
+            g.DrawLine(p, 97, 200, x2, 200);
+            g.DrawLine(p, 97, 250, x2, 250);
             g.Dispose();
+        }
+
+        private void address_textBox_TextChanged(object sender, EventArgs e)
+        {
+            if (_credentials != null && _credentials[0] != address_textBox.Text)
+            {
+                remember_checkBox.Show();
+            }
+            else if (_credentials != null)
+            {
+                remember_checkBox.Hide();
+            }
+        }
+
+        private void username_textBox_TextChanged(object sender, EventArgs e)
+        {
+            if (_credentials != null && _credentials[1] != username_textBox.Text)
+            {
+                remember_checkBox.Show();
+            }
+            else if (_credentials != null)
+            {
+                remember_checkBox.Hide();
+            }
+        }
+
+        private void password_textBox_TextChanged(object sender, EventArgs e)
+        {
+            if (_credentials != null && _credentials[2] != password_textBox.Text)
+            {
+                remember_checkBox.Show();
+            }
+            else if (_credentials != null)
+            {
+                remember_checkBox.Hide();
+            }
+        }
+
+        private void username_placeholder_Enter(object sender, EventArgs e)
+        {
+            if (password_textBox.Text == "") password_placeholder.Show();
+            if (address_textBox.Text == "") address_placeholder.Show();
+            username_placeholder.Hide();
+            username_textBox.Focus();
+        }
+
+        private void password_placeholder_Enter(object sender, EventArgs e)
+        {
+            if (username_textBox.Text == "") username_placeholder.Show();
+            if (address_textBox.Text == "") address_placeholder.Show();
+            password_placeholder.Hide();
+            password_textBox.Focus();
+        }
+
+        private void address_placeholder_Enter(object sender, EventArgs e)
+        {
+            if (username_textBox.Text == "") username_placeholder.Show();
+            if (password_textBox.Text == "") password_placeholder.Show();
+            address_placeholder.Hide();
+            address_textBox.Focus();
+        }
+
+        private void username_textBox_Enter(object sender, EventArgs e)
+        {
+            if (password_textBox.Text == "") password_placeholder.Show();
+            if (address_textBox.Text == "") address_placeholder.Show();
+        }
+
+        private void password_textBox_Enter(object sender, EventArgs e)
+        {
+            if (username_textBox.Text == "") username_placeholder.Show();
+            if (address_textBox.Text == "") address_placeholder.Show();
+        }
+
+        private void address_textBox_Enter(object sender, EventArgs e)
+        {
+            if (username_textBox.Text == "") username_placeholder.Show();
+            if (password_textBox.Text == "") password_placeholder.Show();
         }
     }
 }

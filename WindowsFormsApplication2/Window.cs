@@ -22,7 +22,7 @@ namespace WindowsFormsApplication2
             refreshInfo();
         }
 
-        private void refresh_Click(object sender, EventArgs e)
+        private void refresh_button_Click(object sender, EventArgs e)
         {
             if (_actuelSatus.Count == 0)
                 return;
@@ -54,7 +54,7 @@ namespace WindowsFormsApplication2
 
             // update Franpette infos
             MOTD_textBox.Text = _actuelSatus[EInfo.FRANPETTEMESSAGEOFTHEDAY];
-            version_value.Text = _actuelSatus[EInfo.FRANPETTEVERSION];
+            version_label.Text = "version " + _actuelSatus[EInfo.FRANPETTEVERSION];
 
             // update Minecraft infos
             state_value.Text = _actuelSatus[EInfo.MINECRAFTSTATE];
