@@ -195,7 +195,7 @@
             this.build.Name = "build";
             this.build.Size = new System.Drawing.Size(434, 16);
             this.build.TabIndex = 10;
-            this.build.Text = "build 2.4";
+            this.build.Text = "build 2.5";
             this.build.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
             // username_placeholder

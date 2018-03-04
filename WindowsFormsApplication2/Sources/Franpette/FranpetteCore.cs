@@ -17,11 +17,11 @@ namespace WindowsFormsApplication2.Sources.Franpette
 
         private Boolean _isMinecraftUpToDate = false;
 
-        public FranpetteCore(ProgressBar progressBar, ProgressBar totalBar)
+        public FranpetteCore(ProgressBar progressBar)
         {
             _data = new Dictionary<EInfo, String>();
             _serialisation = new XMLInfoSerialisation();
-            _network = new NetworkFTP(progressBar, totalBar);
+            _network = new NetworkFTP(progressBar);
         }
 
         internal  Dictionary<EInfo, String> getInfoValue()
@@ -62,7 +62,7 @@ namespace WindowsFormsApplication2.Sources.Franpette
             _network.login(login, password);
         }
 
-        public void minecraftStart()
+        public void minecraftStart(BackgroundWorker worker)
         {
             // New Minecraft status values
             _data[EInfo.MINECRAFTDATE] = DateTime.Now.ToString();
@@ -75,7 +75,7 @@ namespace WindowsFormsApplication2.Sources.Franpette
             _serialisation.setInfoValue(_data);
             _serialisation.Serialise();
             // Upload new status
-            //_network.uploadFile(ETarget.FRANPETTE);
+            _network.uploadFile(ETarget.FRANPETTE, worker);
 
             Console.WriteLine("[FRANPETTE] minecraftStart : starting server...");
             Process process = new Process();

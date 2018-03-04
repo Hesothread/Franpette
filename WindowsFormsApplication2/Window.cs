@@ -17,7 +17,7 @@ namespace WindowsFormsApplication2
         {
             InitializeComponent();
 
-            _franpette = new FranpetteCore(ftp_progressBar, total_progressBar);
+            _franpette = new FranpetteCore(ftp_progressBar);
             _actuelSatus = new Dictionary<EInfo, string>();
 
             _franpette.connect(address, login, password);
@@ -112,7 +112,7 @@ namespace WindowsFormsApplication2
 
             if (state_value.Text != "Start")
             {
-                if (_franpette.minecraftUpdate(worker)) _franpette.minecraftStart();
+                if (_franpette.minecraftUpdate(worker)) _franpette.minecraftStart(worker);
             }
             else if (host_button.Text == FranpetteUtils.getInternetIp())
             {

@@ -41,7 +41,6 @@
             this.state_label = new System.Windows.Forms.Label();
             this.version_label = new System.Windows.Forms.Label();
             this.ftp_progressBar = new System.Windows.Forms.ProgressBar();
-            this.total_progressBar = new System.Windows.Forms.ProgressBar();
             this.refresh_button = new System.Windows.Forms.Button();
             this.MOTD_textBox = new System.Windows.Forms.TextBox();
             this.MOTD_label = new System.Windows.Forms.Label();
@@ -194,18 +193,6 @@
             this.ftp_progressBar.TabIndex = 9;
             this.ftp_progressBar.Tag = "";
             // 
-            // total_progressBar
-            // 
-            this.total_progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.total_progressBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(100)))), ((int)(((byte)(130)))));
-            this.total_progressBar.ForeColor = System.Drawing.Color.White;
-            this.total_progressBar.Location = new System.Drawing.Point(12, 198);
-            this.total_progressBar.Name = "total_progressBar";
-            this.total_progressBar.Size = new System.Drawing.Size(690, 14);
-            this.total_progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.total_progressBar.TabIndex = 18;
-            // 
             // refresh_button
             // 
             this.refresh_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -273,7 +260,6 @@
             this.Controls.Add(this.refresh_button);
             this.Controls.Add(this.MOTD_label);
             this.Controls.Add(this.MOTD_textBox);
-            this.Controls.Add(this.total_progressBar);
             this.Controls.Add(this.ftp_progressBar);
             this.Controls.Add(this.version_label);
             this.Controls.Add(this.apps_groupbox);
@@ -303,7 +289,6 @@
         private System.Windows.Forms.Label host_label;
         private System.Windows.Forms.Label version_label;
         private System.Windows.Forms.ProgressBar ftp_progressBar;
-        private System.Windows.Forms.ProgressBar total_progressBar;
         private System.Windows.Forms.Button host_button;
         private System.Windows.Forms.Button refresh_button;
         private System.Windows.Forms.TextBox MOTD_textBox;

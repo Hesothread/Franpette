@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Diagnostics;
@@ -14,7 +13,7 @@ namespace WindowsFormsApplication2.Sources
     class NetworkFTP : IFranpetteNetwork
     {
         private Stopwatch   _sw;
-        private ProgressBar _progress, _total;
+        private ProgressBar _progress;
         private Font        _font;
         private PointF      _textPos;
 
@@ -22,11 +21,10 @@ namespace WindowsFormsApplication2.Sources
         private String      _login;
         private String      _address;
 
-        public NetworkFTP(ProgressBar progress, ProgressBar total)
+        public NetworkFTP(ProgressBar progress)
         {
             _sw = new Stopwatch();
             _progress = progress;
-            _total = total;
             _font = new Font("Monospaced", 8, FontStyle.Regular);
             _textPos = new PointF(10, _progress.Height / 2 - 7);
         }
@@ -117,8 +115,6 @@ namespace WindowsFormsApplication2.Sources
                 using (Stream fileStream = File.OpenRead(src))
                 using (Stream ftpStream = request.GetRequestStream())
                 {
-                    //_progress.Maximum = (int)fileStream.Length;
-
                     byte[] buffer = new byte[102400];
                     int read;
                     _sw.Start();
@@ -127,12 +123,10 @@ namespace WindowsFormsApplication2.Sources
                     {
                         ftpStream.Write(buffer, 0, read);
                         worker.ReportProgress((int)(fileStream.Position * 100.0 / fileStream.Length));
-                        //_progress.Value = (int)fileStream.Position;
-                        //printProgressInfo(src);
+                        printProgressInfo(src, fileStream.Position, (int)fileStream.Length);
                     }
                     _sw.Stop();
                     Console.WriteLine("[NetworkFTP] ftpUpload : " + src + " uploaded !");
-                    //_progress.Value = 0;
                 }
             }
             catch (WebException e)
@@ -151,8 +145,6 @@ namespace WindowsFormsApplication2.Sources
                 using (Stream ftpStream = request.GetResponse().GetResponseStream())
                 using (Stream fileStream = File.Create(dest))
                 {
-                    //_progress.Maximum = requestSize(src, request);
-
                     byte[] buffer = new byte[102400];
                     int read;
                     _sw.Start();
@@ -161,12 +153,10 @@ namespace WindowsFormsApplication2.Sources
                     {
                         fileStream.Write(buffer, 0, read);
                         worker.ReportProgress((int)(fileStream.Position * 100.0 / (float)requestSize(src, request)));
-                        //_progress.Value = (int)fileStream.Position;
-                        //printProgressInfo(dest);
+                        printProgressInfo(dest, fileStream.Position, requestSize(src, request));
                     }
                     _sw.Stop();
                     Console.WriteLine("[NetworkFTP] ftpDownload : " + dest + " downloaded !");
-                    //_progress.Value = 0;
                 }
             }
             catch (WebException e)
@@ -176,10 +166,10 @@ namespace WindowsFormsApplication2.Sources
         }
 
         // Afficher les infos d'upload ou de download sur la progressBar
-        public void printProgressInfo(string filename)
+        public void printProgressInfo(string filename, long min, int max)
         {
-            float speed = _progress.Value / (float)_sw.Elapsed.TotalSeconds;
-            float percent = ((float)_progress.Value / _progress.Maximum) * 100f;
+            float speed = min / (float)_sw.Elapsed.TotalSeconds;
+            float percent = ((float)min / max) * 100f;
 
             string perSeconds = (int)(speed / 1000) + " Kio/s";
             string percentage = ((int)percent).ToString() + "%";
@@ -193,8 +183,6 @@ namespace WindowsFormsApplication2.Sources
             string[] localFiles = File.ReadAllLines(local);
             string[] serverFiles = File.ReadAllLines(server);
 
-            //_total.Maximum = serverFiles.Length;
-            //_total.Value = 0;
             Boolean found;
             int i = 0;
             int start = 0;
@@ -228,9 +216,7 @@ namespace WindowsFormsApplication2.Sources
                     Directory.CreateDirectory(file.Substring(0, file.LastIndexOf('/')));
                     ftpDownload("Franpette/" + file, file, worker);
                 }
-                //if (_total.Value + 1 <= _total.Maximum) _total.Value++;
             }
-            //_total.Value = 0;
         }
 
         // Upload des fichiers
@@ -239,8 +225,6 @@ namespace WindowsFormsApplication2.Sources
             string[] localFiles = File.ReadAllLines(server);
             string[] serverFiles = File.ReadAllLines(local);
 
-            //_total.Maximum = localFiles.Length;
-            //_total.Value = 0;
             Boolean found;
             int i = 0;
             int start = 0;
@@ -269,9 +253,7 @@ namespace WindowsFormsApplication2.Sources
                     i++;
                 }
                 if (!found) ftpUpload(file, "Franpette/" + file, worker);
-                //if (_total.Value + 1 <= _total.Maximum) _total.Value++;
             }
-            //_total.Value = 0;
         }
     }
 }
