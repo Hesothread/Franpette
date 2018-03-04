@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Renci.SshNet;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -21,7 +22,7 @@ namespace WindowsFormsApplication2
             _actuelSatus = new Dictionary<EInfo, string>();
 
             _franpette.connect(address, login, password);
-
+            ssh(address, login, password);
             refreshInfo();
         }
 
@@ -129,6 +130,15 @@ namespace WindowsFormsApplication2
         {
             ftp_progressBar.Value = 0;
             refreshInfo();
+        }
+
+        private void ssh(string host, string login, string passwd)
+        {
+            SshClient sshclient = new SshClient(host, login, passwd);
+            sshclient.Connect();
+            SshCommand sc = sshclient.CreateCommand("md5sum Franpette/Minecraft/La_der_des_der/minecraft_server.jar");
+            sc.Execute();
+            Console.WriteLine(sc.Result);
         }
     }
 }
