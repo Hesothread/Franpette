@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Forms;
 using WindowsFormsApplication2.Sources.Network;
@@ -33,11 +34,11 @@ namespace WindowsFormsApplication2.Sources.Franpette
             return _isMinecraftUpToDate;
         }
 
-        public Boolean minecraftUpdate()
+        public Boolean minecraftUpdate(BackgroundWorker worker)
         {
             if (_data[EInfo.MINECRAFTSTATE] != "Start")
             {
-                if (!_network.downloadFile(ETarget.MINECRAFT))
+                if (!_network.downloadFile(ETarget.MINECRAFT, worker))
                 {
                     Console.WriteLine("[FRANPETTE] Minecraft Update : can't download files");
                     _isMinecraftUpToDate = false;
@@ -74,7 +75,7 @@ namespace WindowsFormsApplication2.Sources.Franpette
             _serialisation.setInfoValue(_data);
             _serialisation.Serialise();
             // Upload new status
-            _network.uploadFile(ETarget.FRANPETTE);
+            //_network.uploadFile(ETarget.FRANPETTE);
 
             Console.WriteLine("[FRANPETTE] minecraftStart : starting server...");
             Process process = new Process();
@@ -85,7 +86,7 @@ namespace WindowsFormsApplication2.Sources.Franpette
             Console.WriteLine("[FRANPETTE] minecraftStart : server started !");
         }
 
-        public void minecraftStop()
+        public void minecraftStop(BackgroundWorker worker)
         {
             // New Minecraft status values
             _data[EInfo.MINECRAFTDATE] = DateTime.Now.ToString();
@@ -98,13 +99,13 @@ namespace WindowsFormsApplication2.Sources.Franpette
             _serialisation.setInfoValue(_data);
             _serialisation.Serialise();
             // Upload new status
-            _network.uploadFile(ETarget.MINECRAFT);
-            _network.uploadFile(ETarget.FRANPETTE);
+            _network.uploadFile(ETarget.MINECRAFT, worker);
+            _network.uploadFile(ETarget.FRANPETTE, worker);
 
             Console.WriteLine("[FRANPETTE] minecraftStop : server stoped !");
         }
 
-        public void editMOTD(string message)
+        public void editMOTD(string message, BackgroundWorker worker)
         {
             // New Message of the day
             _data[EInfo.FRANPETTEMESSAGEOFTHEDAY] = message;
@@ -113,12 +114,12 @@ namespace WindowsFormsApplication2.Sources.Franpette
             _serialisation.setInfoValue(_data);
             _serialisation.Serialise();
             // Upload new status
-            _network.uploadFile(ETarget.FRANPETTE);
+            _network.uploadFile(ETarget.FRANPETTE, worker);
         }
 
-        public void infoUpdate()
+        public void infoUpdate(BackgroundWorker worker)
         {
-            _network.downloadFile(ETarget.FRANPETTE);
+            _network.downloadFile(ETarget.FRANPETTE, worker);
             _serialisation.Deserialise("FranpetteStatus.xml");
             _data = _serialisation.getInfoValue();
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace WindowsFormsApplication2.Sources.Network
 {
@@ -13,7 +14,7 @@ namespace WindowsFormsApplication2.Sources.Network
         Boolean connect(String address);
         Boolean login(String login, String password);
 
-        Boolean downloadFile(ETarget target);
-        Boolean uploadFile(ETarget target);
+        Boolean downloadFile(ETarget target, BackgroundWorker worker);
+        Boolean uploadFile(ETarget target, BackgroundWorker worker);
     }
 }

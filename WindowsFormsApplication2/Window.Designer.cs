@@ -45,6 +45,8 @@
             this.refresh_button = new System.Windows.Forms.Button();
             this.MOTD_textBox = new System.Windows.Forms.TextBox();
             this.MOTD_label = new System.Windows.Forms.Label();
+            this.refresh_info = new System.ComponentModel.BackgroundWorker();
+            this.minecraft_toogle = new System.ComponentModel.BackgroundWorker();
             this.apps_groupbox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -89,9 +91,9 @@
             // 
             this.host_button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(99)))), ((int)(((byte)(130)))));
             this.host_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.host_button.Location = new System.Drawing.Point(584, 19);
+            this.host_button.Location = new System.Drawing.Point(577, 19);
             this.host_button.Name = "host_button";
-            this.host_button.Size = new System.Drawing.Size(94, 23);
+            this.host_button.Size = new System.Drawing.Size(107, 23);
             this.host_button.TabIndex = 10;
             this.host_button.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.host_button.UseVisualStyleBackColor = false;
@@ -100,7 +102,7 @@
             // host_label
             // 
             this.host_label.AutoSize = true;
-            this.host_label.Location = new System.Drawing.Point(534, 24);
+            this.host_label.Location = new System.Drawing.Point(525, 24);
             this.host_label.Name = "host_label";
             this.host_label.Size = new System.Drawing.Size(55, 16);
             this.host_label.TabIndex = 9;
@@ -110,7 +112,7 @@
             // 
             this.user_value.AutoSize = true;
             this.user_value.ForeColor = System.Drawing.Color.White;
-            this.user_value.Location = new System.Drawing.Point(455, 24);
+            this.user_value.Location = new System.Drawing.Point(449, 24);
             this.user_value.Name = "user_value";
             this.user_value.Size = new System.Drawing.Size(65, 16);
             this.user_value.TabIndex = 8;
@@ -120,7 +122,7 @@
             // 
             this.user_label.AutoSize = true;
             this.user_label.ForeColor = System.Drawing.Color.White;
-            this.user_label.Location = new System.Drawing.Point(418, 24);
+            this.user_label.Location = new System.Drawing.Point(411, 24);
             this.user_label.Name = "user_label";
             this.user_label.Size = new System.Drawing.Size(41, 16);
             this.user_label.TabIndex = 7;
@@ -130,7 +132,7 @@
             // 
             this.date_value.AutoSize = true;
             this.date_value.ForeColor = System.Drawing.Color.White;
-            this.date_value.Location = new System.Drawing.Point(267, 24);
+            this.date_value.Location = new System.Drawing.Point(258, 24);
             this.date_value.Name = "date_value";
             this.date_value.Size = new System.Drawing.Size(144, 16);
             this.date_value.TabIndex = 6;
@@ -140,7 +142,7 @@
             // 
             this.date_label.AutoSize = true;
             this.date_label.ForeColor = System.Drawing.Color.White;
-            this.date_label.Location = new System.Drawing.Point(230, 24);
+            this.date_label.Location = new System.Drawing.Point(219, 22);
             this.date_label.Name = "date_label";
             this.date_label.Size = new System.Drawing.Size(42, 16);
             this.date_label.TabIndex = 5;
@@ -248,6 +250,20 @@
             this.MOTD_label.Text = "message of the day";
             this.MOTD_label.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // refresh_info
+            // 
+            this.refresh_info.WorkerReportsProgress = true;
+            this.refresh_info.DoWork += new System.ComponentModel.DoWorkEventHandler(this.refresh_info_DoWork);
+            this.refresh_info.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.refresh_info_ProgressChanged);
+            this.refresh_info.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.refresh_info_RunWorkerCompleted);
+            // 
+            // minecraft_toogle
+            // 
+            this.minecraft_toogle.WorkerReportsProgress = true;
+            this.minecraft_toogle.DoWork += new System.ComponentModel.DoWorkEventHandler(this.minecraft_toogle_DoWork);
+            this.minecraft_toogle.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.minecraft_toogle_ProgressChanged);
+            this.minecraft_toogle.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.minecraft_toogle_RunWorkerCompleted);
+            // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -292,6 +308,8 @@
         private System.Windows.Forms.Button refresh_button;
         private System.Windows.Forms.TextBox MOTD_textBox;
         private System.Windows.Forms.Label MOTD_label;
+        private System.ComponentModel.BackgroundWorker refresh_info;
+        private System.ComponentModel.BackgroundWorker minecraft_toogle;
     }
 }
 

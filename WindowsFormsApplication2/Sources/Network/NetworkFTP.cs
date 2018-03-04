@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using WindowsFormsApplication2.Sources.Network;
 using WindowsFormsApplication2.Sources.Franpette;
+using System.ComponentModel;
 
 namespace WindowsFormsApplication2.Sources
 {
@@ -44,21 +45,21 @@ namespace WindowsFormsApplication2.Sources
         }
 
         // Actions depuis le serveur
-        public virtual Boolean downloadFile(ETarget target)
+        public virtual Boolean downloadFile(ETarget target, BackgroundWorker worker)
         {
             switch (target)
             {
                 case ETarget.FRANPETTE:
-                    ftpDownload("Franpette/FranpetteStatus.xml", "FranpetteStatus.xml");
+                    ftpDownload("Franpette/FranpetteStatus.xml", "FranpetteStatus.xml", worker);
                     break;
                 case ETarget.MINECRAFT:
                     FranpetteUtils.checkFilesToCsv("Minecraft");
-                    ftpDownload("Franpette/Minecraft.csv", "server.csv");
-                    filesToDownload("server.csv", "Minecraft.csv");
-                    if (!File.Exists("servMinecraft.bat")) ftpDownload("Franpette/servMinecraft.bat", "servMinecraft.bat");
+                    ftpDownload("Franpette/Minecraft.csv", "server.csv", worker);
+                    filesToDownload("server.csv", "Minecraft.csv", worker);
+                    if (!File.Exists("servMinecraft.bat")) ftpDownload("Franpette/servMinecraft.bat", "servMinecraft.bat", worker);
                     // Eviter de tout réuploader après un download complet !
                     FranpetteUtils.checkFilesToCsv("Minecraft");
-                    ftpUpload("Minecraft.csv", "Franpette/Minecraft.csv");
+                    ftpUpload("Minecraft.csv", "Franpette/Minecraft.csv", worker);
                     break;
                 default:
                     Console.Write("[NETWORK FTP] downloadFile : Target is missing.");
@@ -68,18 +69,18 @@ namespace WindowsFormsApplication2.Sources
         }
 
         // Actions vers le serveur
-        public virtual Boolean uploadFile(ETarget target)
+        public virtual Boolean uploadFile(ETarget target, BackgroundWorker worker)
         {
             switch (target)
             {
                 case ETarget.FRANPETTE:
-                    ftpUpload("FranpetteStatus.xml", "Franpette/FranpetteStatus.xml");
+                    ftpUpload("FranpetteStatus.xml", "Franpette/FranpetteStatus.xml", worker);
                     break;
                 case ETarget.MINECRAFT:
                     FranpetteUtils.checkFilesToCsv("Minecraft");
-                    ftpDownload("Franpette/Minecraft.csv", "server.csv");
-                    filesToUpload("Minecraft.csv", "server.csv");
-                    ftpUpload("Minecraft.csv", "Franpette/Minecraft.csv");
+                    ftpDownload("Franpette/Minecraft.csv", "server.csv", worker);
+                    filesToUpload("Minecraft.csv", "server.csv", worker);
+                    ftpUpload("Minecraft.csv", "Franpette/Minecraft.csv", worker);
                     break;
                 default:
                     Console.Write("[NETWORK FTP] uploadFile : Target is missing.");
@@ -107,7 +108,7 @@ namespace WindowsFormsApplication2.Sources
         }
 
         // Upload
-        private void ftpUpload(string src, string dest)
+        private void ftpUpload(string src, string dest, BackgroundWorker worker)
         {
             FtpWebRequest request = requestMethod(dest, WebRequestMethods.Ftp.UploadFile);
 
@@ -116,7 +117,7 @@ namespace WindowsFormsApplication2.Sources
                 using (Stream fileStream = File.OpenRead(src))
                 using (Stream ftpStream = request.GetRequestStream())
                 {
-                    _progress.Maximum = (int)fileStream.Length;
+                    //_progress.Maximum = (int)fileStream.Length;
 
                     byte[] buffer = new byte[102400];
                     int read;
@@ -125,12 +126,13 @@ namespace WindowsFormsApplication2.Sources
                     while ((read = fileStream.Read(buffer, 0, buffer.Length)) > 0)
                     {
                         ftpStream.Write(buffer, 0, read);
-                        _progress.Value = (int)fileStream.Position;
-                        printProgressInfo(src);
+                        worker.ReportProgress((int)(fileStream.Position * 100.0 / fileStream.Length));
+                        //_progress.Value = (int)fileStream.Position;
+                        //printProgressInfo(src);
                     }
                     _sw.Stop();
                     Console.WriteLine("[NetworkFTP] ftpUpload : " + src + " uploaded !");
-                    _progress.Value = 0;
+                    //_progress.Value = 0;
                 }
             }
             catch (WebException e)
@@ -140,7 +142,7 @@ namespace WindowsFormsApplication2.Sources
         }
 
         // Download
-        private void ftpDownload(string src, string dest)
+        private void ftpDownload(string src, string dest, BackgroundWorker worker)
         {
             FtpWebRequest request = requestMethod(src, WebRequestMethods.Ftp.DownloadFile);
 
@@ -149,7 +151,7 @@ namespace WindowsFormsApplication2.Sources
                 using (Stream ftpStream = request.GetResponse().GetResponseStream())
                 using (Stream fileStream = File.Create(dest))
                 {
-                    _progress.Maximum = requestSize(src, request);
+                    //_progress.Maximum = requestSize(src, request);
 
                     byte[] buffer = new byte[102400];
                     int read;
@@ -158,12 +160,13 @@ namespace WindowsFormsApplication2.Sources
                     while ((read = ftpStream.Read(buffer, 0, buffer.Length)) > 0)
                     {
                         fileStream.Write(buffer, 0, read);
-                        _progress.Value = (int)fileStream.Position;
-                        printProgressInfo(dest);
+                        worker.ReportProgress((int)(fileStream.Position * 100.0 / (float)requestSize(src, request)));
+                        //_progress.Value = (int)fileStream.Position;
+                        //printProgressInfo(dest);
                     }
                     _sw.Stop();
                     Console.WriteLine("[NetworkFTP] ftpDownload : " + dest + " downloaded !");
-                    _progress.Value = 0;
+                    //_progress.Value = 0;
                 }
             }
             catch (WebException e)
@@ -185,13 +188,13 @@ namespace WindowsFormsApplication2.Sources
         }
 
         // Téléchargement des fichiers
-        public void filesToDownload(string server, string local)
+        public void filesToDownload(string server, string local, BackgroundWorker worker)
         {
             string[] localFiles = File.ReadAllLines(local);
             string[] serverFiles = File.ReadAllLines(server);
 
-            _total.Maximum = serverFiles.Length;
-            _total.Value = 0;
+            //_total.Maximum = serverFiles.Length;
+            //_total.Value = 0;
             Boolean found;
             int i = 0;
             int start = 0;
@@ -215,7 +218,7 @@ namespace WindowsFormsApplication2.Sources
                         start++;
                         found = true;
                         Directory.CreateDirectory(file.Substring(0, file.LastIndexOf('/')));
-                        ftpDownload("Franpette/" + file, file);
+                        ftpDownload("Franpette/" + file, file, worker);
                         break;
                     }
                     i++;
@@ -223,21 +226,21 @@ namespace WindowsFormsApplication2.Sources
                 if (!found)
                 {
                     Directory.CreateDirectory(file.Substring(0, file.LastIndexOf('/')));
-                    ftpDownload("Franpette/" + file, file);
+                    ftpDownload("Franpette/" + file, file, worker);
                 }
-                if (_total.Value + 1 <= _total.Maximum) _total.Value++;
+                //if (_total.Value + 1 <= _total.Maximum) _total.Value++;
             }
-            _total.Value = 0;
+            //_total.Value = 0;
         }
 
         // Upload des fichiers
-        public void filesToUpload(string local, string server)
+        public void filesToUpload(string local, string server, BackgroundWorker worker)
         {
             string[] localFiles = File.ReadAllLines(server);
             string[] serverFiles = File.ReadAllLines(local);
 
-            _total.Maximum = localFiles.Length;
-            _total.Value = 0;
+            //_total.Maximum = localFiles.Length;
+            //_total.Value = 0;
             Boolean found;
             int i = 0;
             int start = 0;
@@ -260,15 +263,15 @@ namespace WindowsFormsApplication2.Sources
                     {
                         start++;
                         found = true;
-                        ftpUpload(file, "Franpette/" + file);
+                        ftpUpload(file, "Franpette/" + file, worker);
                         break;
                     }
                     i++;
                 }
-                if (!found) ftpUpload(file, "Franpette/" + file);
-                if (_total.Value + 1 <= _total.Maximum) _total.Value++;
+                if (!found) ftpUpload(file, "Franpette/" + file, worker);
+                //if (_total.Value + 1 <= _total.Maximum) _total.Value++;
             }
-            _total.Value = 0;
+            //_total.Value = 0;
         }
     }
 }
