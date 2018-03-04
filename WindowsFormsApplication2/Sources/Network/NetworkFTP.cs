@@ -30,26 +30,16 @@ namespace WindowsFormsApplication2.Sources
             _textPos = new PointF(10, _progress.Height / 2 - 7);
         }
 
-        public Boolean connect(String address)
+        public Boolean connect(string address)
         {
             _address = address;
             return true;
         }
 
-        public Boolean disconnect()
-        {
-            return true;
-        }
-
-        public Boolean login(String login, String password)
+        public Boolean login(string login, string password)
         {
             _login = login;
             _password = password;
-            return true;
-        }
-
-        public Boolean logout()
-        {
             return true;
         }
 
@@ -94,35 +84,6 @@ namespace WindowsFormsApplication2.Sources
                 default:
                     Console.Write("[NETWORK FTP] uploadFile : Target is missing.");
                     break;
-            }
-            return true;
-        }
-
-
-        public Boolean isConnected()
-        {
-            try
-            {
-                FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://" + _address + "/");
-                request.Credentials = new NetworkCredential(_login, _password);
-                request.Method = WebRequestMethods.Ftp.PrintWorkingDirectory;
-                FtpWebResponse uploadResponse = (FtpWebResponse)request.GetResponse();
-                uploadResponse.Close();
-            }
-            catch (WebException ex)
-            {
-                FtpWebResponse response = (FtpWebResponse)ex.Response;
-                switch (response.StatusCode)
-                {
-                    case FtpStatusCode.NotLoggedIn:
-                        Console.WriteLine("You entered invalid username/password. Try again.");
-                        break;
-
-                    default:
-                        Console.WriteLine("The server is inaccessible or taking too long to respond.");
-                        break;
-                }
-                return false;
             }
             return true;
         }

@@ -17,14 +17,9 @@ namespace WindowsFormsApplication2.Sources.Network
     interface IFranpetteNetwork
     {
         Boolean connect(String address);
-        Boolean disconnect();
-
         Boolean login(String login, String password);
-        Boolean logout();
 
         Boolean downloadFile(ETarget target);
         Boolean uploadFile(ETarget target);
-
-        Boolean isConnected();
     }
 }

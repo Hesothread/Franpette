@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Net.Sockets;
 
 namespace WindowsFormsApplication2.Sources.Franpette
@@ -8,11 +9,6 @@ namespace WindowsFormsApplication2.Sources.Franpette
     static class FranpetteUtils
     {
         static string _appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-        public static string getAppdata()
-        {
-            return _appdata;
-        }
 
         // Sauvegarder les credentials dans Appdata
         public static void saveCredentials(string address, string login, string password)
@@ -24,6 +20,18 @@ namespace WindowsFormsApplication2.Sources.Franpette
             credentials[2] = password;
             Directory.CreateDirectory(_appdata + "/.franpette");
             File.WriteAllLines(_appdata + "/.franpette/franpette.credentials", credentials);
+        }
+
+        // Récupère les identifiants sauvegardés dans Appdata
+        public static string[] getCredentials()
+        {
+            string file = _appdata + "/.franpette/franpette.credentials";
+
+            if (File.Exists(file))
+            {
+                return File.ReadAllLines(file);
+            }
+            return null;
         }
 
         // Crée un fichier.csv d'informations des fichiers d'un dossier
@@ -38,6 +46,35 @@ namespace WindowsFormsApplication2.Sources.Franpette
             }
             File.WriteAllLines(folder + ".csv", files.ToArray());
             Console.WriteLine("[NetworkFTP] checkFilesToCsv : " + folder + ".csv created successfuly !");
+        }
+
+        // Vérifie si les identifiants sont corrects
+        public static Boolean isValidConnection(string address, string login, string password)
+        {
+            try
+            {
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://" + address + "/");
+                request.Credentials = new NetworkCredential(login, password);
+                request.Method = WebRequestMethods.Ftp.PrintWorkingDirectory;
+                FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+                response.Close();
+            }
+            catch (WebException ex)
+            {
+                FtpWebResponse response = (FtpWebResponse)ex.Response;
+                switch (response.StatusCode)
+                {
+                    case FtpStatusCode.NotLoggedIn:
+                        Console.WriteLine("You entered invalid username/password. Try again.");
+                        break;
+
+                    default:
+                        Console.WriteLine("The server is inaccessible or taking too long to respond.");
+                        break;
+                }
+                return false;
+            }
+            return true;
         }
 
         // Vérifie si le port est ouvert
@@ -64,7 +101,7 @@ namespace WindowsFormsApplication2.Sources.Franpette
         // Récupère l'IP internet
         public static string getInternetIp()
         {
-            System.Net.WebClient wc = new System.Net.WebClient();
+            WebClient wc = new WebClient();
             string strIP = wc.DownloadString("http://checkip.dyndns.org");
             strIP = (new System.Text.RegularExpressions.Regex(@"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b")).Match(strIP).Value;
             wc.Dispose();

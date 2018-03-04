@@ -22,27 +22,11 @@ namespace WindowsFormsApplication2.Sources.Franpette
 
         private Boolean _isMinecraftUpToDate = false;
 
-        public FranpetteCore(ProgressBar progressBar, ProgressBar totalBar, String login, String password, String address)
+        public FranpetteCore(ProgressBar progressBar, ProgressBar totalBar)
         {
             _data = new Dictionary<EInfo, String>();
             _serialisation = new XMLInfoSerialisation();
             _network = new NetworkFTP(progressBar, totalBar);
-        }
-
-        public void connect(String address, String login, String password)
-        {
-            _network.connect(address);
-            _network.login(login, password);
-        }
-
-        public void disconnect()
-        {
-            _network.disconnect();
-        }
-
-        public Boolean isConnected()
-        {
-            return _network.isConnected();
         }
 
         internal  Dictionary<EInfo, String> getInfoValue()
@@ -75,6 +59,12 @@ namespace WindowsFormsApplication2.Sources.Franpette
             Console.WriteLine("[FRANPETTE] Minecraft Update : update finished.");
             _isMinecraftUpToDate = true;
             return true;
+        }
+
+        public void connect(string address, string login, string password)
+        {
+            _network.connect(address);
+            _network.login(login, password);
         }
 
         public void minecraftStart()
