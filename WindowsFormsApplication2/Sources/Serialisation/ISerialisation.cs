@@ -22,7 +22,6 @@ namespace WindowsFormsApplication2.Sources.Serialisation
     {
         Boolean Serialise();
         Boolean Deserialise(String fineName);
-        Boolean Backup();
 
         Dictionary<EInfo, String> getInfoValue();
         void setInfoValue(Dictionary<EInfo, String> val);

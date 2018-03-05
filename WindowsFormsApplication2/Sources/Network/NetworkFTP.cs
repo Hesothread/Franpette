@@ -16,7 +16,7 @@ namespace WindowsFormsApplication2.Sources
         private Label       _progress;
         private Font        _font;
         private PointF      _textPos;
-
+        
         private String      _password;
         private String      _login;
         private String      _address;
@@ -49,7 +49,6 @@ namespace WindowsFormsApplication2.Sources
             {
                 case ETarget.FRANPETTE:
                     ftpDownload("Franpette/FranpetteStatus.xml", "FranpetteStatus.xml", worker);
-                    //ftpDownload("Franpette/Minecraft/La_der_des_der/minecraft_server.jar", "test.jar", worker);
                     break;
                 case ETarget.MINECRAFT:
                     FranpetteUtils.checkFilesToCsv("Minecraft");
@@ -61,7 +60,7 @@ namespace WindowsFormsApplication2.Sources
                     ftpUpload("Minecraft.csv", "Franpette/Minecraft.csv", worker);
                     break;
                 default:
-                    Console.Write("[NETWORK FTP] downloadFile : Target is missing.");
+                    FranpetteUtils.logs("[NetworkFTP] downloadFile : Target is missing.");
                     break;
             }
             return true;
@@ -82,7 +81,7 @@ namespace WindowsFormsApplication2.Sources
                     ftpUpload("Minecraft.csv", "Franpette/Minecraft.csv", worker);
                     break;
                 default:
-                    Console.Write("[NETWORK FTP] uploadFile : Target is missing.");
+                    FranpetteUtils.logs("[NetworkFTP] uploadFile : Target is missing.");
                     break;
             }
             return true;
@@ -121,7 +120,7 @@ namespace WindowsFormsApplication2.Sources
                     byte[] buffer = new byte[10240];
                     int read;
                     _sw.Start();
-                    Console.WriteLine("[NetworkFTP] ftpUpload : ...uploading " + src);
+                    FranpetteUtils.logs("[NetworkFTP] ftpUpload : ...uploading " + src);
                     while ((read = fileStream.Read(buffer, 0, buffer.Length)) > 0)
                     {
                         ftpStream.Write(buffer, 0, read);
@@ -129,12 +128,12 @@ namespace WindowsFormsApplication2.Sources
                         printProgressInfo(src, fileStream.Position, (int)fileStream.Length);
                     }
                     _sw.Stop();
-                    Console.WriteLine("[NetworkFTP] ftpUpload : " + src + " uploaded !");
+                    FranpetteUtils.logs("[NetworkFTP] ftpUpload : " + src + " uploaded !");
                 }
             }
             catch (WebException e)
             {
-                Console.WriteLine("[NetworkFTP] ftpDownload : " + e.Message);
+                FranpetteUtils.logs("[NetworkFTP] ftpDownload : " + e.Message);
             }
         }
 
@@ -154,7 +153,7 @@ namespace WindowsFormsApplication2.Sources
                     byte[] buffer = new byte[102400];
                     int read;
                     _sw.Start();
-                    Console.WriteLine("[NetworkFTP] ftpDownload : ...downloading " + dest);
+                    FranpetteUtils.logs("[NetworkFTP] ftpDownload : ...downloading " + dest);
                     while ((read = ftpStream.Read(buffer, 0, buffer.Length)) > 0)
                     {
                         fileStream.Write(buffer, 0, read);
@@ -162,12 +161,12 @@ namespace WindowsFormsApplication2.Sources
                         printProgressInfo(dest, fileStream.Position, total);
                     }
                     _sw.Stop();
-                    Console.WriteLine("[NetworkFTP] ftpDownload : " + dest + " downloaded !");
+                    FranpetteUtils.logs("[NetworkFTP] ftpDownload : " + dest + " downloaded !");
                 }
             }
             catch (WebException e)
             {
-                Console.WriteLine("[NetworkFTP] ftpDownload : " + e.Message);
+                FranpetteUtils.logs("[NetworkFTP] ftpDownload : " + e.Message);
             }
         }
 
@@ -193,6 +192,8 @@ namespace WindowsFormsApplication2.Sources
         // Téléchargement des fichiers
         public void filesToDownload(string server, string local, BackgroundWorker worker)
         {
+            FranpetteUtils.logs("[NetworkFTP] filesToDownload");
+
             string[] localFiles = File.ReadAllLines(local);
             string[] serverFiles = File.ReadAllLines(server);
 
@@ -220,8 +221,10 @@ namespace WindowsFormsApplication2.Sources
                         start++;
                         found = true;
                         Directory.CreateDirectory(file.Substring(0, file.LastIndexOf('/')));
-                        if (!FranpetteUtils.sshCommand(_address, _login, _password, "md5sum Franpette/" + file).Contains(FranpetteUtils.getMd5(file)))
+                        if (FranpetteUtils.ssh(_address, _login, _password, "md5sum Franpette/" + file + " | cut -d' ' -f1") != FranpetteUtils.getMd5(file))
+                        {
                             ftpDownload("Franpette/" + file, file, worker);
+                        }
                         break;
                     }
                     i++;
@@ -265,8 +268,10 @@ namespace WindowsFormsApplication2.Sources
                     {
                         start++;
                         found = true;
-                        if (!FranpetteUtils.sshCommand(_address, _login, _password, "md5sum Franpette/" + file).Contains(FranpetteUtils.getMd5(file)))
+                        if (FranpetteUtils.ssh(_address, _login, _password, "md5sum Franpette/" + file + " | cut -d' ' -f1") != FranpetteUtils.getMd5(file))
+                        {
                             ftpUpload(file, "Franpette/" + file, worker);
+                        }
                         break;
                     }
                     i++;

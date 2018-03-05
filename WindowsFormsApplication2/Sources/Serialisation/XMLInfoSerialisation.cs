@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
+using WindowsFormsApplication2.Sources.Franpette;
 
 namespace WindowsFormsApplication2.Sources.Serialisation
 {
@@ -14,7 +15,7 @@ namespace WindowsFormsApplication2.Sources.Serialisation
 
         public Boolean Serialise()
         {
-            Console.WriteLine("[XMLInfoSerialisation] Serialise : " + _fileName);
+            FranpetteUtils.logs("[XMLInfoSerialisation] Serialise : " + _fileName);
             _xmlInfo.Load(_fileName);
 
             _xmlInfo.DocumentElement.SelectSingleNode("/root/franpette/version").InnerText = _fileValue[EInfo.FRANPETTEVERSION];
@@ -35,7 +36,7 @@ namespace WindowsFormsApplication2.Sources.Serialisation
 
             if (!File.Exists(_fileName))
             {
-                Console.WriteLine("[XMLInfoSerialisation] Deserialise : " + _fileName + " was not found");
+                FranpetteUtils.logs("[XMLInfoSerialisation] Deserialise : " + _fileName + " was not found");
                 return false;
             }
             _xmlInfo.Load(_fileName);
@@ -48,19 +49,7 @@ namespace WindowsFormsApplication2.Sources.Serialisation
             _fileValue.Add(EInfo.MINECRAFTDATE, _xmlInfo.DocumentElement.SelectSingleNode("/root/minecraft/date").InnerText);
             _fileValue.Add(EInfo.MINECRAFTSTATE, _xmlInfo.DocumentElement.SelectSingleNode("/root/minecraft/state").InnerText);
 
-            Console.WriteLine("[XMLInfoSerialisation] Deserialise : " + _fileName + " ...Done");
-            return true;
-        }
-
-        public Boolean Backup()
-        {
-            if (!Directory.Exists(@"old"))
-            {
-                Directory.CreateDirectory(@"old");
-                return false;
-            }
-            if (File.Exists( _fileName))
-                File.Copy(_fileName, @"old\\" + _fileName, true);
+            FranpetteUtils.logs("[XMLInfoSerialisation] Deserialise : " + _fileName + " ...Done");
             return true;
         }
 

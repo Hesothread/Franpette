@@ -12,7 +12,7 @@ namespace WindowsFormsApplication2
     {
         public FranpetteCore _franpette;
         private Dictionary<EInfo, String> _actuelSatus;
-        
+
         public Window(string address, string login, string password)
         {
             InitializeComponent();

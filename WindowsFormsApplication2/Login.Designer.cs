@@ -32,7 +32,6 @@
             this.username_textBox = new System.Windows.Forms.TextBox();
             this.password_textBox = new System.Windows.Forms.TextBox();
             this.address_textBox = new System.Windows.Forms.TextBox();
-            this.login_title_label = new System.Windows.Forms.Label();
             this.login_button = new System.Windows.Forms.Button();
             this.username_pictureBox = new System.Windows.Forms.PictureBox();
             this.password_pictureBox = new System.Windows.Forms.PictureBox();
@@ -44,9 +43,11 @@
             this.username_placeholder = new System.Windows.Forms.TextBox();
             this.password_placeholder = new System.Windows.Forms.TextBox();
             this.address_placeholder = new System.Windows.Forms.TextBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.username_pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.password_pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.address_pictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // username_textBox
@@ -57,7 +58,7 @@
             this.username_textBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.username_textBox.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.username_textBox.ForeColor = System.Drawing.Color.White;
-            this.username_textBox.Location = new System.Drawing.Point(97, 122);
+            this.username_textBox.Location = new System.Drawing.Point(97, 204);
             this.username_textBox.Name = "username_textBox";
             this.username_textBox.Size = new System.Drawing.Size(280, 25);
             this.username_textBox.TabIndex = 0;
@@ -73,7 +74,7 @@
             this.password_textBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.password_textBox.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.password_textBox.ForeColor = System.Drawing.Color.White;
-            this.password_textBox.Location = new System.Drawing.Point(97, 175);
+            this.password_textBox.Location = new System.Drawing.Point(97, 257);
             this.password_textBox.Name = "password_textBox";
             this.password_textBox.Size = new System.Drawing.Size(280, 25);
             this.password_textBox.TabIndex = 1;
@@ -90,25 +91,13 @@
             this.address_textBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.address_textBox.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.address_textBox.ForeColor = System.Drawing.Color.White;
-            this.address_textBox.Location = new System.Drawing.Point(97, 225);
+            this.address_textBox.Location = new System.Drawing.Point(97, 307);
             this.address_textBox.Name = "address_textBox";
             this.address_textBox.Size = new System.Drawing.Size(280, 25);
             this.address_textBox.TabIndex = 2;
             this.address_textBox.TabStop = false;
             this.address_textBox.TextChanged += new System.EventHandler(this.address_textBox_TextChanged);
             this.address_textBox.Enter += new System.EventHandler(this.address_textBox_Enter);
-            // 
-            // login_title_label
-            // 
-            this.login_title_label.Dock = System.Windows.Forms.DockStyle.Top;
-            this.login_title_label.Font = new System.Drawing.Font("Lucida Sans Unicode", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.login_title_label.ForeColor = System.Drawing.Color.White;
-            this.login_title_label.Location = new System.Drawing.Point(0, 0);
-            this.login_title_label.Name = "login_title_label";
-            this.login_title_label.Size = new System.Drawing.Size(434, 87);
-            this.login_title_label.TabIndex = 3;
-            this.login_title_label.Text = "HELLO ;)";
-            this.login_title_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // login_button
             // 
@@ -118,7 +107,7 @@
             this.login_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.login_button.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.login_button.ForeColor = System.Drawing.Color.White;
-            this.login_button.Location = new System.Drawing.Point(59, 311);
+            this.login_button.Location = new System.Drawing.Point(59, 411);
             this.login_button.Name = "login_button";
             this.login_button.Size = new System.Drawing.Size(318, 50);
             this.login_button.TabIndex = 4;
@@ -129,7 +118,7 @@
             // username_pictureBox
             // 
             this.username_pictureBox.Image = ((System.Drawing.Image)(resources.GetObject("username_pictureBox.Image")));
-            this.username_pictureBox.Location = new System.Drawing.Point(59, 115);
+            this.username_pictureBox.Location = new System.Drawing.Point(59, 197);
             this.username_pictureBox.Name = "username_pictureBox";
             this.username_pictureBox.Size = new System.Drawing.Size(32, 32);
             this.username_pictureBox.TabIndex = 5;
@@ -138,7 +127,7 @@
             // password_pictureBox
             // 
             this.password_pictureBox.Image = ((System.Drawing.Image)(resources.GetObject("password_pictureBox.Image")));
-            this.password_pictureBox.Location = new System.Drawing.Point(59, 168);
+            this.password_pictureBox.Location = new System.Drawing.Point(59, 250);
             this.password_pictureBox.Name = "password_pictureBox";
             this.password_pictureBox.Size = new System.Drawing.Size(32, 32);
             this.password_pictureBox.TabIndex = 6;
@@ -147,7 +136,7 @@
             // address_pictureBox
             // 
             this.address_pictureBox.Image = ((System.Drawing.Image)(resources.GetObject("address_pictureBox.Image")));
-            this.address_pictureBox.Location = new System.Drawing.Point(59, 218);
+            this.address_pictureBox.Location = new System.Drawing.Point(59, 300);
             this.address_pictureBox.Name = "address_pictureBox";
             this.address_pictureBox.Size = new System.Drawing.Size(32, 32);
             this.address_pictureBox.TabIndex = 7;
@@ -158,7 +147,7 @@
             this.remember_checkBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.remember_checkBox.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.remember_checkBox.ForeColor = System.Drawing.Color.White;
-            this.remember_checkBox.Location = new System.Drawing.Point(59, 278);
+            this.remember_checkBox.Location = new System.Drawing.Point(59, 378);
             this.remember_checkBox.Name = "remember_checkBox";
             this.remember_checkBox.Size = new System.Drawing.Size(121, 27);
             this.remember_checkBox.TabIndex = 8;
@@ -179,7 +168,7 @@
             this.error.Cursor = System.Windows.Forms.Cursors.Default;
             this.error.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.error.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(57)))), ((int)(((byte)(43)))));
-            this.error.Location = new System.Drawing.Point(12, 367);
+            this.error.Location = new System.Drawing.Point(12, 467);
             this.error.Name = "error";
             this.error.Size = new System.Drawing.Size(410, 25);
             this.error.TabIndex = 9;
@@ -191,11 +180,11 @@
             this.build.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.build.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.build.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.build.Location = new System.Drawing.Point(0, 395);
+            this.build.Location = new System.Drawing.Point(0, 495);
             this.build.Name = "build";
             this.build.Size = new System.Drawing.Size(434, 16);
             this.build.TabIndex = 10;
-            this.build.Text = "build 2.6";
+            this.build.Text = "v2.6";
             this.build.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
             // username_placeholder
@@ -206,7 +195,7 @@
             this.username_placeholder.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.username_placeholder.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.username_placeholder.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.username_placeholder.Location = new System.Drawing.Point(97, 122);
+            this.username_placeholder.Location = new System.Drawing.Point(97, 204);
             this.username_placeholder.Name = "username_placeholder";
             this.username_placeholder.Size = new System.Drawing.Size(280, 25);
             this.username_placeholder.TabIndex = 11;
@@ -221,7 +210,7 @@
             this.password_placeholder.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.password_placeholder.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.password_placeholder.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.password_placeholder.Location = new System.Drawing.Point(97, 175);
+            this.password_placeholder.Location = new System.Drawing.Point(97, 257);
             this.password_placeholder.Name = "password_placeholder";
             this.password_placeholder.Size = new System.Drawing.Size(280, 25);
             this.password_placeholder.TabIndex = 12;
@@ -236,23 +225,33 @@
             this.address_placeholder.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.address_placeholder.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.address_placeholder.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.address_placeholder.Location = new System.Drawing.Point(97, 225);
+            this.address_placeholder.Location = new System.Drawing.Point(97, 307);
             this.address_placeholder.Name = "address_placeholder";
             this.address_placeholder.Size = new System.Drawing.Size(280, 25);
             this.address_placeholder.TabIndex = 13;
             this.address_placeholder.Text = "Server IP or domain";
             this.address_placeholder.Enter += new System.EventHandler(this.address_placeholder_Enter);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(145, 26);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(128, 128);
+            this.pictureBox1.TabIndex = 14;
+            this.pictureBox1.TabStop = false;
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(100)))), ((int)(((byte)(130)))));
-            this.ClientSize = new System.Drawing.Size(434, 411);
+            this.ClientSize = new System.Drawing.Size(434, 511);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.address_placeholder);
             this.Controls.Add(this.password_placeholder);
             this.Controls.Add(this.username_placeholder);
-            this.Controls.Add(this.login_title_label);
             this.Controls.Add(this.build);
             this.Controls.Add(this.error);
             this.Controls.Add(this.remember_checkBox);
@@ -265,16 +264,18 @@
             this.Controls.Add(this.username_textBox);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(450, 450);
-            this.MinimumSize = new System.Drawing.Size(350, 450);
+            this.MaximumSize = new System.Drawing.Size(450, 550);
+            this.MinimumSize = new System.Drawing.Size(350, 550);
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Franpette";
+            this.Text = "Franpette - host your friends";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Login_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.username_pictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.password_pictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.address_pictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -285,7 +286,6 @@
         private System.Windows.Forms.TextBox username_textBox;
         private System.Windows.Forms.TextBox password_textBox;
         private System.Windows.Forms.TextBox address_textBox;
-        private System.Windows.Forms.Label login_title_label;
         private System.Windows.Forms.Button login_button;
         private System.Windows.Forms.PictureBox username_pictureBox;
         private System.Windows.Forms.PictureBox password_pictureBox;
@@ -297,5 +297,6 @@
         private System.Windows.Forms.TextBox username_placeholder;
         private System.Windows.Forms.TextBox password_placeholder;
         private System.Windows.Forms.TextBox address_placeholder;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

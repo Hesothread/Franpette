@@ -90,9 +90,9 @@ namespace WindowsFormsApplication2
             Graphics g = e.Graphics;
             Pen p = new Pen(Color.White, 1);
             int x2 = ClientRectangle.Width - 65;
-            g.DrawLine(p, 97, 150, x2, 150);
-            g.DrawLine(p, 97, 200, x2, 200);
-            g.DrawLine(p, 97, 250, x2, 250);
+            g.DrawLine(p, 97, 232, x2, 232);
+            g.DrawLine(p, 97, 282, x2, 282);
+            g.DrawLine(p, 97, 332, x2, 332);
             g.Dispose();
         }
 

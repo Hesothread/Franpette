@@ -34,36 +34,40 @@ namespace WindowsFormsApplication2.Sources.Franpette
             return _isMinecraftUpToDate;
         }
 
-        public Boolean minecraftUpdate(BackgroundWorker worker)
-        {
-            if (_data[EInfo.MINECRAFTSTATE] != "Start")
-            {
-                if (!_network.downloadFile(ETarget.MINECRAFT, worker))
-                {
-                    Console.WriteLine("[FRANPETTE] Minecraft Update : can't download files");
-                    _isMinecraftUpToDate = false;
-                    return false;
-                }
-            }
-            else
-            {
-                Console.WriteLine("[FRANPETTE] Minecraft Update : Minecraft state is already Start");
-                _isMinecraftUpToDate = false;
-                return false;
-            }
-            Console.WriteLine("[FRANPETTE] Minecraft Update : update finished.");
-            _isMinecraftUpToDate = true;
-            return true;
-        }
-
         public void connect(string address, string login, string password)
         {
             _network.connect(address);
             _network.login(login, password);
         }
 
+        public Boolean minecraftUpdate(BackgroundWorker worker)
+        {
+            FranpetteUtils.logs("[FRANPETTE] minecraftUpdate");
+
+            if (_data[EInfo.MINECRAFTSTATE] != "Start")
+            {
+                if (!_network.downloadFile(ETarget.MINECRAFT, worker))
+                {
+                    FranpetteUtils.logs("[FRANPETTE] minecraftUpdate : can't download files");
+                    _isMinecraftUpToDate = false;
+                    return false;
+                }
+            }
+            else
+            {
+                FranpetteUtils.logs("[FRANPETTE] minecraftUpdate : Minecraft state is already Start");
+                _isMinecraftUpToDate = false;
+                return false;
+            }
+            FranpetteUtils.logs("[FRANPETTE] minecraftUpdate : update finished.");
+            _isMinecraftUpToDate = true;
+            return true;
+        }
+
         public void minecraftStart(BackgroundWorker worker)
         {
+            FranpetteUtils.logs("[FRANPETTE] minecraftStart");
+
             // New Minecraft status values
             _data[EInfo.MINECRAFTDATE] = DateTime.Now.ToString();
             _data[EInfo.MINECRAFTIP] = FranpetteUtils.getInternetIp();
@@ -77,17 +81,19 @@ namespace WindowsFormsApplication2.Sources.Franpette
             // Upload new status
             _network.uploadFile(ETarget.FRANPETTE, worker);
 
-            Console.WriteLine("[FRANPETTE] minecraftStart : starting server...");
+            FranpetteUtils.logs("[FRANPETTE] minecraftStart : starting server...");
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = "servMinecraft.bat";
             process.StartInfo = startInfo;
             process.Start();
-            Console.WriteLine("[FRANPETTE] minecraftStart : server started !");
+            FranpetteUtils.logs("[FRANPETTE] minecraftStart : server started !");
         }
 
         public void minecraftStop(BackgroundWorker worker)
         {
+            FranpetteUtils.logs("[FRANPETTE] minecraftStop");
+
             // New Minecraft status values
             _data[EInfo.MINECRAFTDATE] = DateTime.Now.ToString();
             _data[EInfo.MINECRAFTIP] = "NaN";
@@ -102,7 +108,7 @@ namespace WindowsFormsApplication2.Sources.Franpette
             _network.uploadFile(ETarget.MINECRAFT, worker);
             _network.uploadFile(ETarget.FRANPETTE, worker);
 
-            Console.WriteLine("[FRANPETTE] minecraftStop : server stoped !");
+            FranpetteUtils.logs("[FRANPETTE] minecraftStop : server stoped !");
         }
 
         public void editMOTD(string message, BackgroundWorker worker)

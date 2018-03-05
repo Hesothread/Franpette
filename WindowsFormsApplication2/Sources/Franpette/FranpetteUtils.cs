@@ -12,6 +12,21 @@ namespace WindowsFormsApplication2.Sources.Franpette
     {
         static string _appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
+        public static void logs(string text)
+        {
+            string path = "logs.txt";
+
+            if (!File.Exists(path))
+            {
+                using (StreamWriter sw = File.CreateText(path)) sw.WriteLine(DateTime.Now.ToString() + " " + text);
+            }
+            else
+            {
+                using (StreamWriter sw = File.AppendText(path)) sw.WriteLine(DateTime.Now.ToString() + " " + text);
+            }
+            Console.WriteLine(text);
+        }
+
         // Sauvegarder les credentials dans Appdata
         public static void saveCredentials(string address, string login, string password)
         {
@@ -60,7 +75,7 @@ namespace WindowsFormsApplication2.Sources.Franpette
                 files.Add(file + ";" + fi.Length.ToString() + ";" + fi.LastWriteTime.ToString());
             }
             File.WriteAllLines(folder + ".csv", files.ToArray());
-            Console.WriteLine("[NetworkFTP] checkFilesToCsv : " + folder + ".csv created successfuly !");
+            logs("[NetworkFTP] checkFilesToCsv : " + folder + ".csv created successfuly !");
         }
 
         // Vérifie si les identifiants sont corrects
@@ -111,13 +126,13 @@ namespace WindowsFormsApplication2.Sources.Franpette
         }
 
         // Exécuter une commande sur un server ssh
-        public static string sshCommand(string host, string login, string passwd, string command)
+        public static string ssh(string host, string login, string passwd, string command)
         {
             SshClient sshclient = new SshClient(host, login, passwd);
             sshclient.Connect();
             SshCommand sc = sshclient.CreateCommand(command);
             sc.Execute();
-            return sc.Result;
+            return sc.Result.Trim();
         }
 
         // Récupère l'IP internet

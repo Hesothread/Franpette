@@ -80,9 +80,9 @@
             this.apps_groupbox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.apps_groupbox.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.apps_groupbox.ForeColor = System.Drawing.Color.White;
-            this.apps_groupbox.Location = new System.Drawing.Point(12, 207);
+            this.apps_groupbox.Location = new System.Drawing.Point(9, 207);
             this.apps_groupbox.Name = "apps_groupbox";
-            this.apps_groupbox.Size = new System.Drawing.Size(690, 154);
+            this.apps_groupbox.Size = new System.Drawing.Size(696, 165);
             this.apps_groupbox.TabIndex = 3;
             this.apps_groupbox.TabStop = false;
             this.apps_groupbox.Text = "Applications";
@@ -187,9 +187,9 @@
             this.ftp_progressBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(100)))), ((int)(((byte)(130)))));
             this.ftp_progressBar.Cursor = System.Windows.Forms.Cursors.Default;
             this.ftp_progressBar.ForeColor = System.Drawing.Color.White;
-            this.ftp_progressBar.Location = new System.Drawing.Point(12, 166);
+            this.ftp_progressBar.Location = new System.Drawing.Point(9, 166);
             this.ftp_progressBar.Name = "ftp_progressBar";
-            this.ftp_progressBar.Size = new System.Drawing.Size(690, 31);
+            this.ftp_progressBar.Size = new System.Drawing.Size(696, 31);
             this.ftp_progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.ftp_progressBar.TabIndex = 9;
             this.ftp_progressBar.Tag = "";
@@ -278,7 +278,7 @@
             this.MinimumSize = new System.Drawing.Size(730, 430);
             this.Name = "Window";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Franpette";
+            this.Text = "Franpette - host your friends";
             this.apps_groupbox.ResumeLayout(false);
             this.apps_groupbox.PerformLayout();
             this.ResumeLayout(false);
