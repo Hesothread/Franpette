@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Renci.SshNet;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 
 namespace WindowsFormsApplication2.Sources.Franpette
 {
@@ -32,6 +34,19 @@ namespace WindowsFormsApplication2.Sources.Franpette
                 return File.ReadAllLines(file);
             }
             return null;
+        }
+
+        // Génère le md5sum d'un fichier
+        public static string getMd5(string filename)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(filename))
+                {
+                    var hash = md5.ComputeHash(stream);
+                    return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+                }
+            }
         }
 
         // Crée un fichier.csv d'informations des fichiers d'un dossier
@@ -93,6 +108,16 @@ namespace WindowsFormsApplication2.Sources.Franpette
                 return false;
             }
             return true;
+        }
+
+        // Exécuter une commande sur un server ssh
+        public static string sshCommand(string host, string login, string passwd, string command)
+        {
+            SshClient sshclient = new SshClient(host, login, passwd);
+            sshclient.Connect();
+            SshCommand sc = sshclient.CreateCommand(command);
+            sc.Execute();
+            return sc.Result;
         }
 
         // Récupère l'IP internet

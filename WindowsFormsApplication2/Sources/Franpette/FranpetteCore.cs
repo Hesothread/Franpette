@@ -17,11 +17,11 @@ namespace WindowsFormsApplication2.Sources.Franpette
 
         private Boolean _isMinecraftUpToDate = false;
 
-        public FranpetteCore(ProgressBar progressBar)
+        public FranpetteCore(Label progress_label)
         {
             _data = new Dictionary<EInfo, String>();
             _serialisation = new XMLInfoSerialisation();
-            _network = new NetworkFTP(progressBar);
+            _network = new NetworkFTP(progress_label);
         }
 
         internal  Dictionary<EInfo, String> getInfoValue()

@@ -46,13 +46,14 @@
             this.MOTD_label = new System.Windows.Forms.Label();
             this.refresh_info = new System.ComponentModel.BackgroundWorker();
             this.minecraft_toogle = new System.ComponentModel.BackgroundWorker();
+            this.progress_label = new System.Windows.Forms.Label();
             this.apps_groupbox.SuspendLayout();
             this.SuspendLayout();
             // 
             // minecraft_button
             // 
             this.minecraft_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.minecraft_button.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.minecraft_button.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.minecraft_button.ForeColor = System.Drawing.Color.White;
             this.minecraft_button.Location = new System.Drawing.Point(6, 19);
             this.minecraft_button.Name = "minecraft_button";
@@ -79,7 +80,7 @@
             this.apps_groupbox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.apps_groupbox.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.apps_groupbox.ForeColor = System.Drawing.Color.White;
-            this.apps_groupbox.Location = new System.Drawing.Point(12, 218);
+            this.apps_groupbox.Location = new System.Drawing.Point(12, 207);
             this.apps_groupbox.Name = "apps_groupbox";
             this.apps_groupbox.Size = new System.Drawing.Size(690, 154);
             this.apps_groupbox.TabIndex = 3;
@@ -88,7 +89,7 @@
             // 
             // host_button
             // 
-            this.host_button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(99)))), ((int)(((byte)(130)))));
+            this.host_button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(100)))), ((int)(((byte)(130)))));
             this.host_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.host_button.Location = new System.Drawing.Point(577, 19);
             this.host_button.Name = "host_button";
@@ -141,7 +142,7 @@
             // 
             this.date_label.AutoSize = true;
             this.date_label.ForeColor = System.Drawing.Color.White;
-            this.date_label.Location = new System.Drawing.Point(219, 22);
+            this.date_label.Location = new System.Drawing.Point(222, 24);
             this.date_label.Name = "date_label";
             this.date_label.Size = new System.Drawing.Size(42, 16);
             this.date_label.TabIndex = 5;
@@ -186,9 +187,9 @@
             this.ftp_progressBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(100)))), ((int)(((byte)(130)))));
             this.ftp_progressBar.Cursor = System.Windows.Forms.Cursors.Default;
             this.ftp_progressBar.ForeColor = System.Drawing.Color.White;
-            this.ftp_progressBar.Location = new System.Drawing.Point(12, 159);
+            this.ftp_progressBar.Location = new System.Drawing.Point(12, 166);
             this.ftp_progressBar.Name = "ftp_progressBar";
-            this.ftp_progressBar.Size = new System.Drawing.Size(690, 40);
+            this.ftp_progressBar.Size = new System.Drawing.Size(690, 31);
             this.ftp_progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.ftp_progressBar.TabIndex = 9;
             this.ftp_progressBar.Tag = "";
@@ -251,12 +252,21 @@
             this.minecraft_toogle.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.minecraft_toogle_ProgressChanged);
             this.minecraft_toogle.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.minecraft_toogle_RunWorkerCompleted);
             // 
+            // progress_label
+            // 
+            this.progress_label.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.progress_label.Location = new System.Drawing.Point(12, 148);
+            this.progress_label.Name = "progress_label";
+            this.progress_label.Size = new System.Drawing.Size(690, 16);
+            this.progress_label.TabIndex = 24;
+            // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(100)))), ((int)(((byte)(130)))));
             this.ClientSize = new System.Drawing.Size(714, 391);
+            this.Controls.Add(this.progress_label);
             this.Controls.Add(this.refresh_button);
             this.Controls.Add(this.MOTD_label);
             this.Controls.Add(this.MOTD_textBox);
@@ -295,6 +305,7 @@
         private System.Windows.Forms.Label MOTD_label;
         private System.ComponentModel.BackgroundWorker refresh_info;
         private System.ComponentModel.BackgroundWorker minecraft_toogle;
+        private System.Windows.Forms.Label progress_label;
     }
 }
 
