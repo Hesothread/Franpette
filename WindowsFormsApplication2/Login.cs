@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using WindowsFormsApplication2.Sources.Franpette;
 
@@ -13,17 +14,17 @@ namespace WindowsFormsApplication2
         public Login()
         {
             InitializeComponent();
-
+            build.Text = FranpetteUtils.getBuildVersion();
             error.Hide();
             if ((_credentials = FranpetteUtils.getCredentials()) != null)
             {
                 remember_checkBox.Hide();
                 address_placeholder.Hide();
-                address_textBox.Text = _credentials[0];
+                address_textBox.Text = _credentials[0].Split(':')[1];
                 username_placeholder.Hide();
-                username_textBox.Text = _credentials[1];
+                username_textBox.Text = _credentials[1].Split(':')[1];
                 password_placeholder.Hide();
-                password_textBox.Text = _credentials[2];
+                password_textBox.Text = _credentials[2].Split(':')[1];
             }
         }
 
@@ -32,6 +33,10 @@ namespace WindowsFormsApplication2
             if (remember_checkBox.Checked && address_textBox.Text != null && username_textBox.Text != null && password_textBox.Text != null)
             {
                 FranpetteUtils.saveCredentials(address_textBox.Text, username_textBox.Text, password_textBox.Text);
+            }
+            else
+            {
+                Directory.CreateDirectory(FranpetteUtils.getRoot());
             }
 
             if (connection.IsBusy != true)
@@ -98,7 +103,7 @@ namespace WindowsFormsApplication2
 
         private void address_textBox_TextChanged(object sender, EventArgs e)
         {
-            if (_credentials != null && _credentials[0] != address_textBox.Text)
+            if (_credentials != null && _credentials[0].Split(':')[1] != address_textBox.Text)
             {
                 remember_checkBox.Show();
             }
@@ -110,7 +115,7 @@ namespace WindowsFormsApplication2
 
         private void username_textBox_TextChanged(object sender, EventArgs e)
         {
-            if (_credentials != null && _credentials[1] != username_textBox.Text)
+            if (_credentials != null && _credentials[1].Split(':')[1] != username_textBox.Text)
             {
                 remember_checkBox.Show();
             }
@@ -122,7 +127,7 @@ namespace WindowsFormsApplication2
 
         private void password_textBox_TextChanged(object sender, EventArgs e)
         {
-            if (_credentials != null && _credentials[2] != password_textBox.Text)
+            if (_credentials != null && _credentials[2].Split(':')[1] != password_textBox.Text)
             {
                 remember_checkBox.Show();
             }

@@ -1,6 +1,6 @@
-﻿using Renci.SshNet;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -10,11 +10,23 @@ namespace WindowsFormsApplication2.Sources.Franpette
 {
     static class FranpetteUtils
     {
+        static string _build = "v2.7.2";
         static string _appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
-        public static void logs(string text)
+        public static string getBuildVersion()
         {
-            string path = "logs.txt";
+            return _build;
+        }
+
+        public static string getRoot(string path = "")
+        {
+            return _appdata + "\\.franpette\\" + path;
+        }
+
+        // Console.WriteLine() -> debug.log
+        public static void debug(string text)
+        {
+            string path = getRoot("debug.log");
 
             if (!File.Exists(path))
             {
@@ -32,17 +44,17 @@ namespace WindowsFormsApplication2.Sources.Franpette
         {
             string[] credentials = new string[3];
 
-            credentials[0] = address;
-            credentials[1] = login;
-            credentials[2] = password;
-            Directory.CreateDirectory(_appdata + "/.franpette");
-            File.WriteAllLines(_appdata + "/.franpette/franpette.credentials", credentials);
+            credentials[0] = "host:"+address;
+            credentials[1] = "login:"+login;
+            credentials[2] = "passwd:"+password;
+            Directory.CreateDirectory(getRoot());
+            File.WriteAllLines(getRoot("credentials.txt"), credentials);
         }
 
         // Récupère les identifiants sauvegardés dans Appdata
         public static string[] getCredentials()
         {
-            string file = _appdata + "/.franpette/franpette.credentials";
+            string file = getRoot("credentials.txt");
 
             if (File.Exists(file))
             {
@@ -64,18 +76,22 @@ namespace WindowsFormsApplication2.Sources.Franpette
             }
         }
 
-        // Crée un fichier.csv d'informations des fichiers d'un dossier
-        public static void checkFilesToCsv(string folder)
+        // Donne les informations des fichiers d'un dossier
+        public static string[] checkCsv(Boolean dirNameInPath = false, string directory = "")
         {
-            if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+            if (directory == "") directory = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+
+            Directory.CreateDirectory(directory);
+            int start;
             List<string> files = new List<string>();
-            foreach (string file in Directory.GetFiles(folder, "*", SearchOption.AllDirectories))
+            foreach (string file in Directory.GetFiles(directory, "*", SearchOption.AllDirectories))
             {
                 FileInfo fi = new FileInfo(file);
-                files.Add(file + ";" + fi.Length.ToString() + ";" + fi.LastWriteTime.ToString());
+                start = directory.Length + 1;
+                if (dirNameInPath) start -= Path.GetFileName(directory).Length + 1;
+                files.Add(file.Substring(start, file.Length - start) + ";" + getMd5(file));
             }
-            File.WriteAllLines(folder + ".csv", files.ToArray());
-            logs("[NetworkFTP] checkFilesToCsv : " + folder + ".csv created successfuly !");
+            return files.ToArray();
         }
 
         // Vérifie si les identifiants sont corrects
@@ -125,16 +141,6 @@ namespace WindowsFormsApplication2.Sources.Franpette
             return true;
         }
 
-        // Exécuter une commande sur un server ssh
-        public static string ssh(string host, string login, string passwd, string command)
-        {
-            SshClient sshclient = new SshClient(host, login, passwd);
-            sshclient.Connect();
-            SshCommand sc = sshclient.CreateCommand(command);
-            sc.Execute();
-            return sc.Result.Trim();
-        }
-
         // Récupère l'IP internet
         public static string getInternetIp()
         {
@@ -144,6 +150,5 @@ namespace WindowsFormsApplication2.Sources.Franpette
             wc.Dispose();
             return strIP;
         }
-
     }
 }

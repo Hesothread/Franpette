@@ -43,11 +43,11 @@
             this.username_placeholder = new System.Windows.Forms.TextBox();
             this.password_placeholder = new System.Windows.Forms.TextBox();
             this.address_placeholder = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.logo_pictureBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.username_pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.password_pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.address_pictureBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.logo_pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // username_textBox
@@ -184,7 +184,7 @@
             this.build.Name = "build";
             this.build.Size = new System.Drawing.Size(434, 16);
             this.build.TabIndex = 10;
-            this.build.Text = "v2.6";
+            this.build.Text = "vx.x";
             this.build.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
             // username_placeholder
@@ -232,15 +232,15 @@
             this.address_placeholder.Text = "Server IP or domain";
             this.address_placeholder.Enter += new System.EventHandler(this.address_placeholder_Enter);
             // 
-            // pictureBox1
+            // logo_pictureBox
             // 
-            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(145, 26);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(128, 128);
-            this.pictureBox1.TabIndex = 14;
-            this.pictureBox1.TabStop = false;
+            this.logo_pictureBox.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.logo_pictureBox.Image = ((System.Drawing.Image)(resources.GetObject("logo_pictureBox.Image")));
+            this.logo_pictureBox.Location = new System.Drawing.Point(145, 26);
+            this.logo_pictureBox.Name = "logo_pictureBox";
+            this.logo_pictureBox.Size = new System.Drawing.Size(128, 128);
+            this.logo_pictureBox.TabIndex = 14;
+            this.logo_pictureBox.TabStop = false;
             // 
             // Login
             // 
@@ -248,7 +248,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(100)))), ((int)(((byte)(130)))));
             this.ClientSize = new System.Drawing.Size(434, 511);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.logo_pictureBox);
             this.Controls.Add(this.address_placeholder);
             this.Controls.Add(this.password_placeholder);
             this.Controls.Add(this.username_placeholder);
@@ -275,7 +275,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.username_pictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.password_pictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.address_pictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.logo_pictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -297,6 +297,6 @@
         private System.Windows.Forms.TextBox username_placeholder;
         private System.Windows.Forms.TextBox password_placeholder;
         private System.Windows.Forms.TextBox address_placeholder;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox logo_pictureBox;
     }
 }

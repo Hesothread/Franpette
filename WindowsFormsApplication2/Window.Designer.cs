@@ -47,7 +47,18 @@
             this.refresh_info = new System.ComponentModel.BackgroundWorker();
             this.minecraft_toogle = new System.ComponentModel.BackgroundWorker();
             this.progress_label = new System.Windows.Forms.Label();
+            this.menu = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.reportABugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.aboutUsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.check_updates = new System.ComponentModel.BackgroundWorker();
             this.apps_groupbox.SuspendLayout();
+            this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
             // minecraft_button
@@ -80,9 +91,9 @@
             this.apps_groupbox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.apps_groupbox.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.apps_groupbox.ForeColor = System.Drawing.Color.White;
-            this.apps_groupbox.Location = new System.Drawing.Point(9, 207);
+            this.apps_groupbox.Location = new System.Drawing.Point(9, 234);
             this.apps_groupbox.Name = "apps_groupbox";
-            this.apps_groupbox.Size = new System.Drawing.Size(696, 165);
+            this.apps_groupbox.Size = new System.Drawing.Size(696, 138);
             this.apps_groupbox.TabIndex = 3;
             this.apps_groupbox.TabStop = false;
             this.apps_groupbox.Text = "Applications";
@@ -187,7 +198,7 @@
             this.ftp_progressBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(100)))), ((int)(((byte)(130)))));
             this.ftp_progressBar.Cursor = System.Windows.Forms.Cursors.Default;
             this.ftp_progressBar.ForeColor = System.Drawing.Color.White;
-            this.ftp_progressBar.Location = new System.Drawing.Point(9, 166);
+            this.ftp_progressBar.Location = new System.Drawing.Point(9, 193);
             this.ftp_progressBar.Name = "ftp_progressBar";
             this.ftp_progressBar.Size = new System.Drawing.Size(696, 31);
             this.ftp_progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
@@ -201,7 +212,7 @@
             this.refresh_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.refresh_button.ForeColor = System.Drawing.Color.White;
             this.refresh_button.Image = ((System.Drawing.Image)(resources.GetObject("refresh_button.Image")));
-            this.refresh_button.Location = new System.Drawing.Point(677, 9);
+            this.refresh_button.Location = new System.Drawing.Point(677, 36);
             this.refresh_button.Margin = new System.Windows.Forms.Padding(0);
             this.refresh_button.Name = "refresh_button";
             this.refresh_button.Padding = new System.Windows.Forms.Padding(2);
@@ -217,7 +228,7 @@
             this.MOTD_textBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(100)))), ((int)(((byte)(130)))));
             this.MOTD_textBox.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MOTD_textBox.ForeColor = System.Drawing.Color.White;
-            this.MOTD_textBox.Location = new System.Drawing.Point(9, 9);
+            this.MOTD_textBox.Location = new System.Drawing.Point(9, 36);
             this.MOTD_textBox.Margin = new System.Windows.Forms.Padding(0);
             this.MOTD_textBox.Multiline = true;
             this.MOTD_textBox.Name = "MOTD_textBox";
@@ -231,7 +242,7 @@
             this.MOTD_label.AutoSize = true;
             this.MOTD_label.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MOTD_label.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.MOTD_label.Location = new System.Drawing.Point(581, 124);
+            this.MOTD_label.Location = new System.Drawing.Point(581, 151);
             this.MOTD_label.Name = "MOTD_label";
             this.MOTD_label.Size = new System.Drawing.Size(121, 16);
             this.MOTD_label.TabIndex = 23;
@@ -242,7 +253,6 @@
             // 
             this.refresh_info.WorkerReportsProgress = true;
             this.refresh_info.DoWork += new System.ComponentModel.DoWorkEventHandler(this.refresh_info_DoWork);
-            this.refresh_info.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.refresh_info_ProgressChanged);
             this.refresh_info.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.refresh_info_RunWorkerCompleted);
             // 
             // minecraft_toogle
@@ -255,10 +265,85 @@
             // progress_label
             // 
             this.progress_label.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.progress_label.Location = new System.Drawing.Point(12, 148);
+            this.progress_label.Location = new System.Drawing.Point(12, 175);
             this.progress_label.Name = "progress_label";
             this.progress_label.Size = new System.Drawing.Size(690, 16);
             this.progress_label.TabIndex = 24;
+            // 
+            // menu
+            // 
+            this.menu.BackColor = System.Drawing.Color.White;
+            this.menu.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.editToolStripMenuItem,
+            this.toolStripMenuItem1});
+            this.menu.Location = new System.Drawing.Point(0, 0);
+            this.menu.Name = "menu";
+            this.menu.Padding = new System.Windows.Forms.Padding(0);
+            this.menu.Size = new System.Drawing.Size(714, 24);
+            this.menu.TabIndex = 25;
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(39, 24);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(42, 24);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.checkForUpdatesToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.reportABugToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.aboutUsToolStripMenuItem});
+            this.toolStripMenuItem1.ForeColor = System.Drawing.Color.Black;
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(25, 24);
+            this.toolStripMenuItem1.Text = "?";
+            // 
+            // checkForUpdatesToolStripMenuItem
+            // 
+            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.checkForUpdatesToolStripMenuItem.Text = "Download last build...";
+            this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(191, 6);
+            // 
+            // reportABugToolStripMenuItem
+            // 
+            this.reportABugToolStripMenuItem.Name = "reportABugToolStripMenuItem";
+            this.reportABugToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.reportABugToolStripMenuItem.Text = "Report a bug...";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(191, 6);
+            // 
+            // aboutUsToolStripMenuItem
+            // 
+            this.aboutUsToolStripMenuItem.Name = "aboutUsToolStripMenuItem";
+            this.aboutUsToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.aboutUsToolStripMenuItem.Text = "About us...";
+            // 
+            // check_updates
+            // 
+            this.check_updates.DoWork += new System.ComponentModel.DoWorkEventHandler(this.check_updates_DoWork);
+            this.check_updates.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.check_updates_RunWorkerCompleted);
             // 
             // Window
             // 
@@ -273,6 +358,7 @@
             this.Controls.Add(this.ftp_progressBar);
             this.Controls.Add(this.version_label);
             this.Controls.Add(this.apps_groupbox);
+            this.Controls.Add(this.menu);
             this.ForeColor = System.Drawing.Color.White;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(730, 430);
@@ -281,6 +367,8 @@
             this.Text = "Franpette - host your friends";
             this.apps_groupbox.ResumeLayout(false);
             this.apps_groupbox.PerformLayout();
+            this.menu.ResumeLayout(false);
+            this.menu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -306,6 +394,16 @@
         private System.ComponentModel.BackgroundWorker refresh_info;
         private System.ComponentModel.BackgroundWorker minecraft_toogle;
         private System.Windows.Forms.Label progress_label;
+        private System.Windows.Forms.MenuStrip menu;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem reportABugToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem aboutUsToolStripMenuItem;
+        private System.ComponentModel.BackgroundWorker check_updates;
     }
 }
 

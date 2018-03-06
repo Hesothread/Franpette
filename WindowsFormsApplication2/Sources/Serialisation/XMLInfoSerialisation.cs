@@ -15,7 +15,7 @@ namespace WindowsFormsApplication2.Sources.Serialisation
 
         public Boolean Serialise()
         {
-            FranpetteUtils.logs("[XMLInfoSerialisation] Serialise : " + _fileName);
+            FranpetteUtils.debug("[XMLInfoSerialisation] Serialise : " + _fileName);
             _xmlInfo.Load(_fileName);
 
             _xmlInfo.DocumentElement.SelectSingleNode("/root/franpette/version").InnerText = _fileValue[EInfo.FRANPETTEVERSION];
@@ -36,7 +36,7 @@ namespace WindowsFormsApplication2.Sources.Serialisation
 
             if (!File.Exists(_fileName))
             {
-                FranpetteUtils.logs("[XMLInfoSerialisation] Deserialise : " + _fileName + " was not found");
+                FranpetteUtils.debug("[XMLInfoSerialisation] Deserialise : " + _fileName + " was not found");
                 return false;
             }
             _xmlInfo.Load(_fileName);
@@ -49,7 +49,7 @@ namespace WindowsFormsApplication2.Sources.Serialisation
             _fileValue.Add(EInfo.MINECRAFTDATE, _xmlInfo.DocumentElement.SelectSingleNode("/root/minecraft/date").InnerText);
             _fileValue.Add(EInfo.MINECRAFTSTATE, _xmlInfo.DocumentElement.SelectSingleNode("/root/minecraft/state").InnerText);
 
-            FranpetteUtils.logs("[XMLInfoSerialisation] Deserialise : " + _fileName + " ...Done");
+            FranpetteUtils.debug("[XMLInfoSerialisation] Deserialise : " + _fileName + " ...Done");
             return true;
         }
 

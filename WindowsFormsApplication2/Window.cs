@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using WindowsFormsApplication2.Sources.Franpette;
 using WindowsFormsApplication2.Sources.Serialisation;
@@ -58,11 +59,6 @@ namespace WindowsFormsApplication2
             }
 
             _franpette.infoUpdate(worker);
-        }
-
-        private void refresh_info_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            ftp_progressBar.Value = e.ProgressPercentage;
         }
 
         private void refresh_info_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -129,6 +125,24 @@ namespace WindowsFormsApplication2
         {
             ftp_progressBar.Value = 0;
             refreshInfo();
+        }
+
+        private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (check_updates.IsBusy != true)
+                check_updates.RunWorkerAsync();
+        }
+
+        private void check_updates_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+
+            _franpette.checkForUpdates(worker);
+        }
+
+        private void check_updates_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            
         }
     }
 }
