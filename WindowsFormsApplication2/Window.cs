@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -13,6 +14,8 @@ namespace WindowsFormsApplication2
     {
         public FranpetteCore _franpette;
         private Dictionary<EInfo, String> _actuelSatus;
+
+        private Boolean _loggedOut = false;
 
         public Window(string address, string login, string password)
         {
@@ -44,7 +47,7 @@ namespace WindowsFormsApplication2
 
         private void refreshInfo()
         {
-            if (refresh_info.IsBusy != true && minecraft_toogle.IsBusy != true)
+            if (refresh_info.IsBusy != true && minecraft_toogle.IsBusy != true && check_updates.IsBusy != true)
                 refresh_info.RunWorkerAsync();
         }
 
@@ -90,7 +93,7 @@ namespace WindowsFormsApplication2
 
         private void minecraftToogle()
         {
-            if (minecraft_toogle.IsBusy != true)
+            if (refresh_info.IsBusy != true && minecraft_toogle.IsBusy != true && check_updates.IsBusy != true)
                 minecraft_toogle.RunWorkerAsync();
         }
 
@@ -129,7 +132,7 @@ namespace WindowsFormsApplication2
 
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (check_updates.IsBusy != true)
+            if (refresh_info.IsBusy != true && minecraft_toogle.IsBusy != true && check_updates.IsBusy != true)
                 check_updates.RunWorkerAsync();
         }
 
@@ -140,9 +143,38 @@ namespace WindowsFormsApplication2
             _franpette.checkForUpdates(worker);
         }
 
-        private void check_updates_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        public Boolean isLoggedOut()
         {
-            
+            return _loggedOut;
+        }
+
+        private void logOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (refresh_info.IsBusy != true && minecraft_toogle.IsBusy != true && check_updates.IsBusy != true)
+            {
+                _loggedOut = true;
+                this.Close();
+            }
+        }
+
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            refreshInfo();
+        }
+
+        private void clearCredentialsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FranpetteUtils.clearCredentials();
+        }
+
+        private void showFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start(FranpetteUtils.getRoot());
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

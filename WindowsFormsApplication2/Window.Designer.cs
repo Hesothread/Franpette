@@ -48,15 +48,26 @@
             this.minecraft_toogle = new System.ComponentModel.BackgroundWorker();
             this.progress_label = new System.Windows.Forms.Label();
             this.menu = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.file_menuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.edit_menuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.help_menuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.reportABugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutUsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.check_updates = new System.ComponentModel.BackgroundWorker();
+            this.server_menuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cancelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.logOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.view_menuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.clearCredentialsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.apps_groupbox.SuspendLayout();
             this.menu.SuspendLayout();
             this.SuspendLayout();
@@ -275,41 +286,49 @@
             this.menu.BackColor = System.Drawing.Color.White;
             this.menu.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.editToolStripMenuItem,
-            this.toolStripMenuItem1});
+            this.file_menuItem,
+            this.edit_menuItem,
+            this.view_menuItem,
+            this.server_menuItem,
+            this.help_menuItem});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
             this.menu.Padding = new System.Windows.Forms.Padding(0);
             this.menu.Size = new System.Drawing.Size(714, 24);
             this.menu.TabIndex = 25;
             // 
-            // fileToolStripMenuItem
+            // file_menuItem
             // 
-            this.fileToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(39, 24);
-            this.fileToolStripMenuItem.Text = "File";
+            this.file_menuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showFilesToolStripMenuItem,
+            this.toolStripSeparator5,
+            this.exitToolStripMenuItem});
+            this.file_menuItem.ForeColor = System.Drawing.Color.Black;
+            this.file_menuItem.Name = "file_menuItem";
+            this.file_menuItem.Size = new System.Drawing.Size(39, 24);
+            this.file_menuItem.Text = "File";
             // 
-            // editToolStripMenuItem
+            // edit_menuItem
             // 
-            this.editToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(42, 24);
-            this.editToolStripMenuItem.Text = "Edit";
+            this.edit_menuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clearCredentialsToolStripMenuItem});
+            this.edit_menuItem.ForeColor = System.Drawing.Color.Black;
+            this.edit_menuItem.Name = "edit_menuItem";
+            this.edit_menuItem.Size = new System.Drawing.Size(42, 24);
+            this.edit_menuItem.Text = "Edit";
             // 
-            // toolStripMenuItem1
+            // help_menuItem
             // 
-            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.help_menuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.checkForUpdatesToolStripMenuItem,
             this.toolStripSeparator1,
             this.reportABugToolStripMenuItem,
             this.toolStripSeparator2,
             this.aboutUsToolStripMenuItem});
-            this.toolStripMenuItem1.ForeColor = System.Drawing.Color.Black;
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(25, 24);
-            this.toolStripMenuItem1.Text = "?";
+            this.help_menuItem.ForeColor = System.Drawing.Color.Black;
+            this.help_menuItem.Name = "help_menuItem";
+            this.help_menuItem.Size = new System.Drawing.Size(25, 24);
+            this.help_menuItem.Text = "?";
             // 
             // checkForUpdatesToolStripMenuItem
             // 
@@ -321,29 +340,109 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(191, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(199, 6);
             // 
             // reportABugToolStripMenuItem
             // 
             this.reportABugToolStripMenuItem.Name = "reportABugToolStripMenuItem";
-            this.reportABugToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.reportABugToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.reportABugToolStripMenuItem.Text = "Report a bug...";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(191, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(199, 6);
             // 
             // aboutUsToolStripMenuItem
             // 
             this.aboutUsToolStripMenuItem.Name = "aboutUsToolStripMenuItem";
-            this.aboutUsToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.aboutUsToolStripMenuItem.Text = "About us...";
+            this.aboutUsToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.aboutUsToolStripMenuItem.Text = "About...";
             // 
             // check_updates
             // 
             this.check_updates.DoWork += new System.ComponentModel.DoWorkEventHandler(this.check_updates_DoWork);
-            this.check_updates.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.check_updates_RunWorkerCompleted);
+            // 
+            // server_menuItem
+            // 
+            this.server_menuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cancelToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.logOutToolStripMenuItem});
+            this.server_menuItem.ForeColor = System.Drawing.Color.Black;
+            this.server_menuItem.Name = "server_menuItem";
+            this.server_menuItem.Size = new System.Drawing.Size(56, 24);
+            this.server_menuItem.Text = "Server";
+            // 
+            // cancelToolStripMenuItem
+            // 
+            this.cancelToolStripMenuItem.Name = "cancelToolStripMenuItem";
+            this.cancelToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
+            this.cancelToolStripMenuItem.Text = "Cancel current operation";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(237, 6);
+            // 
+            // logOutToolStripMenuItem
+            // 
+            this.logOutToolStripMenuItem.Name = "logOutToolStripMenuItem";
+            this.logOutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+            this.logOutToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
+            this.logOutToolStripMenuItem.Text = "Disconnect";
+            this.logOutToolStripMenuItem.Click += new System.EventHandler(this.logOutToolStripMenuItem_Click);
+            // 
+            // view_menuItem
+            // 
+            this.view_menuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.refreshToolStripMenuItem,
+            this.toolStripSeparator4});
+            this.view_menuItem.ForeColor = System.Drawing.Color.Black;
+            this.view_menuItem.Name = "view_menuItem";
+            this.view_menuItem.Size = new System.Drawing.Size(47, 24);
+            this.view_menuItem.Text = "View";
+            // 
+            // refreshToolStripMenuItem
+            // 
+            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            this.refreshToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.refreshToolStripMenuItem.Text = "Refresh";
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(149, 6);
+            // 
+            // clearCredentialsToolStripMenuItem
+            // 
+            this.clearCredentialsToolStripMenuItem.Name = "clearCredentialsToolStripMenuItem";
+            this.clearCredentialsToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.clearCredentialsToolStripMenuItem.Text = "Clear credentials...";
+            this.clearCredentialsToolStripMenuItem.Click += new System.EventHandler(this.clearCredentialsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(174, 6);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // showFilesToolStripMenuItem
+            // 
+            this.showFilesToolStripMenuItem.Name = "showFilesToolStripMenuItem";
+            this.showFilesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.showFilesToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.showFilesToolStripMenuItem.Text = "Show files";
+            this.showFilesToolStripMenuItem.Click += new System.EventHandler(this.showFilesToolStripMenuItem_Click);
             // 
             // Window
             // 
@@ -395,15 +494,26 @@
         private System.ComponentModel.BackgroundWorker minecraft_toogle;
         private System.Windows.Forms.Label progress_label;
         private System.Windows.Forms.MenuStrip menu;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem file_menuItem;
+        private System.Windows.Forms.ToolStripMenuItem edit_menuItem;
+        private System.Windows.Forms.ToolStripMenuItem help_menuItem;
         private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem reportABugToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem aboutUsToolStripMenuItem;
         private System.ComponentModel.BackgroundWorker check_updates;
+        private System.Windows.Forms.ToolStripMenuItem server_menuItem;
+        private System.Windows.Forms.ToolStripMenuItem cancelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem logOutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem view_menuItem;
+        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem clearCredentialsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showFilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
     }
 }
 

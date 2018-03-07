@@ -9,13 +9,18 @@ namespace WindowsFormsApplication2
 {
     public partial class Login : Form
     {
+        private Window _win;
         private string[] _credentials;
 
         public Login()
         {
             InitializeComponent();
             build.Text = FranpetteUtils.getBuildVersion();
-            error.Hide();
+            fillFields();
+        }
+
+        private void fillFields()
+        {
             if ((_credentials = FranpetteUtils.getCredentials()) != null)
             {
                 remember_checkBox.Hide();
@@ -25,6 +30,17 @@ namespace WindowsFormsApplication2
                 username_textBox.Text = _credentials[1].Split(':')[1];
                 password_placeholder.Hide();
                 password_textBox.Text = _credentials[2].Split(':')[1];
+            }
+            else
+            {
+                remember_checkBox.Checked = false;
+                remember_checkBox.Show();
+                address_placeholder.Show();
+                username_placeholder.Show();
+                password_placeholder.Show();
+                address_textBox.Text = "";
+                username_textBox.Text = "";
+                password_textBox.Text = "";
             }
         }
 
@@ -56,16 +72,16 @@ namespace WindowsFormsApplication2
 
         private void connection_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            login_button.Text = "Log in";
             if ((int)e.Result == 0)
             {
-                Window win = new Window(address_textBox.Text, username_textBox.Text, password_textBox.Text);
-                win.FormClosed += new FormClosedEventHandler(win_FormClosed);
-                win.Show();
+                _win = new Window(address_textBox.Text, username_textBox.Text, password_textBox.Text);
+                _win.FormClosed += new FormClosedEventHandler(win_FormClosed);
+                _win.Show();
                 this.Hide();
             }
             else
             {
-                login_button.Text = "Log in";
                 switch ((int)e.Result)
                 {
                     case 1:
@@ -87,7 +103,15 @@ namespace WindowsFormsApplication2
 
         private void win_FormClosed(object sender, FormClosedEventArgs e)
         {
-            this.Close();
+            if (_win.isLoggedOut())
+            {
+                fillFields();
+                this.Show();
+            }
+            else
+            {
+                this.Close();
+            }
         }
 
         private void Login_Paint(object sender, PaintEventArgs e)

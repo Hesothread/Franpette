@@ -136,7 +136,7 @@
     <value>38, 40</value>
   </metadata>
   <metadata name="menu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>308, 11</value>
+    <value>206, 44</value>
   </metadata>
   <metadata name="check_updates.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>121, 8</value>

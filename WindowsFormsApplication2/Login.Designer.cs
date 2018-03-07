@@ -168,12 +168,14 @@
             this.error.Cursor = System.Windows.Forms.Cursors.Default;
             this.error.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.error.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(57)))), ((int)(((byte)(43)))));
+            this.error.HideSelection = false;
             this.error.Location = new System.Drawing.Point(12, 467);
             this.error.Name = "error";
             this.error.Size = new System.Drawing.Size(410, 25);
             this.error.TabIndex = 9;
             this.error.Text = "Connection error message";
             this.error.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.error.Visible = false;
             // 
             // build
             // 

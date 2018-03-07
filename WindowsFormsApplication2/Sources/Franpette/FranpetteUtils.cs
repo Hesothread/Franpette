@@ -10,8 +10,9 @@ namespace WindowsFormsApplication2.Sources.Franpette
 {
     static class FranpetteUtils
     {
-        static string _build = "v2.7.2";
+        static string _build = "v2.7.3";
         static string _appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        static string _creds = "credentials.txt";
 
         public static string getBuildVersion()
         {
@@ -48,19 +49,32 @@ namespace WindowsFormsApplication2.Sources.Franpette
             credentials[1] = "login:"+login;
             credentials[2] = "passwd:"+password;
             Directory.CreateDirectory(getRoot());
-            File.WriteAllLines(getRoot("credentials.txt"), credentials);
+            File.WriteAllLines(getRoot(_creds), credentials);
         }
 
         // Récupère les identifiants sauvegardés dans Appdata
         public static string[] getCredentials()
         {
-            string file = getRoot("credentials.txt");
+            string file = getRoot(_creds);
 
             if (File.Exists(file))
             {
                 return File.ReadAllLines(file);
             }
             return null;
+        }
+
+        // Supprime le fichier de sauvegarde des identifiants
+        public static void clearCredentials()
+        {
+            try
+            {
+                File.Delete(getRoot(_creds));
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                debug(ex.Message);
+            }
         }
 
         // Génère le md5sum d'un fichier
