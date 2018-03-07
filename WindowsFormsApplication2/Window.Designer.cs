@@ -347,6 +347,7 @@
             this.reportABugToolStripMenuItem.Name = "reportABugToolStripMenuItem";
             this.reportABugToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.reportABugToolStripMenuItem.Text = "Report a bug...";
+            this.reportABugToolStripMenuItem.Click += new System.EventHandler(this.reportABugToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -358,6 +359,7 @@
             this.aboutUsToolStripMenuItem.Name = "aboutUsToolStripMenuItem";
             this.aboutUsToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.aboutUsToolStripMenuItem.Text = "About...";
+            this.aboutUsToolStripMenuItem.Click += new System.EventHandler(this.aboutUsToolStripMenuItem_Click);
             // 
             // check_updates
             // 

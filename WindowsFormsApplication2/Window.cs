@@ -176,5 +176,15 @@ namespace WindowsFormsApplication2
         {
             this.Close();
         }
+
+        private void aboutUsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/deshtros/Franpette");
+        }
+
+        private void reportABugToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/deshtros/Franpette/issues/new");
+        }
     }
 }

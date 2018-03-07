@@ -53,11 +53,14 @@ namespace WindowsFormsApplication2.Sources
                     break;
                 case ETarget.FRANPETTE:
                     ftpDownload("Franpette/FranpetteStatus.xml", FranpetteUtils.getRoot("FranpetteStatus.xml"), worker);
+                    printInfo("Franpette est prêt.");
                     break;
                 case ETarget.MINECRAFT:
+                    printInfo("Franpette inspècte vos fichiers...");
                     File.WriteAllLines(FranpetteUtils.getRoot("Minecraft.csv"), FranpetteUtils.checkCsv(true, FranpetteUtils.getRoot("Minecraft")));
                     ftpDownload("Franpette/Minecraft.csv", FranpetteUtils.getRoot("Minecraft_server.csv"), worker);
                     filesToDownload(FranpetteUtils.getRoot("Minecraft_server.csv"), FranpetteUtils.getRoot("Minecraft.csv"), worker);
+                    printInfo("Franpette inspècte vos fichiers...");
                     File.WriteAllLines(FranpetteUtils.getRoot("Minecraft.csv"), FranpetteUtils.checkCsv(true, FranpetteUtils.getRoot("Minecraft")));
                     ftpUpload(FranpetteUtils.getRoot("Minecraft.csv"), "Franpette/Minecraft.csv", worker);
                     break;
@@ -77,6 +80,7 @@ namespace WindowsFormsApplication2.Sources
                     ftpUpload(FranpetteUtils.getRoot("FranpetteStatus.xml"), "Franpette/FranpetteStatus.xml", worker);
                     break;
                 case ETarget.MINECRAFT:
+                    printInfo("Franpette inspècte vos fichiers...");
                     File.WriteAllLines(FranpetteUtils.getRoot("Minecraft.csv"), FranpetteUtils.checkCsv(true, FranpetteUtils.getRoot("Minecraft")));
                     ftpDownload("Franpette/Minecraft.csv", FranpetteUtils.getRoot("server.csv"), worker);
                     filesToUpload(FranpetteUtils.getRoot("Minecraft.csv"), FranpetteUtils.getRoot("server.csv"), worker);
@@ -183,8 +187,14 @@ namespace WindowsFormsApplication2.Sources
             float percent = ((float)pos / max) * 100f;
             string percentage = ((int)percent).ToString() + "%";
 
+            printInfo(Path.GetFileName(filename) + perSeconds + " - " + percentage);
+        }
+
+        // Afficher au dessus de la barre de progression un message
+        public void printInfo(string info)
+        {
             _progress.CreateGraphics().Clear(Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(100)))), ((int)(((byte)(130))))));
-            _progress.CreateGraphics().DrawString(Path.GetFileName(filename) + perSeconds + " - " + percentage, _font, Brushes.White, _textPos);
+            _progress.CreateGraphics().DrawString(info, _font, Brushes.White, _textPos);
         }
 
         // Téléchargement des fichiers
