@@ -10,7 +10,7 @@ namespace WindowsFormsApplication2.Sources.Franpette
 {
     static class FranpetteUtils
     {
-        static string _build = "v2.7.3";
+        static string _build = "v2.7.4";
         static string _appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         static string _creds = "credentials.txt";
 

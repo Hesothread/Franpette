@@ -57,11 +57,11 @@ namespace WindowsFormsApplication2.Sources
                     break;
                 case ETarget.MINECRAFT:
                     printInfo("Franpette inspècte vos fichiers...");
-                    File.WriteAllLines(FranpetteUtils.getRoot("Minecraft.csv"), FranpetteUtils.checkCsv(true, FranpetteUtils.getRoot("Minecraft")));
+                    File.WriteAllLines(FranpetteUtils.getRoot("Minecraft.csv"), FranpetteUtils.checkCsv(true, "Minecraft"));
                     ftpDownload("Franpette/Minecraft.csv", FranpetteUtils.getRoot("Minecraft_server.csv"), worker);
                     filesToDownload(FranpetteUtils.getRoot("Minecraft_server.csv"), FranpetteUtils.getRoot("Minecraft.csv"), worker);
                     printInfo("Franpette inspècte vos fichiers...");
-                    File.WriteAllLines(FranpetteUtils.getRoot("Minecraft.csv"), FranpetteUtils.checkCsv(true, FranpetteUtils.getRoot("Minecraft")));
+                    File.WriteAllLines(FranpetteUtils.getRoot("Minecraft.csv"), FranpetteUtils.checkCsv(true, "Minecraft"));
                     ftpUpload(FranpetteUtils.getRoot("Minecraft.csv"), "Franpette/Minecraft.csv", worker);
                     break;
                 default:
@@ -81,9 +81,9 @@ namespace WindowsFormsApplication2.Sources
                     break;
                 case ETarget.MINECRAFT:
                     printInfo("Franpette inspècte vos fichiers...");
-                    File.WriteAllLines(FranpetteUtils.getRoot("Minecraft.csv"), FranpetteUtils.checkCsv(true, FranpetteUtils.getRoot("Minecraft")));
-                    ftpDownload("Franpette/Minecraft.csv", FranpetteUtils.getRoot("server.csv"), worker);
-                    filesToUpload(FranpetteUtils.getRoot("Minecraft.csv"), FranpetteUtils.getRoot("server.csv"), worker);
+                    File.WriteAllLines(FranpetteUtils.getRoot("Minecraft.csv"), FranpetteUtils.checkCsv(true, "Minecraft"));
+                    ftpDownload("Franpette/Minecraft.csv", FranpetteUtils.getRoot("Minecraft_server.csv"), worker);
+                    filesToUpload(FranpetteUtils.getRoot("Minecraft.csv"), FranpetteUtils.getRoot("Minecraft_server.csv"), worker);
                     ftpUpload(FranpetteUtils.getRoot("Minecraft.csv"), "Franpette/Minecraft.csv", worker);
                     break;
                 default:
@@ -216,7 +216,7 @@ namespace WindowsFormsApplication2.Sources
                 if ((servPath.Contains("minecraft") || servPath.Contains("server")) && servPath.Contains(".jar"))
                 {
                     string[] scriptLines = new string[3];
-                    scriptLines[0] = "cd " + FranpetteUtils.getRoot(Path.GetDirectoryName(servPath));
+                    scriptLines[0] = "cd " + Path.GetDirectoryName(servPath);
                     scriptLines[1] = "cls";
                     scriptLines[2] = "java -Xms1024M -Xmx2048M -jar " + Path.GetFileName(servPath) + " nogui";
                     File.WriteAllLines(FranpetteUtils.getRoot("start.bat"), scriptLines);
@@ -238,10 +238,10 @@ namespace WindowsFormsApplication2.Sources
                     {
                         start++;
                         found = true;
-                        Directory.CreateDirectory(FranpetteUtils.getRoot(file.Substring(0, file.LastIndexOf('/'))));
+                        Directory.CreateDirectory(file.Substring(0, file.LastIndexOf('/')));
                         if (serv.Split(';')[1] != localFiles[i].Split(';')[1])
                         {
-                            ftpDownload("Franpette/" + file, FranpetteUtils.getRoot(file), worker);
+                            ftpDownload("Franpette/" + file, file, worker);
                         }
                         break;
                     }
@@ -249,8 +249,8 @@ namespace WindowsFormsApplication2.Sources
                 }
                 if (!found)
                 {
-                    Directory.CreateDirectory(FranpetteUtils.getRoot(file.Substring(0, file.LastIndexOf('/'))));
-                    ftpDownload("Franpette/" + file, FranpetteUtils.getRoot(file), worker);
+                    Directory.CreateDirectory(file.Substring(0, file.LastIndexOf('/')));
+                    ftpDownload("Franpette/" + file, file, worker);
                 }
                 worker.ReportProgress((int)(done * 100.0 / (float)serverFiles.Length));
                 if (done + 1 <= serverFiles.Length) done++;
@@ -288,13 +288,13 @@ namespace WindowsFormsApplication2.Sources
                         found = true;
                         if (serv.Split(';')[1] != localFiles[i].Split(';')[1])
                         {
-                            ftpUpload(FranpetteUtils.getRoot(file), "Franpette/" + file, worker);
+                            ftpUpload(file, "Franpette/" + file, worker);
                         }
                         break;
                     }
                     i++;
                 }
-                if (!found) ftpUpload(FranpetteUtils.getRoot(file), "Franpette/" + file, worker);
+                if (!found) ftpUpload(file, "Franpette/" + file, worker);
                 worker.ReportProgress((int)(done * 100.0 / (float)localFiles.Length));
                 if (done + 1 <= localFiles.Length) done++;
             }
