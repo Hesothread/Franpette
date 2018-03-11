@@ -5,7 +5,6 @@ namespace WindowsFormsApplication2.Sources.Network
 {
     public enum ETarget
     {
-        UPDATE,
         FRANPETTE,
         MINECRAFT
     }

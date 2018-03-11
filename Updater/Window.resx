@@ -118,26 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="refresh_button.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA3XAAAN1wFCKJt4AAAAB3RJ
-        TUUH4gMEDxgqDWbrHAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAADTSURBVDhP
-        lZPBDYJAEEWBWAVXGrEEmuBoHRZEAZoYmoADN9vA95JBY7Kw2Zf8xBnmO8vMUuXYtm1GN1RHqgyM8kJP
-        1EX6GIpqNKARvZFckH+yRFkaClr0QBPqI5b8CXhoZ8131ETa/IryM6DAY9v5ay4Co+/cR1gOZgfWRngK
-        ddf4+SOZTGATm0VYDma3M0ZYBsYGOeghUmkocKWubo7UbnbFrvp4pTzskJfGyyO+s8e2s+bzQVOwIM1e
-        X3E7rth7kv+gKPo7QaTLwLfPYI3UAVX1Af6zD6QGoqydAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <metadata name="refresh_info.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>13, 7</value>
-  </metadata>
-  <metadata name="minecraft_toogle.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>38, 40</value>
-  </metadata>
-  <metadata name="menu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>119, 10</value>
-  </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAgIAAAAEAIAAoCAEAFgAAACgAAACAAAAAAAEAAAEAIAAAAAAAAAABAHYDAAB2AwAAAAAAAAAA

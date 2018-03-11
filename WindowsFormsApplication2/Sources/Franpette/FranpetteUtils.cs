@@ -10,7 +10,7 @@ namespace WindowsFormsApplication2.Sources.Franpette
 {
     static class FranpetteUtils
     {
-        static string _build = "v2.7.4";
+        static string _build = "v2.8";
         static string _appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         static string _creds = "credentials.txt";
 
@@ -103,7 +103,7 @@ namespace WindowsFormsApplication2.Sources.Franpette
                 FileInfo fi = new FileInfo(file);
                 start = directory.Length + 1;
                 if (dirNameInPath) start -= Path.GetFileName(directory).Length + 1;
-                files.Add(file.Substring(start, file.Length - start) + ";" + getMd5(file));
+                files.Add(file.Substring(start, file.Length - start) + ";" + getMd5(file) + ";" + fi.Length);
             }
             return files.ToArray();
         }
@@ -118,7 +118,7 @@ namespace WindowsFormsApplication2.Sources.Franpette
             {
                 FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://" + address + "/");
                 request.Credentials = new NetworkCredential(login, password);
-                request.Method = WebRequestMethods.Ftp.PrintWorkingDirectory;
+                request.Method = WebRequestMethods.Ftp.ListDirectory;
                 FtpWebResponse response = (FtpWebResponse)request.GetResponse();
                 response.Close();
             }

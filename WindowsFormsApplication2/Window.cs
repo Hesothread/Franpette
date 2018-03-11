@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Net;
 using System.Windows.Forms;
 using WindowsFormsApplication2.Sources.Franpette;
 using WindowsFormsApplication2.Sources.Serialisation;
@@ -12,10 +13,10 @@ namespace WindowsFormsApplication2
 {
     public partial class Window : Form
     {
-        public FranpetteCore _franpette;
-        private Dictionary<EInfo, String> _actuelSatus;
+        public FranpetteCore                _franpette;
+        private Dictionary<EInfo, String>   _actuelSatus;
 
-        private Boolean _loggedOut = false;
+        private Boolean                     _loggedOut = false;
 
         public Window(string address, string login, string password)
         {
@@ -47,7 +48,7 @@ namespace WindowsFormsApplication2
 
         private void refreshInfo()
         {
-            if (refresh_info.IsBusy != true && minecraft_toogle.IsBusy != true && check_updates.IsBusy != true)
+            if (refresh_info.IsBusy != true && minecraft_toogle.IsBusy != true)
                 refresh_info.RunWorkerAsync();
         }
 
@@ -61,31 +62,20 @@ namespace WindowsFormsApplication2
                     _franpette.editMOTD(MOTD_textBox.Text, worker);
             }
 
-            _franpette.infoUpdate(worker);
+            _franpette.refresh(worker);
         }
 
         private void refresh_info_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             ftp_progressBar.Value = 0;
-            _actuelSatus = _franpette.getInfoValue();
+            _actuelSatus = _franpette.getData();
 
-            // update Franpette infos
             MOTD_textBox.Text = _actuelSatus[EInfo.FRANPETTEMESSAGEOFTHEDAY];
             version_label.Text = "version " + _actuelSatus[EInfo.FRANPETTEVERSION];
-
-            // update Minecraft infos
             state_value.Text = _actuelSatus[EInfo.MINECRAFTSTATE];
             date_value.Text = _actuelSatus[EInfo.MINECRAFTDATE];
             user_value.Text = _actuelSatus[EInfo.MINECRAFTUSER];
             host_button.Text = _actuelSatus[EInfo.MINECRAFTIP];
-
-            /*if (host_button.Text != null && host_button.Text != "NaN")
-            {
-                if (FranpetteUtils.isPortOpen(host_button.Text, 25565, new TimeSpan(0, 0, 0, 3, 0)))
-                    host_button.ForeColor = Color.Green;
-                else
-                    host_button.ForeColor = Color.Red;
-            }*/
 
             if (state_value.Text == "Start") state_value.ForeColor = Color.Green;
             else state_value.ForeColor = Color.Red;
@@ -93,7 +83,7 @@ namespace WindowsFormsApplication2
 
         private void minecraftToogle()
         {
-            if (refresh_info.IsBusy != true && minecraft_toogle.IsBusy != true && check_updates.IsBusy != true)
+            if (refresh_info.IsBusy != true && minecraft_toogle.IsBusy != true)
                 minecraft_toogle.RunWorkerAsync();
         }
 
@@ -107,7 +97,7 @@ namespace WindowsFormsApplication2
                     _franpette.editMOTD(MOTD_textBox.Text, worker);
             }
 
-            _franpette.infoUpdate(worker);
+            _franpette.refresh(worker);
 
             if (state_value.Text != "Start")
             {
@@ -121,26 +111,36 @@ namespace WindowsFormsApplication2
 
         private void minecraft_toogle_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            ftp_progressBar.Value = e.ProgressPercentage;
+            if (e.ProgressPercentage >= 0)
+                ftp_progressBar.Value = e.ProgressPercentage;
+
+            total_progress.Text = "Remaining ";
+            int state = Convert.ToInt32(e.UserState);
+            if (state > 1000000000)
+                total_progress.Text += (state / 1000000000.0).ToString("F") + "G";
+            else
+                total_progress.Text += state / 1000000 + "M";
+            total_progress.Text += " - " + e.ProgressPercentage + "%";
         }
 
         private void minecraft_toogle_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             ftp_progressBar.Value = 0;
+            total_progress.Text = "";
             refreshInfo();
+            this.WindowState = FormWindowState.Minimized;
         }
 
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (refresh_info.IsBusy != true && minecraft_toogle.IsBusy != true && check_updates.IsBusy != true)
-                check_updates.RunWorkerAsync();
-        }
+            WebClient wc = new WebClient();
+            wc.DownloadFile(new Uri("https://turbet.nalo-corp.net/builds/updater.exe"), "updater.exe");
 
-        private void check_updates_DoWork(object sender, DoWorkEventArgs e)
-        {
-            BackgroundWorker worker = sender as BackgroundWorker;
-
-            _franpette.checkForUpdates(worker);
+            if (File.Exists("updater.exe"))
+            {
+                Process.Start("updater.exe");
+                this.Close();
+            }
         }
 
         public Boolean isLoggedOut()
@@ -150,7 +150,7 @@ namespace WindowsFormsApplication2
 
         private void logOutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (refresh_info.IsBusy != true && minecraft_toogle.IsBusy != true && check_updates.IsBusy != true)
+            if (refresh_info.IsBusy != true && minecraft_toogle.IsBusy != true)
             {
                 _loggedOut = true;
                 this.Close();
@@ -179,7 +179,7 @@ namespace WindowsFormsApplication2
 
         private void aboutUsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start("https://github.com/deshtros/Franpette");
+            Process.Start("https://turbet.nalo-corp.net/Franpette/#about");
         }
 
         private void reportABugToolStripMenuItem_Click(object sender, EventArgs e)

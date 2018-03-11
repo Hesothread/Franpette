@@ -48,19 +48,16 @@ namespace WindowsFormsApplication2.Sources
         {
             switch (target)
             {
-                case ETarget.UPDATE:
-                    downloadDirectory("Franpette/Update/", Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName));
-                    break;
                 case ETarget.FRANPETTE:
                     ftpDownload("Franpette/FranpetteStatus.xml", FranpetteUtils.getRoot("FranpetteStatus.xml"), worker);
-                    printInfo("Franpette est prêt.");
+                    printInfo("Franpette is ready.");
                     break;
                 case ETarget.MINECRAFT:
-                    printInfo("Franpette inspècte vos fichiers...");
+                    printInfo("Franpette inspects your files...");
                     File.WriteAllLines(FranpetteUtils.getRoot("Minecraft.csv"), FranpetteUtils.checkCsv(true, "Minecraft"));
                     ftpDownload("Franpette/Minecraft.csv", FranpetteUtils.getRoot("Minecraft_server.csv"), worker);
                     filesToDownload(FranpetteUtils.getRoot("Minecraft_server.csv"), FranpetteUtils.getRoot("Minecraft.csv"), worker);
-                    printInfo("Franpette inspècte vos fichiers...");
+                    printInfo("Franpette inspects your files...");
                     File.WriteAllLines(FranpetteUtils.getRoot("Minecraft.csv"), FranpetteUtils.checkCsv(true, "Minecraft"));
                     ftpUpload(FranpetteUtils.getRoot("Minecraft.csv"), "Franpette/Minecraft.csv", worker);
                     break;
@@ -80,7 +77,7 @@ namespace WindowsFormsApplication2.Sources
                     ftpUpload(FranpetteUtils.getRoot("FranpetteStatus.xml"), "Franpette/FranpetteStatus.xml", worker);
                     break;
                 case ETarget.MINECRAFT:
-                    printInfo("Franpette inspècte vos fichiers...");
+                    printInfo("Franpette inspects your files...");
                     File.WriteAllLines(FranpetteUtils.getRoot("Minecraft.csv"), FranpetteUtils.checkCsv(true, "Minecraft"));
                     ftpDownload("Franpette/Minecraft.csv", FranpetteUtils.getRoot("Minecraft_server.csv"), worker);
                     filesToUpload(FranpetteUtils.getRoot("Minecraft.csv"), FranpetteUtils.getRoot("Minecraft_server.csv"), worker);
@@ -176,12 +173,11 @@ namespace WindowsFormsApplication2.Sources
         public void printProgressInfo(string filename, long pos, int max)
         {
             string perSeconds = "";
-            if (max > 102400)
+            if (max > 100000)
             {
                 float speed = pos / (float)_sw.Elapsed.TotalSeconds;
                 perSeconds = " - " + (speed / 1000).ToString("F") + " Kb/s";
-                if (speed > 1000000)
-                    perSeconds = " - " + (speed / 1000000).ToString("F") + " Mb/s";
+                if (speed > 1000000) perSeconds = " - " + (speed / 1000000).ToString("F") + " Mb/s";
             }
 
             float percent = ((float)pos / max) * 100f;
@@ -203,10 +199,19 @@ namespace WindowsFormsApplication2.Sources
             string[] localFiles = File.ReadAllLines(local);
             string[] serverFiles = File.ReadAllLines(server);
 
+            int total = 0;
+            foreach (string line in serverFiles)
+            {
+                if (line.Split(';').Length == 3)
+                    total += Convert.ToInt32(line.Split(';')[2]);
+            }
+
             int done = 0;
             Boolean found;
             int i = 0;
             int start = 0;
+
+            FranpetteUtils.debug("[NetworkFTP] filesToDownload : debut de l'analyse des fichiers...");
 
             foreach (string serv in serverFiles)
             {
@@ -252,8 +257,9 @@ namespace WindowsFormsApplication2.Sources
                     Directory.CreateDirectory(file.Substring(0, file.LastIndexOf('/')));
                     ftpDownload("Franpette/" + file, file, worker);
                 }
-                worker.ReportProgress((int)(done * 100.0 / (float)serverFiles.Length));
-                if (done + 1 <= serverFiles.Length) done++;
+                worker.ReportProgress((int)(done * 100.0 / (float)total), total - done);
+                if (serv.Split(';').Length == 3)
+                    done += Convert.ToInt32(serv.Split(';')[2]);
             }
         }
 
@@ -262,6 +268,13 @@ namespace WindowsFormsApplication2.Sources
         {
             string[] localFiles = File.ReadAllLines(server);
             string[] serverFiles = File.ReadAllLines(local);
+
+            int total = 0;
+            foreach (string line in serverFiles)
+            {
+                if (line.Split(';').Length == 3)
+                    total += Convert.ToInt32(line.Split(';')[2]);
+            }
 
             int done = 0;
             Boolean found;
@@ -295,60 +308,9 @@ namespace WindowsFormsApplication2.Sources
                     i++;
                 }
                 if (!found) ftpUpload(file, "Franpette/" + file, worker);
-                worker.ReportProgress((int)(done * 100.0 / (float)localFiles.Length));
-                if (done + 1 <= localFiles.Length) done++;
-            }
-        }
-
-        // Télécharge le contenu du dossier distant et de ses sous dossiers
-        public void downloadDirectory(string url, string localPath)
-        {
-            FtpWebRequest listRequest = requestMethod(url, WebRequestMethods.Ftp.ListDirectoryDetails);
-
-            List<string> lines = new List<string>();
-
-            using (FtpWebResponse listResponse = (FtpWebResponse)listRequest.GetResponse())
-            using (Stream listStream = listResponse.GetResponseStream())
-            using (StreamReader listReader = new StreamReader(listStream))
-            {
-                while (!listReader.EndOfStream)
-                {
-                    lines.Add(listReader.ReadLine());
-                }
-            }
-
-            Directory.CreateDirectory(localPath);
-
-            foreach (string line in lines)
-            {
-                string[] tokens = line.Split(new[] { ' ' }, 9, StringSplitOptions.RemoveEmptyEntries);
-                string name = tokens[8];
-                string permissions = tokens[0];
-
-                string localFilePath = Path.Combine(localPath, name);
-                string fileUrl = url + name;
-
-                if (permissions[0] == 'd')
-                {
-                    Directory.CreateDirectory(localFilePath);
-                    downloadDirectory(fileUrl + "/", localFilePath);
-                }
-                else
-                {
-                    FtpWebRequest downloadRequest = requestMethod(fileUrl, WebRequestMethods.Ftp.DownloadFile);
-
-                    using (FtpWebResponse downloadResponse = (FtpWebResponse)downloadRequest.GetResponse())
-                    using (Stream sourceStream = downloadResponse.GetResponseStream())
-                    using (Stream targetStream = File.Create(localFilePath))
-                    {
-                        byte[] buffer = new byte[10240];
-                        int read;
-                        while ((read = sourceStream.Read(buffer, 0, buffer.Length)) > 0)
-                        {
-                            targetStream.Write(buffer, 0, read);
-                        }
-                    }
-                }
+                worker.ReportProgress((int)(done * 100.0 / (float)total), total - done);
+                if (serv.Split(';').Length == 3)
+                    done += Convert.ToInt32(serv.Split(';')[2]);
             }
         }
     }

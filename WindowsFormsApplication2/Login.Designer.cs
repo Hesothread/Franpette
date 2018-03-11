@@ -238,7 +238,7 @@
             // 
             this.logo_pictureBox.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.logo_pictureBox.Image = ((System.Drawing.Image)(resources.GetObject("logo_pictureBox.Image")));
-            this.logo_pictureBox.Location = new System.Drawing.Point(145, 26);
+            this.logo_pictureBox.Location = new System.Drawing.Point(155, 25);
             this.logo_pictureBox.Name = "logo_pictureBox";
             this.logo_pictureBox.Size = new System.Drawing.Size(128, 128);
             this.logo_pictureBox.TabIndex = 14;
@@ -272,7 +272,7 @@
             this.MinimumSize = new System.Drawing.Size(350, 550);
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Franpette - host your friends";
+            this.Text = "Franpette";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Login_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.username_pictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.password_pictureBox)).EndInit();
