@@ -68,6 +68,8 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutUsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.total_progress = new System.Windows.Forms.Label();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.apps_groupbox.SuspendLayout();
             this.menu.SuspendLayout();
             this.SuspendLayout();
@@ -332,7 +334,9 @@
             // edit_menuItem
             // 
             this.edit_menuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.clearCredentialsToolStripMenuItem});
+            this.clearCredentialsToolStripMenuItem,
+            this.toolStripSeparator6,
+            this.settingsToolStripMenuItem});
             this.edit_menuItem.ForeColor = System.Drawing.Color.Black;
             this.edit_menuItem.Name = "edit_menuItem";
             this.edit_menuItem.Size = new System.Drawing.Size(42, 24);
@@ -454,6 +458,18 @@
             this.total_progress.TabIndex = 26;
             this.total_progress.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(182, 6);
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.settingsToolStripMenuItem.Text = "Settings...";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -525,6 +541,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.Label total_progress;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
     }
 }
 

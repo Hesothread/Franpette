@@ -186,5 +186,11 @@ namespace Franpette
         {
             Process.Start("https://github.com/deshtros/Franpette/issues/new");
         }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Settings set = new Settings();
+            set.Show();
+        }
     }
 }

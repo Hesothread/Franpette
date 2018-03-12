@@ -10,7 +10,7 @@ namespace Franpette.Sources.Franpette
 {
     static class FranpetteUtils
     {
-        static string _build = "v2.8";
+        static string _build = "v2.8.1";
         static string _appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         static string _creds = "credentials.txt";
 
