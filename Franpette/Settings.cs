@@ -33,21 +33,7 @@ namespace Franpette
 
             DisplayPanel(0);
 
-            if (File.Exists(FranpetteUtils.getRoot("franpette.properties")))
-            {
-                foreach (string line in File.ReadAllLines(FranpetteUtils.getRoot("franpette.properties")))
-                {
-                    string setting = line.Split(':')[0];
-                    string value = line.Split(':')[1];
-
-                    switch (setting)
-                    {
-                        case "autologin":
-                            autologin_checkBox.Checked = value.Equals("True") ? true : false;
-                            break;
-                    }
-                }
-            }
+            autologin_checkBox.Checked = FranpetteUtils.isAutoLogin();
         }
 
         private void treeView_AfterSelect(object sender, TreeViewEventArgs e)

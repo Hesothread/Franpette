@@ -15,8 +15,12 @@ namespace Franpette
         public Login()
         {
             InitializeComponent();
+
             build.Text = FranpetteUtils.getBuildVersion();
             fillFields();
+
+            if (FranpetteUtils.isAutoLogin() && connection.IsBusy != true)
+                connection.RunWorkerAsync();
         }
 
         private void fillFields()

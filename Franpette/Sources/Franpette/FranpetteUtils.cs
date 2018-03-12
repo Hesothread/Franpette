@@ -24,6 +24,23 @@ namespace Franpette.Sources.Franpette
             return _appdata + "\\.franpette\\" + path;
         }
 
+        // Vérifie si l'options auto login est activée
+        public static Boolean isAutoLogin()
+        {
+            if (File.Exists(getRoot("franpette.properties")))
+            {
+                foreach (string line in File.ReadAllLines(getRoot("franpette.properties")))
+                {
+                    if (line.Split(':')[0] == "autologin")
+                    {
+                        return line.Split(':')[1].Equals("True") ? true : false;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         // Console.WriteLine() -> debug.log
         public static void debug(string text)
         {
