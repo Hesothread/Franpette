@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 
-namespace WindowsFormsApplication2.Sources.Franpette
+namespace Franpette.Sources.Franpette
 {
     static class FranpetteUtils
     {

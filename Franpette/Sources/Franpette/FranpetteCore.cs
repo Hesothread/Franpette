@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Forms;
-using WindowsFormsApplication2.Sources.Network;
-using WindowsFormsApplication2.Sources.Serialisation;
+using Franpette.Sources.Network;
+using Franpette.Sources.Serialisation;
 
-namespace WindowsFormsApplication2.Sources.Franpette
+namespace Franpette.Sources.Franpette
 {
     public class FranpetteCore
     {

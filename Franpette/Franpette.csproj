@@ -7,7 +7,7 @@
     <ProjectGuid>{642D25F5-83B2-4BDD-B283-02B3F69D1715}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WindowsFormsApplication2</RootNamespace>
+    <RootNamespace>Franpette</RootNamespace>
     <AssemblyName>franpette</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -55,7 +55,7 @@
     <ManifestCertificateThumbprint>00A5E0AF39DA20C4BAF30BA363CA7B52BB43AC08</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>WindowsFormsApplication2_CléTemporaire.pfx</ManifestKeyFile>
+    <ManifestKeyFile>Franpette_CléTemporaire.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -123,7 +123,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="Properties\DataSources\WindowsFormsApplication2.Sources.Franpette.FranpetteCore.datasource" />
+    <None Include="Properties\DataSources\Franpette.Sources.Franpette.FranpetteCore.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -133,7 +133,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="WindowsFormsApplication2_CléTemporaire.pfx" />
+    <None Include="Franpette_CléTemporaire.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

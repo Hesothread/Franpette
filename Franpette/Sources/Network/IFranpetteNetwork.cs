@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace WindowsFormsApplication2.Sources.Network
+namespace Franpette.Sources.Network
 {
     public enum ETarget
     {

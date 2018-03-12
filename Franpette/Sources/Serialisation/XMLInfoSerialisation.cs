@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
-using WindowsFormsApplication2.Sources.Franpette;
+using Franpette.Sources.Franpette;
 
-namespace WindowsFormsApplication2.Sources.Serialisation
+namespace Franpette.Sources.Serialisation
 {
     class XMLInfoSerialisation : ISerialisation
     {

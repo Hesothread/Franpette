@@ -3,9 +3,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using WindowsFormsApplication2.Sources.Franpette;
+using Franpette.Sources.Franpette;
 
-namespace WindowsFormsApplication2
+namespace Franpette
 {
     public partial class Login : Form
     {

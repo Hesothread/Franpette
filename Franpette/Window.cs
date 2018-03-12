@@ -6,10 +6,10 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
-using WindowsFormsApplication2.Sources.Franpette;
-using WindowsFormsApplication2.Sources.Serialisation;
+using Franpette.Sources.Franpette;
+using Franpette.Sources.Serialisation;
 
-namespace WindowsFormsApplication2
+namespace Franpette
 {
     public partial class Window : Form
     {

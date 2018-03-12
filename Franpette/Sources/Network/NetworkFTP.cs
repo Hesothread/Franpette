@@ -4,12 +4,12 @@ using System.Net;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using WindowsFormsApplication2.Sources.Network;
-using WindowsFormsApplication2.Sources.Franpette;
+using Franpette.Sources.Network;
+using Franpette.Sources.Franpette;
 using System.ComponentModel;
 using System.Collections.Generic;
 
-namespace WindowsFormsApplication2.Sources
+namespace Franpette.Sources
 {
     class NetworkFTP : IFranpetteNetwork
     {

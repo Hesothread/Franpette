@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WindowsFormsApplication2.Sources.Serialisation
+namespace Franpette.Sources.Serialisation
 {
     enum EInfo
     {
