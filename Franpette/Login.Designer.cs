@@ -149,7 +149,7 @@
             this.remember_checkBox.ForeColor = System.Drawing.Color.White;
             this.remember_checkBox.Location = new System.Drawing.Point(59, 378);
             this.remember_checkBox.Name = "remember_checkBox";
-            this.remember_checkBox.Size = new System.Drawing.Size(121, 27);
+            this.remember_checkBox.Size = new System.Drawing.Size(318, 27);
             this.remember_checkBox.TabIndex = 8;
             this.remember_checkBox.Text = "Remember";
             this.remember_checkBox.UseVisualStyleBackColor = true;
