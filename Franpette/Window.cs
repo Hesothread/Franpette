@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Resources;
 using System.Windows.Forms;
 using Franpette.Sources.Franpette;
 using Franpette.Sources.Serialisation;
@@ -15,12 +17,35 @@ namespace Franpette
     {
         public Core                         _core;
         private Dictionary<EInfo, String>   _actuelSatus;
-
         private Boolean                     _loggedOut = false;
+        private ResourceManager             _resMan;
+        private CultureInfo                 _cul;
 
         public Window(string address, string login, string password)
         {
             InitializeComponent();
+
+            _resMan = new ResourceManager("Franpette.Resources.Lang", typeof(Program).Assembly);
+            _cul = CultureInfo.CreateSpecificCulture(Utils.getLangTag());
+
+            // Resources
+            MOTD_label.Text =                           _resMan.GetString("MOTD_label", _cul);
+            apps_groupbox.Text =                        _resMan.GetString("apps_groupbox", _cul);
+            file_menuItem.Text =                        _resMan.GetString("file_menuItem", _cul);
+            edit_menuItem.Text =                        _resMan.GetString("edit_menuItem", _cul);
+            view_menuItem.Text =                        _resMan.GetString("view_menuItem", _cul);
+            server_menuItem.Text =                      _resMan.GetString("server_menuItem", _cul);
+            help_menuItem.Text =                        _resMan.GetString("help_menuItem", _cul);
+            showFilesToolStripMenuItem.Text =           _resMan.GetString("showFilesToolStripMenuItem", _cul);
+            exitToolStripMenuItem.Text =                _resMan.GetString("exitToolStripMenuItem", _cul);
+            clearCredentialsToolStripMenuItem.Text =    _resMan.GetString("clearCredentialsToolStripMenuItem", _cul);
+            settingsToolStripMenuItem.Text =            _resMan.GetString("settingsToolStripMenuItem", _cul);
+            refreshToolStripMenuItem.Text =             _resMan.GetString("refreshToolStripMenuItem", _cul);
+            cancelToolStripMenuItem.Text =              _resMan.GetString("cancelToolStripMenuItem", _cul);
+            disconnectToolStripMenuItem.Text =          _resMan.GetString("disconnectToolStripMenuItem", _cul);
+            checkForUpdatesToolStripMenuItem.Text =     _resMan.GetString("checkForUpdatesToolStripMenuItem", _cul);
+            reportABugToolStripMenuItem.Text =          _resMan.GetString("reportABugToolStripMenuItem", _cul);
+            aboutToolStripMenuItem.Text =               _resMan.GetString("aboutToolStripMenuItem", _cul);
 
             _core = new Core(progress_label);
             _actuelSatus = new Dictionary<EInfo, string>();
@@ -114,13 +139,7 @@ namespace Franpette
             if (e.ProgressPercentage >= 0)
                 ftp_progressBar.Value = e.ProgressPercentage;
 
-            total_progress.Text = "Remaining ";
-            int state = Convert.ToInt32(e.UserState);
-            if (state > 1000000000)
-                total_progress.Text += (state / 1000000000.0).ToString("F") + "G";
-            else
-                total_progress.Text += state / 1000000 + "M";
-            total_progress.Text += " - " + e.ProgressPercentage + "%";
+            total_progress.Text = e.ProgressPercentage + "%";
         }
 
         private void minecraft_toogle_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

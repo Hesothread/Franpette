@@ -5,12 +5,13 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
+using System.Windows.Forms;
 
 namespace Franpette.Sources.Franpette
 {
     static class Utils
     {
-        static string _build = "v2.8.1";
+        static string _build = "v2.9";
         static string _appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         static string _creds = "credentials.txt";
 
@@ -24,7 +25,38 @@ namespace Franpette.Sources.Franpette
             return _appdata + "\\.franpette\\" + path;
         }
 
-        // Vérifie si l'options auto login est activée
+        // Récupère le tag (fr, en, es, etc..) dans une string
+        public static string getLangTag()
+        {
+            if (File.Exists(Utils.getRoot("franpette.properties")))
+            {
+                foreach (string line in File.ReadAllLines(getRoot("franpette.properties")))
+                {
+                    if (line.Split(':')[0] == "lang")
+                    {
+                        return line.Split(':')[1];
+                    }
+                }
+            }
+
+            return "en_US";
+        }
+
+        // Retourne l'index de la langue actuelle
+        public static int getIndexLang(ListBox list)
+        {
+            for (int i = 0; i < list.Items.Count; i++)
+            {
+                if (list.Items[i].ToString().Contains("(" + getLangTag() + ")"))
+                {
+                    return i;
+                }
+            }
+
+            return 0;
+        }
+
+        // Retourne la valeur Auto Login
         public static Boolean isAutoLogin()
         {
             if (File.Exists(getRoot("franpette.properties")))

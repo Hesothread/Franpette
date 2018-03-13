@@ -8,19 +8,24 @@ using Franpette.Sources.Network;
 using Franpette.Sources.Franpette;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Resources;
+using System.Globalization;
 
 namespace Franpette.Sources
 {
     class NetworkFTP : IFranpetteNetwork
     {
-        private Stopwatch   _sw;
-        private Label       _progress;
-        private Font        _font;
-        private PointF      _textPos;
+        private Stopwatch       _sw;
+        private Label           _progress;
+        private Font            _font;
+        private PointF          _textPos;
         
-        private String      _password;
-        private String      _login;
-        private String      _address;
+        private String          _password;
+        private String          _login;
+        private String          _address;
+
+        private ResourceManager _resMan;
+        private CultureInfo     _cul;
 
         public NetworkFTP(Label progress_label)
         {
@@ -28,6 +33,9 @@ namespace Franpette.Sources
             _progress = progress_label;
             _font = new Font("Lucida Sans Unicode", 9F, FontStyle.Regular);
             _textPos = new PointF(0, 0);
+
+            _resMan = new ResourceManager("Franpette.Resources.Lang", typeof(Program).Assembly);
+            _cul = CultureInfo.CreateSpecificCulture(Utils.getLangTag());
         }
 
         public Boolean connect(string address)
@@ -50,14 +58,14 @@ namespace Franpette.Sources
             {
                 case ETarget.FRANPETTE:
                     ftpDownload("Franpette/FranpetteStatus.xml", Utils.getRoot("FranpetteStatus.xml"), worker);
-                    printInfo("Franpette is ready.");
+                    printInfo(_resMan.GetString("franpette_ready", _cul));
                     break;
                 case ETarget.MINECRAFT:
-                    printInfo("Franpette inspects your files...");
+                    printInfo(_resMan.GetString("franpette_checkCsv", _cul));
                     File.WriteAllLines(Utils.getRoot("Minecraft.csv"), Utils.checkCsv(true, "Minecraft"));
                     ftpDownload("Franpette/Minecraft.csv", Utils.getRoot("Minecraft_server.csv"), worker);
                     filesToDownload(Utils.getRoot("Minecraft_server.csv"), Utils.getRoot("Minecraft.csv"), worker);
-                    printInfo("Franpette inspects your files...");
+                    printInfo(_resMan.GetString("franpette_checkCsv", _cul));
                     File.WriteAllLines(Utils.getRoot("Minecraft.csv"), Utils.checkCsv(true, "Minecraft"));
                     ftpUpload(Utils.getRoot("Minecraft.csv"), "Franpette/Minecraft.csv", worker);
                     break;
@@ -77,7 +85,7 @@ namespace Franpette.Sources
                     ftpUpload(Utils.getRoot("FranpetteStatus.xml"), "Franpette/FranpetteStatus.xml", worker);
                     break;
                 case ETarget.MINECRAFT:
-                    printInfo("Franpette inspects your files...");
+                    printInfo(_resMan.GetString("franpette_checkCsv", _cul));
                     File.WriteAllLines(Utils.getRoot("Minecraft.csv"), Utils.checkCsv(true, "Minecraft"));
                     ftpDownload("Franpette/Minecraft.csv", Utils.getRoot("Minecraft_server.csv"), worker);
                     filesToUpload(Utils.getRoot("Minecraft.csv"), Utils.getRoot("Minecraft_server.csv"), worker);

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
+using System.Resources;
 using System.Windows.Forms;
 using Franpette.Sources.Franpette;
 
@@ -9,12 +11,24 @@ namespace Franpette
 {
     public partial class Login : Form
     {
-        private Window _win;
-        private string[] _credentials;
+        private Window          _win;
+        private string[]        _credentials;
+        private ResourceManager _resMan;
+        private CultureInfo     _cul;
 
         public Login()
         {
             InitializeComponent();
+
+            _resMan = new ResourceManager("Franpette.Resources.Lang", typeof(Program).Assembly);
+            _cul = CultureInfo.CreateSpecificCulture(Utils.getLangTag());
+
+            // Resources
+            remember_checkBox.Text = _resMan.GetString("remember_checkBox", _cul);
+            address_placeholder.Text = _resMan.GetString("address_placeholder", _cul);
+            username_placeholder.Text = _resMan.GetString("username_placeholder", _cul);
+            password_placeholder.Text = _resMan.GetString("password_placeholder", _cul);
+            login_button.Text = _resMan.GetString("login_button", _cul);
 
             build.Text = Utils.getBuildVersion();
             fillFields();
@@ -61,7 +75,7 @@ namespace Franpette
 
             if (connection.IsBusy != true)
             {
-                login_button.Text = "Logging in...";
+                login_button.Text = _resMan.GetString("logging_in", _cul);
                 error.Hide();
                 connection.RunWorkerAsync();
             }
@@ -76,7 +90,7 @@ namespace Franpette
 
         private void connection_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            login_button.Text = "Log in";
+            login_button.Text = _resMan.GetString("login_button", _cul);
             if ((int)e.Result == 0)
             {
                 _win = new Window(address_textBox.Text, username_textBox.Text, password_textBox.Text);
@@ -89,16 +103,16 @@ namespace Franpette
                 switch ((int)e.Result)
                 {
                     case 1:
-                        error.Text = "Invalid username/password";
+                        error.Text = _resMan.GetString("error_1", _cul);
                         break;
                     case 2:
-                        error.Text = "The server is inaccessible";
+                        error.Text = _resMan.GetString("error_2", _cul);
                         break;
                     case 3:
-                        error.Text = "One of the fields is not filled";
+                        error.Text = _resMan.GetString("error_3", _cul);
                         break;
                     default:
-                        error.Text = "Error during the connection";
+                        error.Text = _resMan.GetString("error_default", _cul);
                         break;
                 }
                 error.Show();
