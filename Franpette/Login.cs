@@ -16,16 +16,16 @@ namespace Franpette
         {
             InitializeComponent();
 
-            build.Text = FranpetteUtils.getBuildVersion();
+            build.Text = Utils.getBuildVersion();
             fillFields();
 
-            if (FranpetteUtils.isAutoLogin() && connection.IsBusy != true)
+            if (Utils.isAutoLogin() && connection.IsBusy != true)
                 connection.RunWorkerAsync();
         }
 
         private void fillFields()
         {
-            if ((_credentials = FranpetteUtils.getCredentials()) != null)
+            if ((_credentials = Utils.getCredentials()) != null)
             {
                 remember_checkBox.Hide();
                 address_placeholder.Hide();
@@ -52,11 +52,11 @@ namespace Franpette
         {
             if (remember_checkBox.Checked && address_textBox.Text != null && username_textBox.Text != null && password_textBox.Text != null)
             {
-                FranpetteUtils.saveCredentials(address_textBox.Text, username_textBox.Text, password_textBox.Text);
+                Utils.saveCredentials(address_textBox.Text, username_textBox.Text, password_textBox.Text);
             }
             else
             {
-                Directory.CreateDirectory(FranpetteUtils.getRoot());
+                Directory.CreateDirectory(Utils.getRoot());
             }
 
             if (connection.IsBusy != true)
@@ -71,7 +71,7 @@ namespace Franpette
         {
             BackgroundWorker worker = sender as BackgroundWorker;
 
-            e.Result = FranpetteUtils.isValidConnection(address_textBox.Text, username_textBox.Text, password_textBox.Text);
+            e.Result = Utils.isValidConnection(address_textBox.Text, username_textBox.Text, password_textBox.Text);
         }
 
         private void connection_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

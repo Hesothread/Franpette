@@ -13,7 +13,7 @@ namespace Franpette
 {
     public partial class Window : Form
     {
-        public FranpetteCore                _franpette;
+        public Core                         _core;
         private Dictionary<EInfo, String>   _actuelSatus;
 
         private Boolean                     _loggedOut = false;
@@ -22,10 +22,10 @@ namespace Franpette
         {
             InitializeComponent();
 
-            _franpette = new FranpetteCore(progress_label);
+            _core = new Core(progress_label);
             _actuelSatus = new Dictionary<EInfo, string>();
 
-            _franpette.connect(address, login, password);
+            _core.connect(address, login, password);
 
             refreshInfo();
         }
@@ -59,16 +59,16 @@ namespace Franpette
             if (_actuelSatus.Count != 0)
             {
                 if (MOTD_textBox.Text != _actuelSatus[EInfo.FRANPETTEMESSAGEOFTHEDAY])
-                    _franpette.editMOTD(MOTD_textBox.Text, worker);
+                    _core.editMOTD(MOTD_textBox.Text, worker);
             }
 
-            _franpette.refresh(worker);
+            _core.refresh(worker);
         }
 
         private void refresh_info_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             ftp_progressBar.Value = 0;
-            _actuelSatus = _franpette.getData();
+            _actuelSatus = _core.getData();
 
             MOTD_textBox.Text = _actuelSatus[EInfo.FRANPETTEMESSAGEOFTHEDAY];
             version_label.Text = "version " + _actuelSatus[EInfo.FRANPETTEVERSION];
@@ -94,18 +94,18 @@ namespace Franpette
             if (_actuelSatus.Count != 0)
             {
                 if (MOTD_textBox.Text != _actuelSatus[EInfo.FRANPETTEMESSAGEOFTHEDAY])
-                    _franpette.editMOTD(MOTD_textBox.Text, worker);
+                    _core.editMOTD(MOTD_textBox.Text, worker);
             }
 
-            _franpette.refresh(worker);
+            _core.refresh(worker);
 
             if (state_value.Text != "Start")
             {
-                if (_franpette.minecraftUpdate(worker)) _franpette.minecraftStart(worker);
+                if (_core.minecraftUpdate(worker)) _core.minecraftStart(worker);
             }
-            else if (host_button.Text == FranpetteUtils.getInternetIp())
+            else if (host_button.Text == Utils.getInternetIp())
             {
-                _franpette.minecraftStop(worker);
+                _core.minecraftStop(worker);
             }
         }
 
@@ -164,12 +164,12 @@ namespace Franpette
 
         private void clearCredentialsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FranpetteUtils.clearCredentials();
+            Utils.clearCredentials();
         }
 
         private void showFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start(FranpetteUtils.getRoot());
+            Process.Start(Utils.getRoot());
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -189,8 +189,8 @@ namespace Franpette
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Settings set = new Settings();
-            set.Show();
+            Settings settings = new Settings();
+            settings.Show();
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Franpette
 
             DisplayPanel(0);
 
-            autologin_checkBox.Checked = FranpetteUtils.isAutoLogin();
+            autologin_checkBox.Checked = Utils.isAutoLogin();
         }
 
         private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
@@ -59,7 +59,7 @@ namespace Franpette
 
             settingsLines.Add("autologin:" + autologin_checkBox.Checked.ToString());
 
-            File.WriteAllLines(FranpetteUtils.getRoot("franpette.properties"), settingsLines.ToArray());
+            File.WriteAllLines(Utils.getRoot("franpette.properties"), settingsLines.ToArray());
 
             this.Close();
         }

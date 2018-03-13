@@ -8,7 +8,7 @@ using Franpette.Sources.Serialisation;
 
 namespace Franpette.Sources.Franpette
 {
-    public class FranpetteCore
+    public class Core
     {
         private ISerialisation              _serialisation;
         private IFranpetteNetwork           _network;
@@ -16,7 +16,7 @@ namespace Franpette.Sources.Franpette
         private Dictionary<EInfo, String>   _data;
         private Boolean                     _minecraftUpdated = false;
 
-        public FranpetteCore(Label progress_label)
+        public Core(Label progress_label)
         {
             _data = new Dictionary<EInfo, String>();
             _serialisation = new XMLInfoSerialisation();
@@ -41,26 +41,26 @@ namespace Franpette.Sources.Franpette
 
         public Boolean minecraftUpdate(BackgroundWorker worker)
         {
-            FranpetteUtils.debug("[FRANPETTE] minecraftUpdate");
+            Utils.debug("[FRANPETTE] minecraftUpdate");
 
             if (!_network.downloadFile(ETarget.MINECRAFT, worker))
             {
-                FranpetteUtils.debug("[FRANPETTE] minecraftUpdate : can't download files");
+                Utils.debug("[FRANPETTE] minecraftUpdate : can't download files");
                 _minecraftUpdated = false;
                 return false;
             }
 
-            FranpetteUtils.debug("[FRANPETTE] minecraftUpdate : update finished.");
+            Utils.debug("[FRANPETTE] minecraftUpdate : update finished.");
             _minecraftUpdated = true;
             return true;
         }
 
         public void minecraftStart(BackgroundWorker worker)
         {
-            FranpetteUtils.debug("[FRANPETTE] minecraftStart");
+            Utils.debug("[FRANPETTE] minecraftStart");
 
             _data[EInfo.MINECRAFTDATE] = DateTime.Now.ToString();
-            _data[EInfo.MINECRAFTIP] = FranpetteUtils.getInternetIp();
+            _data[EInfo.MINECRAFTIP] = Utils.getInternetIp();
             _data[EInfo.MINECRAFTUSER] = Environment.UserName;
             _data[EInfo.MINECRAFTSTATE] = "Start";
             _data[EInfo.FRANPETTEVERSION] = (Convert.ToInt32(_data[EInfo.FRANPETTEVERSION]) + 1).ToString();
@@ -69,20 +69,20 @@ namespace Franpette.Sources.Franpette
             _serialisation.Serialise();
             _network.uploadFile(ETarget.FRANPETTE, worker);
 
-            FranpetteUtils.debug("[FRANPETTE] minecraftStart : starting server...");
+            Utils.debug("[FRANPETTE] minecraftStart : starting server...");
 
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = FranpetteUtils.getRoot("start.bat");
+            startInfo.FileName = Utils.getRoot("start.bat");
             process.StartInfo = startInfo;
             process.Start();
             
-            FranpetteUtils.debug("[FRANPETTE] minecraftStart : server started !");
+            Utils.debug("[FRANPETTE] minecraftStart : server started !");
         }
 
         public void minecraftStop(BackgroundWorker worker)
         {
-            FranpetteUtils.debug("[FRANPETTE] minecraftStop");
+            Utils.debug("[FRANPETTE] minecraftStop");
 
             _data[EInfo.MINECRAFTDATE] = DateTime.Now.ToString();
             _data[EInfo.MINECRAFTIP] = "NaN";
@@ -95,7 +95,7 @@ namespace Franpette.Sources.Franpette
             _network.uploadFile(ETarget.MINECRAFT, worker);
             _network.uploadFile(ETarget.FRANPETTE, worker);
 
-            FranpetteUtils.debug("[FRANPETTE] minecraftStop : server stoped !");
+            Utils.debug("[FRANPETTE] minecraftStop : server stoped !");
         }
 
         public void editMOTD(string message, BackgroundWorker worker)
@@ -110,7 +110,7 @@ namespace Franpette.Sources.Franpette
         public void refresh(BackgroundWorker worker)
         {
             _network.downloadFile(ETarget.FRANPETTE, worker);
-            _serialisation.Deserialise(FranpetteUtils.getRoot("FranpetteStatus.xml"));
+            _serialisation.Deserialise(Utils.getRoot("FranpetteStatus.xml"));
             _data = _serialisation.getInfoValue();
         }
         

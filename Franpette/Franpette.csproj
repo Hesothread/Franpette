@@ -108,8 +108,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sources\Franpette\FranpetteCore.cs" />
-    <Compile Include="Sources\Franpette\FranpetteUtils.cs" />
+    <Compile Include="Sources\Franpette\Core.cs" />
+    <Compile Include="Sources\Franpette\Utils.cs" />
     <Compile Include="Sources\Network\IFranpetteNetwork.cs" />
     <Compile Include="Sources\Network\NetworkFTP.cs" />
     <Compile Include="Sources\Serialisation\XMLInfoSerialisation.cs" />

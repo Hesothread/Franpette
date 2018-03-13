@@ -14,7 +14,7 @@ namespace Franpette.Sources.Serialisation
 
         public Boolean Serialise()
         {
-            FranpetteUtils.debug("[XMLInfoSerialisation] Serialise : " + _fileName);
+            Utils.debug("[XMLInfoSerialisation] Serialise : " + _fileName);
             _xmlInfo.Load(_fileName);
 
             _xmlInfo.DocumentElement.SelectSingleNode("/root/franpette/version").InnerText = _fileValue[EInfo.FRANPETTEVERSION];
@@ -36,7 +36,7 @@ namespace Franpette.Sources.Serialisation
 
             if (!File.Exists(_fileName))
             {
-                FranpetteUtils.debug("[XMLInfoSerialisation] Deserialise : " + _fileName + " was not found");
+                Utils.debug("[XMLInfoSerialisation] Deserialise : " + _fileName + " was not found");
                 return false;
             }
             _xmlInfo.Load(_fileName);
@@ -50,7 +50,7 @@ namespace Franpette.Sources.Serialisation
             _fileValue.Add(EInfo.MINECRAFTUSER,             _xmlInfo.DocumentElement.SelectSingleNode("/root/minecraft/user").InnerText);
             _fileValue.Add(EInfo.MINECRAFTIP,               _xmlInfo.DocumentElement.SelectSingleNode("/root/minecraft/ip").InnerText);
 
-            FranpetteUtils.debug("[XMLInfoSerialisation] Deserialise : " + _fileName + " ...Done");
+            Utils.debug("[XMLInfoSerialisation] Deserialise : " + _fileName + " ...Done");
             return true;
         }
 

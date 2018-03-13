@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 
 namespace Franpette.Sources.Franpette
 {
-    static class FranpetteUtils
+    static class Utils
     {
         static string _build = "v2.8.1";
         static string _appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);

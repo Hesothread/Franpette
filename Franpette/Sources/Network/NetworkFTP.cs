@@ -49,20 +49,20 @@ namespace Franpette.Sources
             switch (target)
             {
                 case ETarget.FRANPETTE:
-                    ftpDownload("Franpette/FranpetteStatus.xml", FranpetteUtils.getRoot("FranpetteStatus.xml"), worker);
+                    ftpDownload("Franpette/FranpetteStatus.xml", Utils.getRoot("FranpetteStatus.xml"), worker);
                     printInfo("Franpette is ready.");
                     break;
                 case ETarget.MINECRAFT:
                     printInfo("Franpette inspects your files...");
-                    File.WriteAllLines(FranpetteUtils.getRoot("Minecraft.csv"), FranpetteUtils.checkCsv(true, "Minecraft"));
-                    ftpDownload("Franpette/Minecraft.csv", FranpetteUtils.getRoot("Minecraft_server.csv"), worker);
-                    filesToDownload(FranpetteUtils.getRoot("Minecraft_server.csv"), FranpetteUtils.getRoot("Minecraft.csv"), worker);
+                    File.WriteAllLines(Utils.getRoot("Minecraft.csv"), Utils.checkCsv(true, "Minecraft"));
+                    ftpDownload("Franpette/Minecraft.csv", Utils.getRoot("Minecraft_server.csv"), worker);
+                    filesToDownload(Utils.getRoot("Minecraft_server.csv"), Utils.getRoot("Minecraft.csv"), worker);
                     printInfo("Franpette inspects your files...");
-                    File.WriteAllLines(FranpetteUtils.getRoot("Minecraft.csv"), FranpetteUtils.checkCsv(true, "Minecraft"));
-                    ftpUpload(FranpetteUtils.getRoot("Minecraft.csv"), "Franpette/Minecraft.csv", worker);
+                    File.WriteAllLines(Utils.getRoot("Minecraft.csv"), Utils.checkCsv(true, "Minecraft"));
+                    ftpUpload(Utils.getRoot("Minecraft.csv"), "Franpette/Minecraft.csv", worker);
                     break;
                 default:
-                    FranpetteUtils.debug("[NetworkFTP] downloadFile : Target is missing.");
+                    Utils.debug("[NetworkFTP] downloadFile : Target is missing.");
                     break;
             }
             return true;
@@ -74,17 +74,17 @@ namespace Franpette.Sources
             switch (target)
             {
                 case ETarget.FRANPETTE:
-                    ftpUpload(FranpetteUtils.getRoot("FranpetteStatus.xml"), "Franpette/FranpetteStatus.xml", worker);
+                    ftpUpload(Utils.getRoot("FranpetteStatus.xml"), "Franpette/FranpetteStatus.xml", worker);
                     break;
                 case ETarget.MINECRAFT:
                     printInfo("Franpette inspects your files...");
-                    File.WriteAllLines(FranpetteUtils.getRoot("Minecraft.csv"), FranpetteUtils.checkCsv(true, "Minecraft"));
-                    ftpDownload("Franpette/Minecraft.csv", FranpetteUtils.getRoot("Minecraft_server.csv"), worker);
-                    filesToUpload(FranpetteUtils.getRoot("Minecraft.csv"), FranpetteUtils.getRoot("Minecraft_server.csv"), worker);
-                    ftpUpload(FranpetteUtils.getRoot("Minecraft.csv"), "Franpette/Minecraft.csv", worker);
+                    File.WriteAllLines(Utils.getRoot("Minecraft.csv"), Utils.checkCsv(true, "Minecraft"));
+                    ftpDownload("Franpette/Minecraft.csv", Utils.getRoot("Minecraft_server.csv"), worker);
+                    filesToUpload(Utils.getRoot("Minecraft.csv"), Utils.getRoot("Minecraft_server.csv"), worker);
+                    ftpUpload(Utils.getRoot("Minecraft.csv"), "Franpette/Minecraft.csv", worker);
                     break;
                 default:
-                    FranpetteUtils.debug("[NetworkFTP] uploadFile : Target is missing.");
+                    Utils.debug("[NetworkFTP] uploadFile : Target is missing.");
                     break;
             }
             return true;
@@ -122,19 +122,19 @@ namespace Franpette.Sources
                     byte[] buffer = new byte[10240];
                     int read;
                     _sw.Start();
-                    FranpetteUtils.debug("[NetworkFTP] ftpUpload : ...uploading " + src);
+                    Utils.debug("[NetworkFTP] ftpUpload : ...uploading " + src);
                     while ((read = fileStream.Read(buffer, 0, buffer.Length)) > 0)
                     {
                         ftpStream.Write(buffer, 0, read);
                         printProgressInfo(src, fileStream.Position, (int)fileStream.Length);
                     }
                     _sw.Stop();
-                    FranpetteUtils.debug("[NetworkFTP] ftpUpload : " + src + " uploaded !");
+                    Utils.debug("[NetworkFTP] ftpUpload : " + src + " uploaded !");
                 }
             }
             catch (WebException e)
             {
-                FranpetteUtils.debug("[NetworkFTP] ftpDownload : " + e.Message);
+                Utils.debug("[NetworkFTP] ftpDownload : " + e.Message);
             }
         }
 
@@ -153,19 +153,19 @@ namespace Franpette.Sources
                     byte[] buffer = new byte[102400];
                     int read;
                     _sw.Start();
-                    FranpetteUtils.debug("[NetworkFTP] ftpDownload : ...downloading " + dest);
+                    Utils.debug("[NetworkFTP] ftpDownload : ...downloading " + dest);
                     while ((read = ftpStream.Read(buffer, 0, buffer.Length)) > 0)
                     {
                         fileStream.Write(buffer, 0, read);
                         printProgressInfo(dest, fileStream.Position, total);
                     }
                     _sw.Stop();
-                    FranpetteUtils.debug("[NetworkFTP] ftpDownload : " + dest + " downloaded !");
+                    Utils.debug("[NetworkFTP] ftpDownload : " + dest + " downloaded !");
                 }
             }
             catch (WebException e)
             {
-                FranpetteUtils.debug("[NetworkFTP] ftpDownload : " + e.Message);
+                Utils.debug("[NetworkFTP] ftpDownload : " + e.Message);
             }
         }
 
@@ -211,7 +211,7 @@ namespace Franpette.Sources
             int i = 0;
             int start = 0;
 
-            FranpetteUtils.debug("[NetworkFTP] filesToDownload : debut de l'analyse des fichiers...");
+            Utils.debug("[NetworkFTP] filesToDownload : debut de l'analyse des fichiers...");
 
             foreach (string serv in serverFiles)
             {
@@ -224,7 +224,7 @@ namespace Franpette.Sources
                     scriptLines[0] = "cd " + Path.GetDirectoryName(servPath);
                     scriptLines[1] = "cls";
                     scriptLines[2] = "java -Xms1024M -Xmx2048M -jar " + Path.GetFileName(servPath) + " nogui";
-                    File.WriteAllLines(FranpetteUtils.getRoot("start.bat"), scriptLines);
+                    File.WriteAllLines(Utils.getRoot("start.bat"), scriptLines);
                 }
 
                 string file = servPath.Replace('\\', '/');
