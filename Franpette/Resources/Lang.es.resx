@@ -234,4 +234,13 @@
   <data name="settings_saved" xml:space="preserve">
     <value>Los parametros han sido guardados !</value>
   </data>
+  <data name="cld_button" xml:space="preserve">
+    <value>Buscar...</value>
+  </data>
+  <data name="cld_label" xml:space="preserve">
+    <value>Su carpeta de destino actual es:</value>
+  </data>
+  <data name="treeView_directories" xml:space="preserve">
+    <value>Directorios</value>
+  </data>
 </root>

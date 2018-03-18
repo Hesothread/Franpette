@@ -18,7 +18,7 @@ namespace Franpette
             InitializeComponent();
 
             _resMan = new ResourceManager("Franpette.Resources.Lang", typeof(Program).Assembly);
-            _cul = CultureInfo.CreateSpecificCulture(Utils.getLangTag());
+            _cul = CultureInfo.CreateSpecificCulture(Utils.getProperty("lang", "en-US"));
 
             // Resources
             this.Text =                 _resMan.GetString("settings_window", _cul);
@@ -28,12 +28,15 @@ namespace Franpette
             groupBox0.Text =            _resMan.GetString("treeView_connection", _cul);
             treeView.Nodes[1].Text =    _resMan.GetString("treeView_language", _cul);
             groupBox1.Text =            _resMan.GetString("treeView_language", _cul);
+            treeView.Nodes[2].Text =    _resMan.GetString("treeView_directories", _cul);
+            groupBox2.Text =            _resMan.GetString("treeView_directories", _cul);
 
             autologin_label.Text =      _resMan.GetString("autologin_label", _cul);
             autologin_checkBox.Text =   _resMan.GetString("autologin_checkBox", _cul);
-
             langList_label.Text =       _resMan.GetString("langList_label", _cul);
             langInfo_label.Text =       _resMan.GetString("langInfo_label", _cul);
+            cld_button.Text =           _resMan.GetString("cld_button", _cul);
+            cld_label.Text =            _resMan.GetString("cld_label", _cul);
 
             apply_button.Text =         _resMan.GetString("apply_button", _cul);
         }
@@ -60,6 +63,7 @@ namespace Franpette
 
             autologin_checkBox.Checked = Utils.isAutoLogin();
             lang_listBox.SetSelected(Utils.getIndexLang(lang_listBox), true);
+            cld_value.Text = Utils.getProperty("directory", Utils.getRoot());
         }
 
         private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
@@ -85,10 +89,17 @@ namespace Franpette
 
             settingsLines.Add("autologin:" + autologin_checkBox.Checked.ToString());
             settingsLines.Add("lang:" + lang_listBox.SelectedItem.ToString().Split('(')[1].Substring(0, lang_listBox.SelectedItem.ToString().Split('(')[1].Length - 1));
+            settingsLines.Add("directory:" + cld_value.Text);
 
             File.WriteAllLines(Utils.getRoot("franpette.properties"), settingsLines.ToArray());
 
             MessageBox.Show(_resMan.GetString("settings_saved", _cul));
+        }
+
+        private void cld_button_Click(object sender, EventArgs e)
+        {
+            folderBrowser.ShowDialog();
+            cld_value.Text = folderBrowser.SelectedPath + "\\";
         }
     }
 }

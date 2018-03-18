@@ -11,9 +11,10 @@ namespace Franpette.Sources.Franpette
 {
     static class Utils
     {
-        static string _build = "v2.9";
+        static string _build = "v3.0";
         static string _appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         static string _creds = "credentials.txt";
+        static string _properties = "franpette.properties";
 
         public static string getBuildVersion()
         {
@@ -25,21 +26,21 @@ namespace Franpette.Sources.Franpette
             return _appdata + "\\.franpette\\" + path;
         }
 
-        // Récupère le tag (fr, en, es, etc..) dans une string
-        public static string getLangTag()
+        // Récupère la veleur d'une propriété dans le fichier franpette.properties
+        public static string getProperty(string property, string byDefault)
         {
-            if (File.Exists(Utils.getRoot("franpette.properties")))
+            if (File.Exists(getRoot(_properties)))
             {
-                foreach (string line in File.ReadAllLines(getRoot("franpette.properties")))
+                foreach (string line in File.ReadAllLines(getRoot(_properties)))
                 {
-                    if (line.Split(':')[0] == "lang")
+                    if (line.Split(':').Length >= 2 && line.Split(':')[0] == property)
                     {
-                        return line.Split(':')[1];
+                        return line.Substring(line.IndexOf(':') + 1, line.Length - line.Split(':')[0].Length - 1);
                     }
                 }
             }
 
-            return "en_US";
+            return byDefault;
         }
 
         // Retourne l'index de la langue actuelle
@@ -47,7 +48,7 @@ namespace Franpette.Sources.Franpette
         {
             for (int i = 0; i < list.Items.Count; i++)
             {
-                if (list.Items[i].ToString().Contains("(" + getLangTag() + ")"))
+                if (list.Items[i].ToString().Contains("(" + getProperty("lang", "en-US") + ")"))
                 {
                     return i;
                 }

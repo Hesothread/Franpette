@@ -133,6 +133,24 @@ namespace Franpette.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Browse....
+        /// </summary>
+        internal static string cld_button {
+            get {
+                return ResourceManager.GetString("cld_button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your current destination directory is:.
+        /// </summary>
+        internal static string cld_label {
+            get {
+                return ResourceManager.GetString("cld_label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clear credentials....
         /// </summary>
         internal static string clearCredentialsToolStripMenuItem {
@@ -381,6 +399,15 @@ namespace Franpette.Resources {
         internal static string treeView_connection {
             get {
                 return ResourceManager.GetString("treeView_connection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Directories.
+        /// </summary>
+        internal static string treeView_directories {
+            get {
+                return ResourceManager.GetString("treeView_directories", resourceCulture);
             }
         }
         

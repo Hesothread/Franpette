@@ -10,6 +10,7 @@ using System.Resources;
 using System.Windows.Forms;
 using Franpette.Sources.Franpette;
 using Franpette.Sources.Serialisation;
+using Microsoft.WindowsAPICodePack.Taskbar;
 
 namespace Franpette
 {
@@ -26,7 +27,7 @@ namespace Franpette
             InitializeComponent();
 
             _resMan = new ResourceManager("Franpette.Resources.Lang", typeof(Program).Assembly);
-            _cul = CultureInfo.CreateSpecificCulture(Utils.getLangTag());
+            _cul = CultureInfo.CreateSpecificCulture(Utils.getProperty("lang", "en-US"));
 
             // Resources
             MOTD_label.Text =                           _resMan.GetString("MOTD_label", _cul);
@@ -115,6 +116,7 @@ namespace Franpette
         private void minecraft_toogle_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = sender as BackgroundWorker;
+            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
 
             if (_actuelSatus.Count != 0)
             {
@@ -140,14 +142,16 @@ namespace Franpette
                 ftp_progressBar.Value = e.ProgressPercentage;
 
             total_progress.Text = e.ProgressPercentage + "%";
+
+            TaskbarManager.Instance.SetProgressValue(e.ProgressPercentage, 100);
         }
 
         private void minecraft_toogle_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
             ftp_progressBar.Value = 0;
             total_progress.Text = "";
             refreshInfo();
-            this.WindowState = FormWindowState.Minimized;
         }
 
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)

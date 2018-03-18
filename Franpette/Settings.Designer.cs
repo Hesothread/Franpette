@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Connection");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Language");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Connection");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Language");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Directories");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
             this.tree_label = new System.Windows.Forms.Label();
             this.apply_button = new System.Windows.Forms.Button();
@@ -47,6 +48,13 @@
             this.lang_listBox = new System.Windows.Forms.ListBox();
             this.langInfo_label = new System.Windows.Forms.Label();
             this.langList_label = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cld_value = new System.Windows.Forms.Label();
+            this.cld_button = new System.Windows.Forms.Button();
+            this.cld_label = new System.Windows.Forms.Label();
+            this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -55,6 +63,9 @@
             this.tabPage2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.panel4.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tree_label
@@ -83,15 +94,19 @@
             this.treeView.ForeColor = System.Drawing.Color.White;
             this.treeView.Location = new System.Drawing.Point(12, 28);
             this.treeView.Name = "treeView";
-            treeNode1.Name = "connection";
-            treeNode1.Tag = "0";
-            treeNode1.Text = "Connection";
-            treeNode2.Name = "language";
-            treeNode2.Tag = "1";
-            treeNode2.Text = "Language";
+            treeNode7.Name = "connection";
+            treeNode7.Tag = "0";
+            treeNode7.Text = "Connection";
+            treeNode8.Name = "language";
+            treeNode8.Tag = "1";
+            treeNode8.Text = "Language";
+            treeNode9.Name = "directories";
+            treeNode9.Tag = "2";
+            treeNode9.Text = "Directories";
             this.treeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2});
+            treeNode7,
+            treeNode8,
+            treeNode9});
             this.treeView.Size = new System.Drawing.Size(176, 400);
             this.treeView.TabIndex = 4;
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
@@ -108,6 +123,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(3, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -128,7 +144,7 @@
             // panel2
             // 
             this.panel2.Controls.Add(this.groupBox0);
-            this.panel2.Location = new System.Drawing.Point(6, 6);
+            this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(443, 440);
             this.panel2.TabIndex = 0;
@@ -181,7 +197,7 @@
             // panel3
             // 
             this.panel3.Controls.Add(this.groupBox1);
-            this.panel3.Location = new System.Drawing.Point(6, 6);
+            this.panel3.Location = new System.Drawing.Point(4, 3);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(442, 440);
             this.panel3.TabIndex = 0;
@@ -208,7 +224,7 @@
             this.lang_listBox.FormattingEnabled = true;
             this.lang_listBox.ItemHeight = 16;
             this.lang_listBox.Items.AddRange(new object[] {
-            "English (en_US)",
+            "English (en-US)",
             "Français (fr)",
             "Español (es)"});
             this.lang_listBox.Location = new System.Drawing.Point(10, 45);
@@ -233,6 +249,73 @@
             this.langList_label.Size = new System.Drawing.Size(101, 16);
             this.langList_label.TabIndex = 1;
             this.langList_label.Text = "Select language:";
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.panel4);
+            this.tabPage3.Location = new System.Drawing.Point(4, 25);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(452, 449);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "tabPage3";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.groupBox2);
+            this.panel4.Location = new System.Drawing.Point(3, 3);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(445, 442);
+            this.panel4.TabIndex = 0;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(100)))), ((int)(((byte)(130)))));
+            this.groupBox2.Controls.Add(this.cld_value);
+            this.groupBox2.Controls.Add(this.cld_button);
+            this.groupBox2.Controls.Add(this.cld_label);
+            this.groupBox2.ForeColor = System.Drawing.Color.White;
+            this.groupBox2.Location = new System.Drawing.Point(3, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(439, 437);
+            this.groupBox2.TabIndex = 0;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Directories";
+            // 
+            // cld_value
+            // 
+            this.cld_value.AutoSize = true;
+            this.cld_value.Location = new System.Drawing.Point(6, 51);
+            this.cld_value.Name = "cld_value";
+            this.cld_value.Size = new System.Drawing.Size(170, 16);
+            this.cld_value.TabIndex = 4;
+            this.cld_value.Text = "current/local/directory/path";
+            // 
+            // cld_button
+            // 
+            this.cld_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cld_button.Location = new System.Drawing.Point(6, 25);
+            this.cld_button.Name = "cld_button";
+            this.cld_button.Size = new System.Drawing.Size(96, 23);
+            this.cld_button.TabIndex = 3;
+            this.cld_button.Text = "Browse";
+            this.cld_button.UseVisualStyleBackColor = true;
+            this.cld_button.Click += new System.EventHandler(this.cld_button_Click);
+            // 
+            // cld_label
+            // 
+            this.cld_label.AutoSize = true;
+            this.cld_label.ForeColor = System.Drawing.SystemColors.AppWorkspace;
+            this.cld_label.Location = new System.Drawing.Point(108, 28);
+            this.cld_label.Name = "cld_label";
+            this.cld_label.Size = new System.Drawing.Size(138, 16);
+            this.cld_label.TabIndex = 2;
+            this.cld_label.Text = "current local directory:";
+            // 
+            // folderBrowser
+            // 
+            this.folderBrowser.RootFolder = System.Environment.SpecialFolder.MyComputer;
             // 
             // Settings
             // 
@@ -266,6 +349,10 @@
             this.panel3.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -289,5 +376,12 @@
         private System.Windows.Forms.Label langInfo_label;
         private System.Windows.Forms.Label langList_label;
         private System.Windows.Forms.ListBox lang_listBox;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label cld_label;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowser;
+        private System.Windows.Forms.Button cld_button;
+        private System.Windows.Forms.Label cld_value;
     }
 }

@@ -21,7 +21,7 @@ namespace Franpette
             InitializeComponent();
 
             _resMan = new ResourceManager("Franpette.Resources.Lang", typeof(Program).Assembly);
-            _cul = CultureInfo.CreateSpecificCulture(Utils.getLangTag());
+            _cul = CultureInfo.CreateSpecificCulture(Utils.getProperty("lang", "en-US"));
 
             // Resources
             remember_checkBox.Text = _resMan.GetString("remember_checkBox", _cul);

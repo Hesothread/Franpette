@@ -234,4 +234,13 @@
   <data name="settings_saved" xml:space="preserve">
     <value>Settings saved successfuly !</value>
   </data>
+  <data name="cld_button" xml:space="preserve">
+    <value>Browse...</value>
+  </data>
+  <data name="cld_label" xml:space="preserve">
+    <value>Your current destination directory is:</value>
+  </data>
+  <data name="treeView_directories" xml:space="preserve">
+    <value>Directories</value>
+  </data>
 </root>
