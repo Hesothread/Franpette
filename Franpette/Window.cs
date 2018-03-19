@@ -121,14 +121,7 @@ namespace Franpette
 
             _core.refresh(worker);
 
-            if (state_value.Text != "Start")
-            {
-                if (_core.minecraftUpdate(worker)) _core.minecraftStart(worker);
-            }
-            else if (host_button.Text == Utils.getInternetIp())
-            {
-                _core.minecraftStop(worker);
-            }
+            _core.applicationToogle(state_value.Text, host_button.Text, worker);
         }
 
         private void minecraft_toogle_ProgressChanged(object sender, ProgressChangedEventArgs e)

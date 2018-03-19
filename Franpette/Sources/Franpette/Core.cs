@@ -14,23 +14,18 @@ namespace Franpette.Sources.Franpette
         private IFNetwork                   _network;
 
         private Dictionary<EInfo, string>   _data;
-        private bool                        _minecraftUpdated = false;
 
         public Core(Label progress)
         {
-            _data = new Dictionary<EInfo, string>();
             _serialisation = new XMLInfoSerialisation();
             _network = new FNetwork(progress);
+
+            _data = new Dictionary<EInfo, string>();
         }
 
         internal  Dictionary<EInfo, string> getData()
         {
             return _data;
-        }
-
-        public bool isMinecraftUpToDate()
-        {
-            return _minecraftUpdated;
         }
 
         public void connect(string address, string login, string password)
@@ -39,57 +34,49 @@ namespace Franpette.Sources.Franpette
             _network.login(login, password);
         }
 
-        public bool minecraftUpdate(BackgroundWorker worker)
+        public void applicationToogle(string state, string ip, BackgroundWorker worker)
         {
-            if (!_network.receive(ETarget.MINECRAFT, worker))
+            if (state != "Start" && _network.receive(ETarget.MINECRAFT, worker)) // le serveur peut être lancé
             {
-                Utils.debug("[FRANPETTE] minecraftUpdate : can't download files");
-                return (_minecraftUpdated = false);
+                _data[EInfo.MINECRAFTDATE] = DateTime.Now.ToString();
+                _data[EInfo.MINECRAFTIP] = _network.getInternetIP();
+                _data[EInfo.MINECRAFTUSER] = Environment.UserName;
+                _data[EInfo.MINECRAFTSTATE] = "Start";
+                _data[EInfo.FRANPETTEVERSION] = (Convert.ToInt32(_data[EInfo.FRANPETTEVERSION]) + 1).ToString();
+                _data[EInfo.MINECRAFTVERSION] = (Convert.ToInt32(_data[EInfo.MINECRAFTVERSION]) + 1).ToString();
+                _serialisation.setInfoValue(_data);
+                _serialisation.Serialise();
+
+                _network.send(ETarget.FRANPETTE, worker);
+
+                Utils.debug("[Core] applicationToogle : starting server...");
+
+                Process process = new Process();
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.FileName = Utils.getRoot("start.bat");
+                process.StartInfo = startInfo;
+                process.Start();
+
+                Utils.debug("[Core] applicationToogle : server started !");
             }
+            else if (ip == _network.getInternetIP()) // l'utilisateur a lancé le serveur, il peut le stoper
+            {
+                _data[EInfo.MINECRAFTDATE] = DateTime.Now.ToString();
+                _data[EInfo.MINECRAFTIP] = "NaN";
+                _data[EInfo.MINECRAFTUSER] = Environment.UserName;
+                _data[EInfo.MINECRAFTSTATE] = "Stop";
+                _data[EInfo.FRANPETTEVERSION] = (Convert.ToInt32(_data[EInfo.FRANPETTEVERSION]) + 1).ToString();
+                _data[EInfo.MINECRAFTVERSION] = (Convert.ToInt32(_data[EInfo.MINECRAFTVERSION]) + 1).ToString();
+                _serialisation.setInfoValue(_data);
+                _serialisation.Serialise();
 
-            Utils.debug("[FRANPETTE] minecraftUpdate : update finished.");
-            return (_minecraftUpdated = true);
-        }
+                Utils.debug("[Core] applicationToogle : stoping server...");
 
-        public void minecraftStart(BackgroundWorker worker)
-        {
-            _data[EInfo.MINECRAFTDATE] = DateTime.Now.ToString();
-            _data[EInfo.MINECRAFTIP] = Utils.getInternetIp();
-            _data[EInfo.MINECRAFTUSER] = Environment.UserName;
-            _data[EInfo.MINECRAFTSTATE] = "Start";
-            _data[EInfo.FRANPETTEVERSION] = (Convert.ToInt32(_data[EInfo.FRANPETTEVERSION]) + 1).ToString();
-            _data[EInfo.MINECRAFTVERSION] = (Convert.ToInt32(_data[EInfo.MINECRAFTVERSION]) + 1).ToString();
-            _serialisation.setInfoValue(_data);
-            _serialisation.Serialise();
+                _network.send(ETarget.MINECRAFT, worker);
+                _network.send(ETarget.FRANPETTE, worker);
 
-            _network.send(ETarget.FRANPETTE, worker);
-
-            Utils.debug("[FRANPETTE] minecraftStart : starting server...");
-
-            Process process = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = Utils.getRoot("start.bat");
-            process.StartInfo = startInfo;
-            process.Start();
-            
-            Utils.debug("[FRANPETTE] minecraftStart : server started !");
-        }
-
-        public void minecraftStop(BackgroundWorker worker)
-        {
-            _data[EInfo.MINECRAFTDATE] = DateTime.Now.ToString();
-            _data[EInfo.MINECRAFTIP] = "NaN";
-            _data[EInfo.MINECRAFTUSER] = Environment.UserName;
-            _data[EInfo.MINECRAFTSTATE] = "Stop";
-            _data[EInfo.FRANPETTEVERSION] = (Convert.ToInt32(_data[EInfo.FRANPETTEVERSION]) + 1).ToString();
-            _data[EInfo.MINECRAFTVERSION] = (Convert.ToInt32(_data[EInfo.MINECRAFTVERSION]) + 1).ToString();
-            _serialisation.setInfoValue(_data);
-            _serialisation.Serialise();
-
-            _network.send(ETarget.MINECRAFT, worker);
-            _network.send(ETarget.FRANPETTE, worker);
-
-            Utils.debug("[FRANPETTE] minecraftStop : server stoped !");
+                Utils.debug("[Core] applicationToogle : server stoped !");
+            }
         }
 
         public void editMOTD(string message, BackgroundWorker worker)

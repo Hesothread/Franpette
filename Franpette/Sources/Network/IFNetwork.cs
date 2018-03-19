@@ -16,6 +16,8 @@ namespace Franpette.Sources.Network
 
         bool receive(ETarget target, BackgroundWorker worker);
         bool send(ETarget target, BackgroundWorker worker);
+
         bool isPortOpen(string host, int port, TimeSpan timeout);
+        string getInternetIP();
     }
 }

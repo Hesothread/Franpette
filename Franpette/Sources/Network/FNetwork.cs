@@ -95,5 +95,15 @@ namespace Franpette.Sources
             }
             return true;
         }
+
+        // Récupère l'IP internet
+        public string getInternetIP()
+        {
+            WebClient wc = new WebClient();
+            string strIP = wc.DownloadString("http://checkip.dyndns.org");
+            strIP = (new System.Text.RegularExpressions.Regex(@"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b")).Match(strIP).Value;
+            wc.Dispose();
+            return strIP;
+        }
     }
 }

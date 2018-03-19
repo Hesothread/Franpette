@@ -81,7 +81,7 @@ namespace Franpette.Sources.Franpette
         }
 
         // Retourne la valeur Auto Login
-        public static Boolean isAutoLogin()
+        public static bool isAutoLogin()
         {
             if (File.Exists(getRoot("franpette.properties")))
             {
@@ -102,14 +102,11 @@ namespace Franpette.Sources.Franpette
         {
             string path = getRoot("debug.log");
 
-            if (!File.Exists(path))
+            using (StreamWriter sw = (!File.Exists(path)) ? File.CreateText(path) : File.AppendText(path))
             {
-                using (StreamWriter sw = File.CreateText(path)) sw.WriteLine(DateTime.Now.ToString() + " " + text);
+                sw.WriteLine(DateTime.Now.ToString() + " " + text);
             }
-            else
-            {
-                using (StreamWriter sw = File.AppendText(path)) sw.WriteLine(DateTime.Now.ToString() + " " + text);
-            }
+
             Console.WriteLine(text);
         }
 
@@ -131,11 +128,7 @@ namespace Franpette.Sources.Franpette
         {
             string file = getRoot(_creds);
 
-            if (File.Exists(file))
-            {
-                return File.ReadAllLines(file);
-            }
-            return null;
+            return (File.Exists(file)) ? File.ReadAllLines(file) : null;
         }
 
         // Supprime le fichier de sauvegarde des identifiants
@@ -147,7 +140,7 @@ namespace Franpette.Sources.Franpette
             }
             catch (DirectoryNotFoundException ex)
             {
-                debug(ex.Message);
+                debug("[Utils] clearCredentials : " + ex.Message);
             }
         }
 
@@ -197,16 +190,6 @@ namespace Franpette.Sources.Franpette
                     return 2;
             }
             return 0;
-        }
-
-        // Récupère l'IP internet
-        public static string getInternetIp()
-        {
-            WebClient wc = new WebClient();
-            string strIP = wc.DownloadString("http://checkip.dyndns.org");
-            strIP = (new System.Text.RegularExpressions.Regex(@"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b")).Match(strIP).Value;
-            wc.Dispose();
-            return strIP;
         }
     }
 }
