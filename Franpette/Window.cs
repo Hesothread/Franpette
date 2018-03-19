@@ -145,7 +145,7 @@ namespace Franpette
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             WebClient wc = new WebClient();
-            wc.DownloadFile(new Uri("https://turbet.nalo-corp.net/builds/updater.exe"), "updater.exe");
+            wc.DownloadFile(new Uri("http://hesothread.com/builds/updater.exe"), "updater.exe");
 
             if (File.Exists("updater.exe"))
             {
@@ -190,7 +190,7 @@ namespace Franpette
 
         private void aboutUsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start("https://turbet.nalo-corp.net/Franpette/#about");
+            Process.Start("http://hesothread.com/#about");
         }
 
         private void reportABugToolStripMenuItem_Click(object sender, EventArgs e)
