@@ -195,7 +195,7 @@ namespace Franpette
 
         private void reportABugToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start("https://github.com/deshtros/Franpette/issues/new");
+            Process.Start("https://github.com/Hesothread/Franpette/issues/new");
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
