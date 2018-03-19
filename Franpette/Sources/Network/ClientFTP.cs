@@ -1,8 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Linq;
+using System.Diagnostics;
 using System.Windows.Forms;
+using System.ComponentModel;
 using Franpette.Sources.Franpette;
 
 namespace Franpette.Sources.Network
@@ -121,6 +123,91 @@ namespace Franpette.Sources.Network
             sizeRequest.Credentials = request.Credentials;
             sizeRequest.Method = WebRequestMethods.Ftp.GetFileSize;
             return (int)sizeRequest.GetResponse().ContentLength;
+        }
+
+        // Download & Upload de tous les fichiers analysés
+        public void filesToTransfer(string csv, string[] scan, string method, BackgroundWorker worker)
+        {
+            string[] srcArray = (method == WebRequestMethods.Ftp.DownloadFile) ? File.ReadAllLines(csv) : scan;
+            string[] destArray = (method == WebRequestMethods.Ftp.DownloadFile) ? scan : File.ReadAllLines(csv);
+
+            bool found;
+            int done = 0;
+            int i = 0;
+            int start = 0;
+            int total = (from src in srcArray
+                         where src.Split(';').Length == 3
+                         select Convert.ToInt32(part(src, 2))).Sum();
+
+            foreach (string src in srcArray)
+            {
+                string file = part(src, 0);
+
+                // If server.jar is found -> create start.bat
+                if (method == WebRequestMethods.Ftp.DownloadFile && file.Contains(".jar"))
+                {
+                    File.WriteAllLines(Utils.getRoot("start.bat"), new string[] {
+                            "cd " + Utils.getProperty("directory", Utils.getRoot()) + Path.GetDirectoryName(file),
+                            "cls",
+                            "java -Xms1024M -Xmx2048M -jar " + Path.GetFileName(file) + " nogui"
+                        });
+                }
+
+                found = false;
+                for (i = start; i < destArray.Length; i++)
+                {
+                    if (src == destArray[i])
+                    {
+                        start++;
+                        found = true;
+                        break;
+                    }
+                    else if (file == part(destArray[i], 0))
+                    {
+                        start++;
+                        found = true;
+
+                        // Si le fichier est différent de la destination, on transfer !
+                        if (part(src, 1) != part(destArray[i], 1))
+                        {
+                            if (method == WebRequestMethods.Ftp.DownloadFile)
+                            {
+                                Directory.CreateDirectory(Utils.getProperty("directory", Utils.getRoot()) + file.Substring(0, file.LastIndexOf('\\')));
+                                transfer("Franpette/" + file.Replace('\\', '/'), Utils.getProperty("directory", Utils.getRoot()) + file, method);
+                            }
+                            else if (method == WebRequestMethods.Ftp.UploadFile)
+                            {
+                                transfer(Utils.getProperty("directory", Utils.getRoot()) + file, "Franpette/" + file.Replace('\\', '/'), method);
+                            }
+                        }
+
+                        break;
+                    }
+                }
+
+                // Si le fichier n'est pas trouvé dans la destination, on transfer !
+                if (!found)
+                {
+                    if (method == WebRequestMethods.Ftp.DownloadFile)
+                    {
+                        Directory.CreateDirectory(Utils.getProperty("directory", Utils.getRoot()) + file.Substring(0, file.LastIndexOf('\\')));
+                        transfer("Franpette/" + file.Replace('\\', '/'), Utils.getProperty("directory", Utils.getRoot()) + file, method);
+                    }
+                    else if (method == WebRequestMethods.Ftp.UploadFile)
+                    {
+                        transfer(Utils.getProperty("directory", Utils.getRoot()) + file, "Franpette/" + file.Replace('\\', '/'), method);
+                    }
+                }
+
+                // On met à jour la progression total
+                worker.ReportProgress((int)(done * 100.0 / (float)total));
+                if (src.Split(';').Length == 3) done += Convert.ToInt32(part(src, 2));
+            }
+        }
+
+        private string part(string str, int nb)
+        {
+            return str.Split(';')[nb];
         }
     }
 }

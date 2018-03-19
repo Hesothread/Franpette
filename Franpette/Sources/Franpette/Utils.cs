@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Net;
-using System.Net.Sockets;
 using System.Resources;
 using System.Security.Cryptography;
 using System.Windows.Forms;
@@ -198,27 +197,6 @@ namespace Franpette.Sources.Franpette
                     return 2;
             }
             return 0;
-        }
-
-        // Vérifie si le port est ouvert
-        public static Boolean isPortOpen(string host, int port, TimeSpan timeout)
-        {
-            try
-            {
-                using (var client = new TcpClient())
-                {
-                    var result = client.BeginConnect(host, port, null, null);
-                    var success = result.AsyncWaitHandle.WaitOne(timeout);
-                    if (!success) return false;
-                    client.EndConnect(result);
-                }
-
-            }
-            catch
-            {
-                return false;
-            }
-            return true;
         }
 
         // Récupère l'IP internet

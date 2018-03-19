@@ -11,10 +11,11 @@ namespace Franpette.Sources.Network
     
     interface IFNetwork
     {
-        Boolean connect(String address);
-        Boolean login(String login, String password);
+        bool connect(String address);
+        bool login(String login, String password);
 
-        Boolean receive(ETarget target, BackgroundWorker worker);
-        Boolean send(ETarget target, BackgroundWorker worker);
+        bool receive(ETarget target, BackgroundWorker worker);
+        bool send(ETarget target, BackgroundWorker worker);
+        bool isPortOpen(string host, int port, TimeSpan timeout);
     }
 }

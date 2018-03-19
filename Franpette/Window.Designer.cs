@@ -115,9 +115,9 @@
             // 
             this.host_button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(100)))), ((int)(((byte)(130)))));
             this.host_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.host_button.Location = new System.Drawing.Point(577, 19);
+            this.host_button.Location = new System.Drawing.Point(568, 19);
             this.host_button.Name = "host_button";
-            this.host_button.Size = new System.Drawing.Size(107, 23);
+            this.host_button.Size = new System.Drawing.Size(122, 23);
             this.host_button.TabIndex = 10;
             this.host_button.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.host_button.UseVisualStyleBackColor = false;
@@ -126,7 +126,7 @@
             // host_label
             // 
             this.host_label.AutoSize = true;
-            this.host_label.Location = new System.Drawing.Point(525, 24);
+            this.host_label.Location = new System.Drawing.Point(516, 24);
             this.host_label.Name = "host_label";
             this.host_label.Size = new System.Drawing.Size(55, 16);
             this.host_label.TabIndex = 9;
@@ -136,7 +136,7 @@
             // 
             this.user_value.AutoSize = true;
             this.user_value.ForeColor = System.Drawing.Color.White;
-            this.user_value.Location = new System.Drawing.Point(449, 24);
+            this.user_value.Location = new System.Drawing.Point(438, 24);
             this.user_value.Name = "user_value";
             this.user_value.Size = new System.Drawing.Size(65, 16);
             this.user_value.TabIndex = 8;
@@ -146,7 +146,7 @@
             // 
             this.user_label.AutoSize = true;
             this.user_label.ForeColor = System.Drawing.Color.White;
-            this.user_label.Location = new System.Drawing.Point(411, 24);
+            this.user_label.Location = new System.Drawing.Point(401, 24);
             this.user_label.Name = "user_label";
             this.user_label.Size = new System.Drawing.Size(41, 16);
             this.user_label.TabIndex = 7;
@@ -156,7 +156,7 @@
             // 
             this.date_value.AutoSize = true;
             this.date_value.ForeColor = System.Drawing.Color.White;
-            this.date_value.Location = new System.Drawing.Point(258, 24);
+            this.date_value.Location = new System.Drawing.Point(255, 24);
             this.date_value.Name = "date_value";
             this.date_value.Size = new System.Drawing.Size(144, 16);
             this.date_value.TabIndex = 6;
@@ -166,7 +166,7 @@
             // 
             this.date_label.AutoSize = true;
             this.date_label.ForeColor = System.Drawing.Color.White;
-            this.date_label.Location = new System.Drawing.Point(222, 24);
+            this.date_label.Location = new System.Drawing.Point(217, 24);
             this.date_label.Name = "date_label";
             this.date_label.Size = new System.Drawing.Size(42, 16);
             this.date_label.TabIndex = 5;
