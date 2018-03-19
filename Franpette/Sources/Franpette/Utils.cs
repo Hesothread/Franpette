@@ -98,6 +98,7 @@ namespace Franpette.Sources.Franpette
             credentials[0] = "host:"+address;
             credentials[1] = "login:"+login;
             credentials[2] = "passwd:"+password;
+
             Directory.CreateDirectory(getRoot());
             File.WriteAllLines(getRoot(_creds), credentials);
         }
@@ -128,41 +129,32 @@ namespace Franpette.Sources.Franpette
         }
 
         // Génère le md5sum d'un fichier
-        public static string getMd5(string filename)
+        public static string getMD5(string filename)
         {
-            using (var md5 = MD5.Create())
+            using (FileStream file = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                using (var stream = File.OpenRead(filename))
-                {
-                    var hash = md5.ComputeHash(stream);
-                    return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
-                }
+                return BitConverter.ToString(MD5.Create().ComputeHash(file)).Replace("-", string.Empty).ToLower();
             }
         }
 
         // Donne les informations des fichiers d'un dossier
-        public static string[] checkCsv(Boolean dirNameInPath = false, string directory = "")
+        public static void scanFiles(string folder)
         {
-            if (directory == "") directory = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+            List<string> fList = new List<string>();
 
-            Directory.CreateDirectory(directory);
-            int start;
-            List<string> files = new List<string>();
-            foreach (string file in Directory.GetFiles(directory, "*", SearchOption.AllDirectories))
+            Directory.CreateDirectory(folder);
+            foreach (string file in Directory.GetFiles(folder, "*", SearchOption.AllDirectories))
             {
-                FileInfo fi = new FileInfo(file);
-                start = directory.Length + 1;
-                if (dirNameInPath) start -= Path.GetFileName(directory).Length + 1;
-                files.Add(file.Substring(start, file.Length - start) + ";" + getMd5(file) + ";" + fi.Length);
+                int start = folder.Length - Path.GetFileName(folder).Length;
+                fList.Add(file.Substring(start, file.Length - start) + ";" + getMD5(file) + ";" + (new FileInfo(file)).Length);
             }
-            return files.ToArray();
+            File.WriteAllLines(getRoot(Path.GetFileName(folder) + ".csv"), fList.ToArray());
         }
 
         // Vérifie si les identifiants sont corrects
         public static int isValidConnection(string address, string login, string password)
         {
-            if (address == "" || login == "" || password == "")
-                return 3;
+            if (address == "" || login == "" || password == "") return 3;
 
             try
             {
