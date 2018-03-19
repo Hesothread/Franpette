@@ -205,7 +205,7 @@
     <value>Aplicaciones</value>
   </data>
   <data name="apply_button" xml:space="preserve">
-    <value>Aplicar</value>
+    <value>OK</value>
   </data>
   <data name="autologin_checkBox" xml:space="preserve">
     <value>Conexion automatica</value>
@@ -230,9 +230,6 @@
   </data>
   <data name="treeView_language" xml:space="preserve">
     <value>Idioma</value>
-  </data>
-  <data name="settings_saved" xml:space="preserve">
-    <value>Los parametros han sido guardados !</value>
   </data>
   <data name="cld_button" xml:space="preserve">
     <value>Buscar...</value>

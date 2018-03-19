@@ -1,44 +1,33 @@
-﻿using Franpette.Sources.Franpette;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System;
 using System.IO;
-using System.Resources;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using Franpette.Sources.Franpette;
 
 namespace Franpette
 {
     public partial class Settings : Form
     {
-        private ResourceManager _resMan;
-        private CultureInfo     _cul;
-
         public Settings()
         {
             InitializeComponent();
 
-            _resMan = new ResourceManager("Franpette.Resources.Lang", typeof(Program).Assembly);
-            _cul = CultureInfo.CreateSpecificCulture(Utils.getProperty("lang", "en-US"));
-
             // Resources
-            this.Text =                 _resMan.GetString("settings_window", _cul);
-            tree_label.Text =           _resMan.GetString("tree_label", _cul);
-
-            treeView.Nodes[0].Text =    _resMan.GetString("treeView_connection", _cul);
-            groupBox0.Text =            _resMan.GetString("treeView_connection", _cul);
-            treeView.Nodes[1].Text =    _resMan.GetString("treeView_language", _cul);
-            groupBox1.Text =            _resMan.GetString("treeView_language", _cul);
-            treeView.Nodes[2].Text =    _resMan.GetString("treeView_directories", _cul);
-            groupBox2.Text =            _resMan.GetString("treeView_directories", _cul);
-
-            autologin_label.Text =      _resMan.GetString("autologin_label", _cul);
-            autologin_checkBox.Text =   _resMan.GetString("autologin_checkBox", _cul);
-            langList_label.Text =       _resMan.GetString("langList_label", _cul);
-            langInfo_label.Text =       _resMan.GetString("langInfo_label", _cul);
-            cld_button.Text =           _resMan.GetString("cld_button", _cul);
-            cld_label.Text =            _resMan.GetString("cld_label", _cul);
-
-            apply_button.Text =         _resMan.GetString("apply_button", _cul);
+            Text =                      Utils.getString("settings_window");
+            tree_label.Text =           Utils.getString("tree_label");
+            treeView.Nodes[0].Text =    Utils.getString("treeView_connection");
+            groupBox0.Text =            Utils.getString("treeView_connection");
+            treeView.Nodes[1].Text =    Utils.getString("treeView_language");
+            groupBox1.Text =            Utils.getString("treeView_language");
+            treeView.Nodes[2].Text =    Utils.getString("treeView_directories");
+            groupBox2.Text =            Utils.getString("treeView_directories");
+            autologin_label.Text =      Utils.getString("autologin_label");
+            autologin_checkBox.Text =   Utils.getString("autologin_checkBox");
+            langList_label.Text =       Utils.getString("langList_label");
+            langInfo_label.Text =       Utils.getString("langInfo_label");
+            cld_button.Text =           Utils.getString("cld_button");
+            cld_label.Text =            Utils.getString("cld_label");
+            apply_button.Text =         Utils.getString("apply_button");
         }
 
         List<Panel> Panels = new List<Panel>();
@@ -85,15 +74,15 @@ namespace Franpette
 
         private void apply_button_Click(object sender, EventArgs e)
         {
-            List<string> settingsLines = new List<string>();
+            File.WriteAllLines(Utils.getRoot("franpette.properties"), new string[] {
+                "autologin:" + autologin_checkBox.Checked.ToString(),
+                "lang:" + lang_listBox.SelectedItem.ToString().Split('(')[1].Substring(0, lang_listBox.SelectedItem.ToString().Split('(')[1].Length - 1),
+                "directory:" + cld_value.Text
+            });
 
-            settingsLines.Add("autologin:" + autologin_checkBox.Checked.ToString());
-            settingsLines.Add("lang:" + lang_listBox.SelectedItem.ToString().Split('(')[1].Substring(0, lang_listBox.SelectedItem.ToString().Split('(')[1].Length - 1));
-            settingsLines.Add("directory:" + cld_value.Text);
+            Utils.debug("[Settings] changes saved");
 
-            File.WriteAllLines(Utils.getRoot("franpette.properties"), settingsLines.ToArray());
-
-            MessageBox.Show(_resMan.GetString("settings_saved", _cul));
+            this.Close();
         }
 
         private void cld_button_Click(object sender, EventArgs e)

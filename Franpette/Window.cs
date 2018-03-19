@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Net;
-using System.Resources;
 using System.Windows.Forms;
 using Franpette.Sources.Franpette;
 using Franpette.Sources.Serialisation;
@@ -17,36 +15,32 @@ namespace Franpette
     public partial class Window : Form
     {
         public Core                         _core;
+
         private Dictionary<EInfo, String>   _actuelSatus;
-        private Boolean                     _loggedOut = false;
-        private ResourceManager             _resMan;
-        private CultureInfo                 _cul;
+        private bool                        _loggedOut = false;
 
         public Window(string address, string login, string password)
         {
             InitializeComponent();
 
-            _resMan = new ResourceManager("Franpette.Resources.Lang", typeof(Program).Assembly);
-            _cul = CultureInfo.CreateSpecificCulture(Utils.getProperty("lang", "en-US"));
-
             // Resources
-            MOTD_label.Text =                           _resMan.GetString("MOTD_label", _cul);
-            apps_groupbox.Text =                        _resMan.GetString("apps_groupbox", _cul);
-            file_menuItem.Text =                        _resMan.GetString("file_menuItem", _cul);
-            edit_menuItem.Text =                        _resMan.GetString("edit_menuItem", _cul);
-            view_menuItem.Text =                        _resMan.GetString("view_menuItem", _cul);
-            server_menuItem.Text =                      _resMan.GetString("server_menuItem", _cul);
-            help_menuItem.Text =                        _resMan.GetString("help_menuItem", _cul);
-            showFilesToolStripMenuItem.Text =           _resMan.GetString("showFilesToolStripMenuItem", _cul);
-            exitToolStripMenuItem.Text =                _resMan.GetString("exitToolStripMenuItem", _cul);
-            clearCredentialsToolStripMenuItem.Text =    _resMan.GetString("clearCredentialsToolStripMenuItem", _cul);
-            settingsToolStripMenuItem.Text =            _resMan.GetString("settingsToolStripMenuItem", _cul);
-            refreshToolStripMenuItem.Text =             _resMan.GetString("refreshToolStripMenuItem", _cul);
-            cancelToolStripMenuItem.Text =              _resMan.GetString("cancelToolStripMenuItem", _cul);
-            disconnectToolStripMenuItem.Text =          _resMan.GetString("disconnectToolStripMenuItem", _cul);
-            checkForUpdatesToolStripMenuItem.Text =     _resMan.GetString("checkForUpdatesToolStripMenuItem", _cul);
-            reportABugToolStripMenuItem.Text =          _resMan.GetString("reportABugToolStripMenuItem", _cul);
-            aboutToolStripMenuItem.Text =               _resMan.GetString("aboutToolStripMenuItem", _cul);
+            MOTD_label.Text =                           Utils.getString("MOTD_label");
+            apps_groupbox.Text =                        Utils.getString("apps_groupbox");
+            file_menuItem.Text =                        Utils.getString("file_menuItem");
+            edit_menuItem.Text =                        Utils.getString("edit_menuItem");
+            view_menuItem.Text =                        Utils.getString("view_menuItem");
+            server_menuItem.Text =                      Utils.getString("server_menuItem");
+            help_menuItem.Text =                        Utils.getString("help_menuItem");
+            showFilesToolStripMenuItem.Text =           Utils.getString("showFilesToolStripMenuItem");
+            exitToolStripMenuItem.Text =                Utils.getString("exitToolStripMenuItem");
+            clearCredentialsToolStripMenuItem.Text =    Utils.getString("clearCredentialsToolStripMenuItem");
+            settingsToolStripMenuItem.Text =            Utils.getString("settingsToolStripMenuItem");
+            refreshToolStripMenuItem.Text =             Utils.getString("refreshToolStripMenuItem");
+            cancelToolStripMenuItem.Text =              Utils.getString("cancelToolStripMenuItem");
+            disconnectToolStripMenuItem.Text =          Utils.getString("disconnectToolStripMenuItem");
+            checkForUpdatesToolStripMenuItem.Text =     Utils.getString("checkForUpdatesToolStripMenuItem");
+            reportABugToolStripMenuItem.Text =          Utils.getString("reportABugToolStripMenuItem");
+            aboutToolStripMenuItem.Text =               Utils.getString("aboutToolStripMenuItem");
 
             _core = new Core(progress_label);
             _actuelSatus = new Dictionary<EInfo, string>();
@@ -54,6 +48,8 @@ namespace Franpette
             _core.connect(address, login, password);
 
             refreshInfo();
+
+            Show();
         }
 
         private void refresh_button_Click(object sender, EventArgs e)
@@ -82,10 +78,9 @@ namespace Franpette
         {
             BackgroundWorker worker = sender as BackgroundWorker;
 
-            if (_actuelSatus.Count != 0)
+            if (_actuelSatus.Count != 0 && MOTD_textBox.Text != _actuelSatus[EInfo.FRANPETTEMESSAGEOFTHEDAY])
             {
-                if (MOTD_textBox.Text != _actuelSatus[EInfo.FRANPETTEMESSAGEOFTHEDAY])
-                    _core.editMOTD(MOTD_textBox.Text, worker);
+                _core.editMOTD(MOTD_textBox.Text, worker);
             }
 
             _core.refresh(worker);
@@ -166,7 +161,7 @@ namespace Franpette
             }
         }
 
-        public Boolean isLoggedOut()
+        public bool isLoggedOut()
         {
             return _loggedOut;
         }

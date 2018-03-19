@@ -9,12 +9,12 @@ namespace Franpette.Sources.Network
         MINECRAFT
     }
     
-    interface IFranpetteNetwork
+    interface IFNetwork
     {
         Boolean connect(String address);
         Boolean login(String login, String password);
 
-        Boolean downloadFile(ETarget target, BackgroundWorker worker);
-        Boolean uploadFile(ETarget target, BackgroundWorker worker);
+        Boolean receive(ETarget target, BackgroundWorker worker);
+        Boolean send(ETarget target, BackgroundWorker worker);
     }
 }

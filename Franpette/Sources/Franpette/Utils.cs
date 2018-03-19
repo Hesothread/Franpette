@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Resources;
 using System.Security.Cryptography;
 using System.Windows.Forms;
 
@@ -11,10 +13,14 @@ namespace Franpette.Sources.Franpette
 {
     static class Utils
     {
-        static string _build = "v3.0";
-        static string _appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        static string _creds = "credentials.txt";
-        static string _properties = "franpette.properties";
+        static string           _build = "v3.1";
+        static string           _appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        static string           _creds = "credentials.txt";
+        static string           _properties = "franpette.properties";
+
+        static ResourceManager  _resMan = new ResourceManager("Franpette.Resources.Lang", typeof(Program).Assembly);
+        static Font             _font = new Font("Lucida Sans Unicode", 9F, FontStyle.Regular);
+        static PointF           _textPos = new PointF(0, 0);
 
         public static string getBuildVersion()
         {
@@ -24,6 +30,24 @@ namespace Franpette.Sources.Franpette
         public static string getRoot(string path = "")
         {
             return _appdata + "\\.franpette\\" + path;
+        }
+
+        // Resources langues string
+        public static string getString(string str)
+        {
+            CultureInfo cul = CultureInfo.CreateSpecificCulture(getProperty("lang", "en-US"));
+
+            return _resMan.GetString(str, cul);
+        }
+
+        // Afficher un message sur un label
+        public static void printLabel(string str, Label target)
+        {
+            string trans = getString(str);
+            string message = (trans != null) ? trans : str;
+
+            target.CreateGraphics().Clear(ColorTranslator.FromHtml("#3c6482"));
+            target.CreateGraphics().DrawString(message, _font, Brushes.White, _textPos);
         }
 
         // Récupère la veleur d'une propriété dans le fichier franpette.properties
@@ -138,7 +162,7 @@ namespace Franpette.Sources.Franpette
         }
 
         // Donne les informations des fichiers d'un dossier
-        public static void scanFiles(string folder)
+        public static string[] scanFiles(string folder)
         {
             List<string> fList = new List<string>();
 
@@ -148,7 +172,7 @@ namespace Franpette.Sources.Franpette
                 int start = folder.Length - Path.GetFileName(folder).Length;
                 fList.Add(file.Substring(start, file.Length - start) + ";" + getMD5(file) + ";" + (new FileInfo(file)).Length);
             }
-            File.WriteAllLines(getRoot(Path.GetFileName(folder) + ".csv"), fList.ToArray());
+            return fList.ToArray();
         }
 
         // Vérifie si les identifiants sont corrects
