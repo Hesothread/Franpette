@@ -164,7 +164,7 @@ namespace Franpette
             if (refresh_info.IsBusy != true && minecraft_toogle.IsBusy != true)
             {
                 _loggedOut = true;
-                this.Close();
+                Close();
             }
         }
 
@@ -175,7 +175,14 @@ namespace Franpette
 
         private void clearCredentialsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Utils.clearCredentials();
+            try
+            {
+                File.Delete(Utils.getRoot("credentials.txt"));
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                Utils.debug("[Utils] clearCredentials : " + ex.Message);
+            }
         }
 
         private void showFilesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -185,7 +192,7 @@ namespace Franpette
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void aboutUsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -195,7 +202,7 @@ namespace Franpette
 
         private void reportABugToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start("https://github.com/Hesothread/Franpette/issues/new");
+            Process.Start("http://hesothread.com/#contact");
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)

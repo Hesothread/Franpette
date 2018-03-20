@@ -11,16 +11,13 @@ namespace Franpette.Sources.Network
 {
     class ClientFTP
     {
-        private Label       _progress;
         private Stopwatch   _sw;
-
         private string      _address;
         private string      _login;
         private string      _password;
 
-        public ClientFTP(Label progress)
+        public ClientFTP()
         {
-            _progress = progress;
             _sw = new Stopwatch();
         }
 
@@ -41,8 +38,33 @@ namespace Franpette.Sources.Network
             return true;
         }
 
+        // Vérifie si les identifiants sont corrects
+        public int verifyConnection(string address, string login, string password)
+        {
+            if (address == "" || login == "" || password == "") return 3;
+
+            try
+            {
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://" + address + "/");
+                request.Credentials = new NetworkCredential(login, password);
+                request.Method = WebRequestMethods.Ftp.ListDirectory;
+                FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+                response.Close();
+            }
+            catch (WebException ex)
+            {
+                FtpWebResponse response = (FtpWebResponse)ex.Response;
+
+                if (response.StatusCode == FtpStatusCode.NotLoggedIn)
+                    return 1;
+                else
+                    return 2;
+            }
+            return 0;
+        }
+
         // Download & Upload process
-        public void transfer(string src, string dest, string method)
+        public void transfer(string src, string dest, Label progress_label, string method)
         {
             Stream  srcStream = null;
             Stream  destStream = null;
@@ -84,7 +106,7 @@ namespace Franpette.Sources.Network
 
                         filePos = (method == WebRequestMethods.Ftp.DownloadFile) ? destStream.Position : srcStream.Position;
 
-                        Utils.printLabel(Path.GetFileName(locName) + " - " + getSpeedText(filePos, fileSize, _sw.Elapsed.TotalSeconds) + " - " + getPercentText(filePos, fileSize), _progress);
+                        Utils.printLabel(Path.GetFileName(locName) + " - " + getSpeedText(filePos, fileSize, _sw.Elapsed.TotalSeconds) + " - " + getPercentText(filePos, fileSize), progress_label);
                     }
                     _sw.Stop();
                 }
@@ -126,7 +148,7 @@ namespace Franpette.Sources.Network
         }
 
         // Download & Upload de tous les fichiers analysés
-        public void filesToTransfer(string csv, string[] scan, string method, BackgroundWorker worker)
+        public void filesToTransfer(string csv, string[] scan, Label progress_label, string method, BackgroundWorker worker)
         {
             string[] srcArray = (method == WebRequestMethods.Ftp.DownloadFile) ? File.ReadAllLines(csv) : scan;
             string[] destArray = (method == WebRequestMethods.Ftp.DownloadFile) ? scan : File.ReadAllLines(csv);
@@ -173,11 +195,11 @@ namespace Franpette.Sources.Network
                             if (method == WebRequestMethods.Ftp.DownloadFile)
                             {
                                 Directory.CreateDirectory(Utils.getProperty("directory", Utils.getRoot()) + file.Substring(0, file.LastIndexOf('\\')));
-                                transfer("Franpette/" + file.Replace('\\', '/'), Utils.getProperty("directory", Utils.getRoot()) + file, method);
+                                transfer("Franpette/" + file.Replace('\\', '/'), Utils.getProperty("directory", Utils.getRoot()) + file, progress_label, method);
                             }
                             else if (method == WebRequestMethods.Ftp.UploadFile)
                             {
-                                transfer(Utils.getProperty("directory", Utils.getRoot()) + file, "Franpette/" + file.Replace('\\', '/'), method);
+                                transfer(Utils.getProperty("directory", Utils.getRoot()) + file, "Franpette/" + file.Replace('\\', '/'), progress_label, method);
                             }
                         }
 
@@ -191,11 +213,11 @@ namespace Franpette.Sources.Network
                     if (method == WebRequestMethods.Ftp.DownloadFile)
                     {
                         Directory.CreateDirectory(Utils.getProperty("directory", Utils.getRoot()) + file.Substring(0, file.LastIndexOf('\\')));
-                        transfer("Franpette/" + file.Replace('\\', '/'), Utils.getProperty("directory", Utils.getRoot()) + file, method);
+                        transfer("Franpette/" + file.Replace('\\', '/'), Utils.getProperty("directory", Utils.getRoot()) + file, progress_label, method);
                     }
                     else if (method == WebRequestMethods.Ftp.UploadFile)
                     {
-                        transfer(Utils.getProperty("directory", Utils.getRoot()) + file, "Franpette/" + file.Replace('\\', '/'), method);
+                        transfer(Utils.getProperty("directory", Utils.getRoot()) + file, "Franpette/" + file.Replace('\\', '/'), progress_label, method);
                     }
                 }
 

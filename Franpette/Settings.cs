@@ -50,8 +50,10 @@ namespace Franpette
 
             DisplayPanel(0);
 
-            autologin_checkBox.Checked = Utils.isAutoLogin();
-            lang_listBox.SetSelected(Utils.getIndexLang(lang_listBox), true);
+            autologin_checkBox.Checked = (Utils.getProperty("autologin").Equals("True")) ? true : false;
+
+            lang_listBox.SetSelected(getIndexLang(lang_listBox), true);
+
             cld_value.Text = Utils.getProperty("directory", Utils.getRoot());
         }
 
@@ -81,14 +83,27 @@ namespace Franpette
             });
 
             Utils.debug("[Settings] changes saved");
-
-            this.Close();
+            Close();
         }
 
         private void cld_button_Click(object sender, EventArgs e)
         {
             folderBrowser.ShowDialog();
             cld_value.Text = folderBrowser.SelectedPath + "\\";
+        }
+
+        // Retourne l'index de la langue courante
+        private int getIndexLang(ListBox list)
+        {
+            for (int i = 0; i < list.Items.Count; i++)
+            {
+                if (list.Items[i].ToString().Contains("(" + Utils.getProperty("lang", "en-US") + ")"))
+                {
+                    return i;
+                }
+            }
+
+            return 0;
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using System.Windows.Forms;
 using Franpette.Sources.Network;
 using Franpette.Sources.Franpette;
 using System.ComponentModel;
-using System;
 using System.Net.Sockets;
 
 namespace Franpette.Sources
@@ -16,8 +16,8 @@ namespace Franpette.Sources
 
         public FNetwork(Label progress)
         {
-            _ftp = new ClientFTP(progress);
             _progress = progress;
+            _ftp = new ClientFTP();
         }
 
         public bool connect(string address)
@@ -36,18 +36,18 @@ namespace Franpette.Sources
             switch (target)
             {
                 case ETarget.FRANPETTE:
-                    _ftp.transfer("Franpette/FranpetteStatus.xml", Utils.getRoot("FranpetteStatus.xml"), WebRequestMethods.Ftp.DownloadFile);
+                    _ftp.transfer("Franpette/FranpetteStatus.xml", Utils.getRoot("FranpetteStatus.xml"), _progress, WebRequestMethods.Ftp.DownloadFile);
                     Utils.printLabel("franpette_ready", _progress);
                     break;
                 case ETarget.MINECRAFT:
-                    _ftp.transfer("Franpette/Minecraft.csv", Utils.getRoot("Minecraft_server.csv"), WebRequestMethods.Ftp.DownloadFile);
+                    _ftp.transfer("Franpette/Minecraft.csv", Utils.getRoot("Minecraft_server.csv"), _progress, WebRequestMethods.Ftp.DownloadFile);
 
                     Utils.printLabel("franpette_checkCsv", _progress);
-                    _ftp.filesToTransfer(Utils.getRoot("Minecraft_server.csv"), Utils.scanFiles(Utils.getProperty("directory", Utils.getRoot()) + "Minecraft"), WebRequestMethods.Ftp.DownloadFile, worker);
+                    _ftp.filesToTransfer(Utils.getRoot("Minecraft_server.csv"), Utils.scanFiles(Utils.getProperty("directory", Utils.getRoot()) + "Minecraft"), _progress, WebRequestMethods.Ftp.DownloadFile, worker);
 
                     Utils.printLabel("franpette_checkCsv", _progress);
                     File.WriteAllLines(Utils.getRoot("Minecraft.csv"), Utils.scanFiles(Utils.getProperty("directory", Utils.getRoot()) + "Minecraft"));
-                    _ftp.transfer(Utils.getRoot("Minecraft.csv"), "Franpette/Minecraft.csv", WebRequestMethods.Ftp.UploadFile);
+                    _ftp.transfer(Utils.getRoot("Minecraft.csv"), "Franpette/Minecraft.csv", _progress, WebRequestMethods.Ftp.UploadFile);
                     break;
             }
             return true;
@@ -59,17 +59,17 @@ namespace Franpette.Sources
             switch (target)
             {
                 case ETarget.FRANPETTE:
-                    _ftp.transfer(Utils.getRoot("FranpetteStatus.xml"), "Franpette/FranpetteStatus.xml", WebRequestMethods.Ftp.UploadFile);
+                    _ftp.transfer(Utils.getRoot("FranpetteStatus.xml"), "Franpette/FranpetteStatus.xml", _progress, WebRequestMethods.Ftp.UploadFile);
                     break;
                 case ETarget.MINECRAFT:
-                    _ftp.transfer("Franpette/Minecraft.csv", Utils.getRoot("Minecraft_server.csv"), WebRequestMethods.Ftp.DownloadFile);
+                    _ftp.transfer("Franpette/Minecraft.csv", Utils.getRoot("Minecraft_server.csv"), _progress, WebRequestMethods.Ftp.DownloadFile);
 
                     Utils.printLabel("franpette_checkCsv", _progress);
                     string[] scan = Utils.scanFiles(Utils.getProperty("directory", Utils.getRoot()) + "Minecraft");
-                    _ftp.filesToTransfer(Utils.getRoot("Minecraft_server.csv"), scan, WebRequestMethods.Ftp.UploadFile, worker);
+                    _ftp.filesToTransfer(Utils.getRoot("Minecraft_server.csv"), scan, _progress, WebRequestMethods.Ftp.UploadFile, worker);
 
                     File.WriteAllLines(Utils.getRoot("Minecraft.csv"), scan);
-                    _ftp.transfer(Utils.getRoot("Minecraft.csv"), "Franpette/Minecraft.csv", WebRequestMethods.Ftp.UploadFile);
+                    _ftp.transfer(Utils.getRoot("Minecraft.csv"), "Franpette/Minecraft.csv", _progress, WebRequestMethods.Ftp.UploadFile);
                     break;
             }
             return true;

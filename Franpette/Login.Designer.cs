@@ -104,16 +104,20 @@
             this.login_button.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.login_button.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.login_button.BackColor = System.Drawing.Color.Transparent;
             this.login_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.login_button.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.login_button.ForeColor = System.Drawing.Color.White;
+            this.login_button.Font = new System.Drawing.Font("Lucida Sans Unicode", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.login_button.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(220)))), ((int)(((byte)(163)))));
             this.login_button.Location = new System.Drawing.Point(59, 411);
             this.login_button.Name = "login_button";
             this.login_button.Size = new System.Drawing.Size(318, 50);
             this.login_button.TabIndex = 4;
             this.login_button.Text = "Log in";
-            this.login_button.UseVisualStyleBackColor = true;
+            this.login_button.UseVisualStyleBackColor = false;
             this.login_button.Click += new System.EventHandler(this.login_button_Click);
+            this.login_button.MouseEnter += new System.EventHandler(this.login_button_MouseEnter);
+            this.login_button.MouseLeave += new System.EventHandler(this.login_button_MouseLeave);
+            this.login_button.MouseHover += new System.EventHandler(this.login_button_MouseHover);
             // 
             // username_pictureBox
             // 
@@ -274,6 +278,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Franpette";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Login_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Login_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.username_pictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.password_pictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.address_pictureBox)).EndInit();

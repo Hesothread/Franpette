@@ -4,17 +4,21 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 using Franpette.Sources.Franpette;
+using Franpette.Sources.Network;
 
 namespace Franpette
 {
     public partial class Login : Form
     {
         private Window          _win;
+        private ClientFTP       _ftp;
         private string[]        _credentials;
 
         public Login()
         {
             InitializeComponent();
+
+            _ftp = new ClientFTP();
 
             // Resources
             remember_checkBox.Text =    Utils.getString("remember_checkBox");
@@ -22,17 +26,18 @@ namespace Franpette
             username_placeholder.Text = Utils.getString("username_placeholder");
             password_placeholder.Text = Utils.getString("password_placeholder");
             login_button.Text =         Utils.getString("login_button");
+            build.Text =                Utils.getBuildVersion();
 
-            build.Text = Utils.getBuildVersion();
             fillFields();
 
-            if (Utils.isAutoLogin() && connection.IsBusy != true)
-                connection.RunWorkerAsync();
+            if (Utils.isAutoLogin() && !connection.IsBusy) connection.RunWorkerAsync();
         }
 
         private void fillFields()
         {
-            if ((_credentials = Utils.getCredentials()) != null)
+            _credentials = (File.Exists(Utils.getRoot("credentials.txt"))) ? File.ReadAllLines(Utils.getRoot("credentials.txt")) : null;
+
+            if (_credentials != null)
             {
                 remember_checkBox.Hide();
                 address_placeholder.Hide();
@@ -57,13 +62,19 @@ namespace Franpette
 
         private void login_button_Click(object sender, EventArgs e)
         {
+            logIn();
+        }
+
+        private void logIn()
+        {
+            Directory.CreateDirectory(Utils.getRoot());
             if (remember_checkBox.Checked && address_textBox.Text != null && username_textBox.Text != null && password_textBox.Text != null)
             {
-                Utils.saveCredentials(address_textBox.Text, username_textBox.Text, password_textBox.Text);
-            }
-            else
-            {
-                Directory.CreateDirectory(Utils.getRoot());
+                File.WriteAllLines(Utils.getRoot("credentials.txt"), new string[] {
+                    "host:" + address_textBox.Text,
+                    "login:" + username_textBox.Text,
+                    "passwd:" + password_textBox.Text
+                });
             }
 
             if (connection.IsBusy != true)
@@ -78,7 +89,7 @@ namespace Franpette
         {
             BackgroundWorker worker = sender as BackgroundWorker;
 
-            e.Result = Utils.isValidConnection(address_textBox.Text, username_textBox.Text, password_textBox.Text);
+            e.Result = _ftp.verifyConnection(address_textBox.Text, username_textBox.Text, password_textBox.Text);
         }
 
         private void connection_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -122,6 +133,17 @@ namespace Franpette
             {
                 Close();
             }
+        }
+
+        //  DESIGN & ERGONOMY
+        // -------------------
+        // | | | | | | | | | |
+        // V V V V V V V V V V
+        // -------------------
+
+        private void Login_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.Enter) logIn();
         }
 
         private void Login_Paint(object sender, PaintEventArgs e)
@@ -211,6 +233,26 @@ namespace Franpette
         {
             if (username_textBox.Text == "") username_placeholder.Show();
             if (password_textBox.Text == "") password_placeholder.Show();
+        }
+
+        private void login_button_MouseEnter(object sender, EventArgs e)
+        {
+            login_button.FlatAppearance.BorderColor = ColorTranslator.FromHtml("#42dca3");
+            login_button.BackColor = ColorTranslator.FromHtml("#42dca3");
+            login_button.ForeColor = Color.Black;
+        }
+
+        private void login_button_MouseHover(object sender, EventArgs e)
+        {
+            login_button.FlatAppearance.BorderColor = ColorTranslator.FromHtml("#42dca3");
+            login_button.BackColor = ColorTranslator.FromHtml("#42dca3");
+            login_button.ForeColor = Color.Black;
+        }
+
+        private void login_button_MouseLeave(object sender, EventArgs e)
+        {
+            login_button.BackColor = Color.Transparent;
+            login_button.ForeColor = ColorTranslator.FromHtml("#42dca3");
         }
     }
 }
